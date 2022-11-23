@@ -17,6 +17,27 @@
         <li>Your template at <code><a href="{{ 'D:/www_htdocs/susar_jarde/templates/cas_dc_pronostic_vital/index.html.twig'|file_link(0) }}">templates/cas_dc_pronostic_vital/index.html.twig</a></code></li>
     </ul>
 
-    {{ dump(em) }}
+
+    <table class="table">
+    <thead class="thead-dark">
+        <tr>
+        <th scope="col">id</th>
+        <th scope="col">caseid</th>
+        <th scope="col">specificcaseid</th>
+        <th scope="col">DLPVersion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mv in em %}    
+            <tr>
+                <th scope="row">{{ mv.id|e }}</th>
+                <td>{{ mv.caseid|e }}</td>
+                <td>{{ mv.specificcaseid|e }}</td>
+                <td>{{ mv.DLPVersion|e }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    {# {{ dump(em) }} #}
 </div>
 {% endblock %}
