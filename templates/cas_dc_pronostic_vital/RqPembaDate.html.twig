@@ -18,8 +18,8 @@
     </ul> #}
 
     {{ form(form) }}
-
-    {% if em %}
+    {% if cas_FrDC_FrPronVit %}
+        <h3 class="text-center">Cas France - décès et cas France - Pronostic vital</h3>
         <table class="table table-sm table-bordered table-hover text-center">
         <thead class="table-secondary">
             <tr>
@@ -27,20 +27,51 @@
             <th scope="col">caseid</th>
             <th scope="col">specificcaseid</th>
             <th scope="col">DLPVersion</th>
+            <th scope="col">creationdate</th>
+            <th scope="col">statusdate</th>
             </tr>
         </thead>
         <tbody>
-            {% for mv in em %}    
+            {% for cas in cas_FrDC_FrPronVit %}    
                 <tr>
-                    <th scope="row">{{ mv.id|e }}</th>
-                    <td>{{ mv.caseid|e }}</td>
-                    <td>{{ mv.specificcaseid|e }}</td>
-                    <td>{{ mv.DLPVersion|e }}</td>
+                    <th scope="row">{{ cas.id|e }}</th>
+                    <td>{{ cas.caseid|e }}</td>
+                    <td>{{ cas.specificcaseid|e }}</td>
+                    <td>{{ cas.DLPVersion|e }}</td>
+                    <td>{{ cas.creationdate|e }}</td>
+                    <td>{{ cas.statusdate|e }}</td>
                 </tr>
             {% endfor %}
         </tbody>
         </table>
-        {# {{ dump(em) }} #}
+    {% endif %}
+    {% if cas_TerapieGenique %}
+        <h3 class="text-center">Cas thérapie génique</h3>
+        <table class="table table-sm table-bordered table-hover text-center">
+        <thead class="table-secondary">
+            <tr>
+            <th scope="col">id</th>
+            <th scope="col">caseid</th>
+            <th scope="col">specificcaseid</th>
+            <th scope="col">DLPVersion</th>
+            <th scope="col">creationdate</th>
+            <th scope="col">statusdate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cas in cas_TerapieGenique %}    
+                <tr>
+                    <th scope="row">{{ cas.id|e }}</th>
+                    <td>{{ cas.caseid|e }}</td>
+                    <td>{{ cas.specificcaseid|e }}</td>
+                    <td>{{ cas.DLPVersion|e }}</td>
+                    <td>{{ cas.creationdate|e }}</td>
+                    <td>{{ cas.statusdate|e }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
     {% endif %}
 
 </div>
