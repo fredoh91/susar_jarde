@@ -28,6 +28,9 @@ class TermeRechAttribDMMpole
     #[ORM\Column(options: ["default" => true])]
     private ?bool $Actif = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $TypeRech = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +92,18 @@ class TermeRechAttribDMMpole
     public function setActif(bool $Actif): self
     {
         $this->Actif = $Actif;
+
+        return $this;
+    }
+
+    public function getTypeRech(): ?string
+    {
+        return $this->TypeRech;
+    }
+
+    public function setTypeRech(?string $TypeRech): self
+    {
+        $this->TypeRech = $TypeRech;
 
         return $this;
     }

@@ -8,7 +8,7 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
+{# <div class="example-wrapper"> #}
     {# <h1>Hello {{ controller_name }}! ✅</h1>
 
     This friendly message is coming from:
@@ -16,36 +16,56 @@
         <li>Your controller at <code><a href="{{ 'D:/www_htdocs/susar_jarde/src/Controller/CasDCPronosticVitalController.php'|file_link(0) }}">src/Controller/CasDCPronosticVitalController.php</a></code></li>
         <li>Your template at <code><a href="{{ 'D:/www_htdocs/susar_jarde/templates/cas_dc_pronostic_vital/index.html.twig'|file_link(0) }}">templates/cas_dc_pronostic_vital/index.html.twig</a></code></li>
     </ul> #}
-
+<div class="example-wrapper"> 
     {{ form(form) }}
-    {% if cas_FrDC_FrPronVit %}
-        <h3 class="text-center">Cas France - décès et cas France - Pronostic vital</h3>
+</div>
+    
+<div class="container">
+    {% if Susar %}
+        {# <h3 class="text-center">Cas France - décès et cas France - Pronostic vital</h3> #}
+        {# <table class="table table-sm table-bordered table-hover text-center"> #}
         <table class="table table-sm table-bordered table-hover text-center">
         <thead class="table-secondary">
             <tr>
-            <th scope="col">id</th>
+            <th scope="col">master_id</th>
             <th scope="col">caseid</th>
             <th scope="col">specificcaseid</th>
             <th scope="col">DLPVersion</th>
             <th scope="col">creationdate</th>
             <th scope="col">statusdate</th>
+            <th scope="col-2">studytitle</th>
+            <th scope="col">sponsorstudynumb</th>
+            <th scope="col">num_eudract</th>
+            <th scope="col">pays_etude</th>
+            <th scope="col">TypeSusar</th>
+            <th scope="col">indication</th>
             </tr>
         </thead>
         <tbody>
-            {% for cas in cas_FrDC_FrPronVit %}    
+
+            {# {{dump(Susar)}} #}
+            {% for cas in Susar %}    
                 <tr>
-                    <th scope="row">{{ cas.id|e }}</th>
+                    <th scope="row">{{ cas.MasterId|e }}</th>
                     <td>{{ cas.caseid|e }}</td>
                     <td>{{ cas.specificcaseid|e }}</td>
                     <td>{{ cas.DLPVersion|e }}</td>
-                    <td>{{ cas.creationdate|e }}</td>
-                    <td>{{ cas.statusdate|e }}</td>
+                    <td>{{ cas.creationdate|format_datetime('short', 'none', locale='fr') }}</td>
+                    <td>{{ cas.statusdate|format_datetime('short', 'none', locale='fr') }}</td>
+                    {# <td>{{ cas.creationdate|format_datetime('short', 'none', locale='en') }}</td>
+                    <td>{{ cas.statusdate|format_datetime('short', 'none', locale='en') }}</td> #}
+                    <td>{{ cas.studytitle|e }}</td>
+                    <td>{{ cas.sponsorstudynumb|e }}</td>
+                    <td>{{ cas.NumEudract|e }}</td>
+                    <td>{{ cas.PaysEtude|e }}</td>
+                    <td>{{ cas.TypeSusar|e }}</td>
+                    <td>{{ cas.indication|e }}</td>
                 </tr>
             {% endfor %}
         </tbody>
         </table>
     {% endif %}
-    {% if cas_TherapieGenique %}
+    {# {% if cas_TherapieGenique %}
         <h3 class="text-center">Cas thérapie génique</h3>
         <table class="table table-sm table-bordered table-hover text-center">
         <thead class="table-secondary">
@@ -72,7 +92,7 @@
         </tbody>
         </table>
 
-    {% endif %}
+    {% endif %} #}
 
 </div>
 {% endblock %}

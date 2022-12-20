@@ -15,8 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use App\Pemba\RequetesPemba;
 use App\Entity\TermeRechAttribDMMpole;
+use App\Util\Util;
 
-class CasDCPronosticVitalController extends AbstractController
+class RqPembaController extends AbstractController
 {
     private $em;
     function __construct(EntityManagerInterface $em)
@@ -109,8 +110,8 @@ class CasDCPronosticVitalController extends AbstractController
         ]);
     }
 
-    #[Route('/test_pemba_4', name: 'test_pemba_4')]
-    public function test_pemba_4(ManagerRegistry $doctrine, Request $request): Response
+    #[Route('/RqPembaDate', name: 'RqPembaDate')]
+    public function RqPembaDate(ManagerRegistry $doctrine, Request $request): Response
     {
         $defaultData = ['message' => 'Saisissez une date d\'import'];
         $form = $this->createFormBuilder($defaultData)
@@ -120,46 +121,58 @@ class CasDCPronosticVitalController extends AbstractController
             'format' => 'yyyy-MM-dd',
             'input' => 'string',
             ])
-            ->add('Recherche', SubmitType::class)
-            ->getForm();
+        ->add('Recherche', SubmitType::class)
+        ->getForm();
+        
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
             
-            $form->handleRequest($request);
+            $dateImport = $form->getData()['DateCreation'];
             
-            if ($form->isSubmitted() && $form->isValid()) {
-                
-                $dateImport = $form->getData()['DateCreation'];
-                
-                $entityManager = $doctrine->getManager();
-                $Lst_terapieGen = $entityManager->getRepository(TermeRechAttribDMMpole::class)->findAll();
+            $entityManager = $doctrine->getManager();
+            // $Lst_terapieGen = $entityManager->getRepository(TermeRechAttribDMMpole::class)->findAll();
+            $Lst_therapieGen = $entityManager->getRepository(TermeRechAttribDMMpole::class)->TermeRechByType('NumEUDRA_CT');
+            $lst_NumEUDRA_CT = $this->FormatSQL_IN($Lst_therapieGen);
 
-                // Construit une liste de "TermeRech" séparés par des virgules pour faire une requête avec un WHERE ... IN ('jhj','hjhj','hjhjh','jkjl')
-                foreach ($Lst_terapieGen as $ter) {
-                    if (isset($lst) ) {
-                        $lst .= ",'".$ter->getTermeRech()."'";
-                    } else { 
-                        $lst = "'".$ter->getTermeRech()."'"; 
-                    }
-                }
+            $Lst_therapieGen = $entityManager->getRepository(TermeRechAttribDMMpole::class)->TermeRechByType('Produit');
+            $lst_Produit = $this->FormatSQL_IN($Lst_therapieGen);
 
-                $RqPemba = new RequetesPemba($doctrine);
-                
-                $cas_FrDC_FrPronVit = $RqPemba->donneListeEC_FrDC_FrPronVit($dateImport);
-                $cas_TerapieGenique = $RqPemba->donneListeEC_TerapieGenique($dateImport, $lst);
+            $RqPemba = new RequetesPemba($doctrine);
+            
+            $cas_FrDC_FrPronVit = $RqPemba->donneListeEC_FrDC_FrPronVit($dateImport);
+            $cas_TherapieGenique = $RqPemba->donneListeEC_TherapieGenique($dateImport, $lst_NumEUDRA_CT, $lst_Produit);
 
-                return $this->render('cas_dc_pronostic_vital/RqPembaDate.html.twig', [
-                    'form' => $form->createView(),
-                    'cas_FrDC_FrPronVit' => $cas_FrDC_FrPronVit,
-                    'cas_TerapieGenique' => $cas_TerapieGenique,
-                ]);
-            }
+            // creation des entités SUSAR a partir du résultat des requêtes 
+            // dd($cas_FrDC_FrPronVit);
+            Util::CreeSUSAR($doctrine, $cas_FrDC_FrPronVit,"FR_DC_ProVit");
+            Util::CreeSUSAR($doctrine, $cas_TherapieGenique,"TherapGen");
+
             return $this->render('cas_dc_pronostic_vital/RqPembaDate.html.twig', [
                 'form' => $form->createView(),
-                'cas_FrDC_FrPronVit' => '',
-                'cas_TerapieGenique' => '',
+                'cas_FrDC_FrPronVit' => $cas_FrDC_FrPronVit,
+                'cas_TherapieGenique' => $cas_TherapieGenique,
             ]);
+        }
+        return $this->render('cas_dc_pronostic_vital/RqPembaDate.html.twig', [
+            'form' => $form->createView(),
+            'cas_FrDC_FrPronVit' => '',
+            'cas_TherapieGenique' => '',
+        ]);
     }
 
 
 
-
+    // Construit une liste de "TermeRech" séparés par des virgules pour faire une requête avec un WHERE ... IN ('jhj','hjhj','hjhjh','jkjl')
+    private function FormatSQL_IN (array $lstEntree) 
+    {
+        foreach ($lstEntree as $ter) {
+            if (isset($lst) ) {
+                $lst .= ",'".$ter->getTermeRech()."'";
+            } else { 
+                $lst = "'".$ter->getTermeRech()."'"; 
+            }
+        }
+        return $lst;
+    }
 }

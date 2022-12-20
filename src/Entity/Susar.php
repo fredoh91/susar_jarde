@@ -32,6 +32,24 @@ class Susar
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $statusdate = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $studytitle = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $sponsorstudynumb = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $num_eudract = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pays_etude = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $TypeSusar = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $indication = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +123,78 @@ class Susar
     public function setStatusdate(?\DateTimeInterface $statusdate): self
     {
         $this->statusdate = $statusdate;
+
+        return $this;
+    }
+
+    public function getStudytitle(): ?string
+    {
+        return $this->studytitle;
+    }
+
+    public function setStudytitle(?string $studytitle): self
+    {
+        $this->studytitle = $studytitle;
+
+        return $this;
+    }
+
+    public function getSponsorstudynumb(): ?string
+    {
+        return $this->sponsorstudynumb;
+    }
+
+    public function setSponsorstudynumb(?string $sponsorstudynumb): self
+    {
+        $this->sponsorstudynumb = $sponsorstudynumb;
+
+        return $this;
+    }
+
+    public function getNumEudract(): ?string
+    {
+        return $this->num_eudract;
+    }
+
+    public function setNumEudract(?string $num_eudract): self
+    {
+        $this->num_eudract = $num_eudract;
+
+        return $this;
+    }
+
+    public function getPaysEtude(): ?string
+    {
+        return $this->pays_etude;
+    }
+
+    public function setPaysEtude(?string $pays_etude): self
+    {
+        $this->pays_etude = $pays_etude;
+
+        return $this;
+    }
+
+    public function getTypeSusar(): ?string
+    {
+        return $this->TypeSusar;
+    }
+
+    public function setTypeSusar(?string $TypeSusar): self
+    {
+        $this->TypeSusar = $TypeSusar;
+
+        return $this;
+    }
+
+    public function getIndication(): ?string
+    {
+        return $this->indication;
+    }
+
+    public function setIndication(?string $indication): self
+    {
+        $this->indication = $indication;
 
         return $this;
     }

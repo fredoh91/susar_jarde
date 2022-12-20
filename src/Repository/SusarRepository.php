@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Susar;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use DateTimeInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Susar>
@@ -38,6 +39,49 @@ class SusarRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+        /**
+         * permet de savoir si le master_id en entrée est déjà existant dans la table SUSAR, pour éviter de créer des doublons
+         *
+         * @param [int] $value : master_id recherché dans la table SUSAR
+         * @return boolean : false si le master_id existe déjà, true si il n'existe pas
+         */
+        public function EstCe_SUSAR_unique($value): bool
+        {
+             
+            $test = $this->createQueryBuilder('s')
+                 ->select('count(s.id)')
+                 ->andWhere('s.master_id = :val')
+                 ->setParameter('val', $value)
+                 ->getQuery()
+                 ->getSingleScalarResult()
+            ;
+
+            if ($test > 0) {
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+
+
+            /**
+             * Permet de retourner un tableau de susar selon la creationdate
+             *
+             * @param DateTimeInterface $creationdate
+             * @return array Susar[] Returns an array of Susar objects
+             */
+           public function findByCreationdate(DateTimeInterface $creationdate): array
+           {
+               return $this->createQueryBuilder('s')
+                   ->andWhere('s.creationdate = :val')
+                   ->setParameter('val', $creationdate)
+                   ->orderBy('s.id', 'ASC')
+                   ->getQuery()
+                   ->getResult()
+               ;
+           }
 
 //    /**
 //     * @return Susar[] Returns an array of Susar objects

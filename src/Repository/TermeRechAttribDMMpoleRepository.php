@@ -40,6 +40,21 @@ class TermeRechAttribDMMpoleRepository extends ServiceEntityRepository
     }
 
 
+   /**
+    * @return TermeRechAttribDMMpole[] Returns an array of TermeRechAttribDMMpole objects
+    */
+   public function TermeRechByType(string $value): array
+   {
+       return $this->createQueryBuilder('t')
+           ->andWhere('t.TypeRech = :val')
+           ->setParameter('val', $value)
+           ->orderBy('t.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
+
 //    /**
 //     * @return TermeRechAttribDMMpole[] Returns an array of TermeRechAttribDMMpole objects
 //     */
