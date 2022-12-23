@@ -39,6 +39,7 @@
             <th scope="col">pays_etude</th>
             <th scope="col">TypeSusar</th>
             <th scope="col">indication</th>
+            <th scope="col">DMM/Pôle</th>
             </tr>
         </thead>
         <tbody>
@@ -46,7 +47,8 @@
             {# {{dump(Susar)}} #}
             {% for cas in Susar %}    
                 <tr>
-                    <th scope="row">{{ cas.MasterId|e }}</th>
+                    {# <th scope="row">{{ cas.MasterId|e }}</th> #}
+                    <th scope="row"><a href="{{ path('app_affiche_susar',{'master_id':cas.MasterId}) }}">{{ cas.MasterId|e }}</a></th>
                     <td>{{ cas.caseid|e }}</td>
                     <td>{{ cas.specificcaseid|e }}</td>
                     <td>{{ cas.DLPVersion|e }}</td>
@@ -60,6 +62,14 @@
                     <td>{{ cas.PaysEtude|e }}</td>
                     <td>{{ cas.TypeSusar|e }}</td>
                     <td>{{ cas.indication|e }}</td>
+                    {% if cas.intervenantANSM != null %}
+                        <td>{{ cas.intervenantANSM.getDMMPole() }}</td>
+                    {% else %}
+                        <td>Non-attribué</td>
+                    {% endif %}                    
+
+                    
+                    
                 </tr>
             {% endfor %}
         </tbody>

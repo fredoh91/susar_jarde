@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AfficheSusarController!{% endblock %}
+
+{% block body %}
+
+
+    {# {{ form(form) }} #}
+
+<div class="container">
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-4">
+            {{ form_label(form.master_id, 'Master_id :') }}
+            {{ form_widget(form.master_id) }}
+        </div>
+        <div class="col-8">
+            {{ form_label(form.intervenantANSM, 'Intervenant ANSM :') }}
+            {{ form_widget(form.intervenantANSM) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            {{ form_widget(form.SaveAndStop) }}
+        </div>
+        <div class="col-3">
+            {{ form_widget(form.SaveAndNext) }}
+        </div>        
+    </div>
+    {{ form_end(form) }}
+    <div class="row">
+        {{ dump(Susar) }}
+    </div>
+</div>
+
+
+{% endblock %}

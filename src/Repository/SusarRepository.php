@@ -83,6 +83,18 @@ class SusarRepository extends ServiceEntityRepository
                ;
            }
 
+
+   public function findSusarByMasterId(int $master_id): ?Susar
+   {
+       return $this->createQueryBuilder('s')
+           ->andWhere('s.master_id = :val')
+           ->setParameter('val', $master_id)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
+
+
 //    /**
 //     * @return Susar[] Returns an array of Susar objects
 //     */

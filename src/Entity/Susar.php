@@ -50,6 +50,9 @@ class Susar
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $indication = null;
 
+    #[ORM\ManyToOne(inversedBy: 'susars')]
+    private ?IntervenantsANSM $intervenantANSM = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -198,4 +201,21 @@ class Susar
 
         return $this;
     }
+
+    public function getIntervenantANSM(): ?intervenantsANSM
+    {
+        return $this->intervenantANSM;
+    }
+
+    public function setIntervenantANSM(?intervenantsANSM $intervenantANSM): self
+    {
+        $this->intervenantANSM = $intervenantANSM;
+
+        return $this;
+    }
+
+    // public function __toString(){
+    //     return $this->IntervenantsANSM; // Remplacer champ par une propriété "string" de l'entité
+    // }
+
 }
