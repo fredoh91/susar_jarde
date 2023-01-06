@@ -21,8 +21,75 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class SusarController extends AbstractController
+class RqSusarController extends AbstractController
 {
+
+    #[Route('/RqSusarDate/{creationdate}', name: 'RqSusarDateAffDate')]
+    public function RqSusarDateAffDate(string $creationdate, ManagerRegistry $doctrine, Request $request): Response
+    {
+        // /RqSusarDate/2023-01-06
+        // dd($date_req);
+
+        $defaultData = ['message' => 'Saisissez une date d\'import'];
+
+        $form = $this->createFormBuilder($defaultData)
+        ->add('DateCreation', DateType::class, [
+            'widget' => 'single_text',
+            'label' => 'date d\'import : ',
+            'format' => 'yyyy-MM-dd',
+            'input' => 'string',
+            'data' => $creationdate,
+            ])
+        // ->add('Recherche', SubmitType::class)
+        ->getForm();
+
+
+
+        // $form->handleRequest($request);
+        
+        // if ($form->isSubmitted() && $form->isValid()) {
+
+        //     $creationdate = $form->getData()['DateCreation'];
+            
+            $entityManager = $doctrine->getManager();
+        //     // $Lst_terapieGen = $entityManager->getRepository(TermeRechAttribDMMpole::class)->findAll();
+        //     $Lst_therapieGen = $entityManager->getRepository(TermeRechAttribDMMpole::class)->TermeRechByType('NumEUDRA_CT');
+        //     $lst_NumEUDRA_CT = $this->FormatSQL_IN($Lst_therapieGen);
+
+        //     $Lst_therapieGen = $entityManager->getRepository(TermeRechAttribDMMpole::class)->TermeRechByType('Produit');
+        //     $lst_Produit = $this->FormatSQL_IN($Lst_therapieGen);
+
+        //     $RqPemba = new RequetesPemba($doctrine);
+            
+        //     $cas_FrDC_FrPronVit = $RqPemba->donneListeEC_FrDC_FrPronVit($creationdate);
+        //     $cas_TherapieGenique = $RqPemba->donneListeEC_TherapieGenique($creationdate, $lst_NumEUDRA_CT, $lst_Produit);
+
+        //     // creation des entités SUSAR a partir du résultat des requêtes 
+        //     // dd($cas_FrDC_FrPronVit);
+        //     Util::CreeSUSAR($doctrine, $cas_FrDC_FrPronVit,"FR_DC_ProVit");
+        //     Util::CreeSUSAR($doctrine, $cas_TherapieGenique,"TherapGen");
+            
+            $creationdate_dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $creationdate . " 00:00:00" );
+
+            // recherche des susar en fonction de la $creationDate renseignée   \DateTime::createFromFormat('Y-m-d', $creationdate)
+            $Susar = $entityManager->getRepository(Susar::class)->findByCreationdate($creationdate_dateTime);
+            // dd($Susar);
+            return $this->render('cas_dc_pronostic_vital/RqSusarDate.html.twig', [
+                'form' => $form->createView(),
+                'Susar' => $Susar,
+            ]);
+        // }
+        return $this->render('cas_dc_pronostic_vital/RqSusarDate.html.twig', [
+            'form' => $form->createView(),
+            'Susar' => '',
+        ]);
+
+
+
+
+
+    }
+
 
     #[Route('/RqSusarDate', name: 'RqSusarDate')]
     public function RqSusarDate(ManagerRegistry $doctrine, Request $request): Response
@@ -99,11 +166,5 @@ class SusarController extends AbstractController
         }
         return $lst;
     }    
-    // #[Route('/susar', name: 'app_susar')]
-    // public function index(): Response
-    // {
-    //     return $this->render('susar/index.html.twig', [
-    //         'controller_name' => 'SusarController',
-    //     ]);
-    // }
+
 }
