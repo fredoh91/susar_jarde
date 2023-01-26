@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test fetch()
+{% endblock %}
+
+{% block body %}
+
+
+	{# <div>
+		{{ dump(Susar) }}
+	</div> #}
+
+	{% block javascripts %}
+		{{ encore_entry_script_tags('glossaire') }}
+	{% endblock %}
+
+
+	<form id="aff-json">
+	
+		<button type="submit">Lance le fetch()</button>
+	</form>
+
+    <div id="resu-json"></div>
+{% endblock %}
