@@ -143,4 +143,39 @@ class RequetesPemba
         };
 
     }
+
+    public function donneListeCodeIndication (int $master_id): array {
+        $sql = "SELECT DISTINCT "
+        . "id.codeproductindication "
+        . "FROM master_versions mv "
+        . "INNER JOIN bi_product pr ON mv.id = pr.master_id "
+        . "LEFT JOIN bi_product_indication id ON pr.master_id = id.master_id AND pr.NBBlock = id.NBBlock "
+        . "WHERE 1 = 1 "
+        . "AND specificcaseid LIKE 'EC%' "
+        . "AND mv.id = " . $master_id . " "
+        . "AND pr.productcharacterization = 'Suspect' "
+        . "ORDER BY id.productindication; ";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+        $stmt_2= $stmt->execute()->fetchAll(); 
+        // dd($stmt_2[0]['productindication']);
+        // dump($stmt_2);
+        // dd($stmt_2);
+
+        $lst=[];
+        if (is_null($stmt_2[0]['codeproductindication'])) {
+            return "";
+        } else {
+            foreach ($stmt_2[0] as $ter) {
+                $lst[] = $ter;
+                // if (isset($lst) ) {
+                //     $lst .= ",".$ter;
+                // } else { 
+                //     $lst = $ter; 
+                // }
+            }
+            return $lst;
+        };
+
+    }
 }

@@ -25,12 +25,19 @@ class SusarType extends AbstractType
             // ->add('DLPVersion')
             // ->add('creationdate')
             // ->add('statusdate')
-            // ->add('studytitle')
+            ->add('studytitle', TextType::class, [
+                'attr' => ['readonly' => true],
+            ])
             // ->add('sponsorstudynumb')
             // ->add('num_eudract')
             // ->add('pays_etude')
             // ->add('TypeSusar')
-            // ->add('indication')
+            ->add('indication', TextType::class, [
+                'attr' => ['readonly' => true],
+            ])
+            ->add('indication_eng', TextType::class, [
+                'attr' => ['readonly' => true],
+            ])
             ->add('intervenantANSM', EntityType::class, [
                 // looks for choices from this entity
                 'class' => IntervenantsANSM::class,

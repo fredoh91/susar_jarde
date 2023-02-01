@@ -14,6 +14,12 @@ doctrine:
                 driver: 'pdo_mysql'
                 server_version: 'mariadb-10.3.37'
                 charset: latin1
+            meddra:
+                # configure these for your database server
+                url: '%env(resolve:DATABASE_MEDDRA_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.5.27'
+                charset: latin1
 
         # url: '%env(resolve:DATABASE_URL)%'
 
@@ -44,6 +50,15 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Pemba'
                         prefix: 'App\Entity\Pemba'
                         alias: Pemba
+            meddra:
+                connection: meddra
+                mappings:
+                    Codex:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Meddra'
+                        prefix: 'App\Entity\Meddra'
+                        alias: Meddra
 
 
 

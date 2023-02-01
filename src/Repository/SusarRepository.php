@@ -141,6 +141,19 @@ class SusarRepository extends ServiceEntityRepository
     }
 
 
+       /**
+        * @return Susar[] Returns an array of Susar objects
+        */
+       public function findFiveFirst(): array
+       {
+           return $this->createQueryBuilder('s')
+               ->orderBy('s.id', 'ASC')
+               ->setMaxResults(5)
+               ->getQuery()
+               ->getResult()
+           ;
+       }
+
     //    /**
     //     * @return Susar[] Returns an array of Susar objects
     //     */

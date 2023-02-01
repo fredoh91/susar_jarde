@@ -86,10 +86,12 @@ class AfficheSusarController extends AbstractController
                 $em->persist($Susar);
                 $em->flush();
                 $next_master_id=$entityManager->getRepository(Susar::class)->findNextMasterIdByCreationdate( $creationdate,  $master_id);
-                dump("next_master_id : " . $next_master_id);
+                // dump("next_master_id : " . $next_master_id);
                 if($next_master_id === 0) {
-                    
-                    // C'est le dernier SUSAR de la liste, on retourne a la liste des SUSAR du jour
+                    //////////////////////////////////////////////////////////////////////////////////
+                    // C'est le dernier SUSAR de la liste, on retourne a la liste des SUSAR du jour //
+                    //////////////////////////////////////////////////////////////////////////////////
+
                     // dump("Susar.Id: " . $Susar->getId());
                     // var_dump("Susar.Creationdate: " . $Susar->getCreationdate()->format('Y-m-d'));
                     // if ($Susar[0] != null) {
@@ -126,7 +128,10 @@ class AfficheSusarController extends AbstractController
                     
 
                 } else {
-                    // Ce n'est pas le dernier SUSAR de la liste, on affiche le SUSAR suivant : $next_master_id
+                    //////////////////////////////////////////////////////////////////////////////////////////////
+                    // Ce n'est pas le dernier SUSAR de la liste, on affiche le SUSAR suivant : $next_master_id //
+                    //////////////////////////////////////////////////////////////////////////////////////////////
+
                     $entityManager = $doctrine->getManager();
                     $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($next_master_id);
                     $form = $this->createForm(SusarType::class, $Susar);

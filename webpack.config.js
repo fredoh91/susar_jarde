@@ -24,6 +24,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('glossaire', './assets/js/glossaire.js')
 
+    .addStyleEntry('glossaire_css', './assets/styles/glossaire.scss')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 

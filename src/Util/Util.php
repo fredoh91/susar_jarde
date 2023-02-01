@@ -7,6 +7,7 @@ use App\Entity\Susar;
 // use App\Entity\TermeRechAttribDMMpole;
 // use function PHPUnit\Framework\isNull;
 use App\Pemba\RequetesPemba;
+use App\Meddra\RequetesMeddra;
 use Doctrine\Persistence\ManagerRegistry;
 
 class Util
@@ -27,9 +28,14 @@ class Util
 
                 // pour récupérer le liste des indications
                 $RqPemba = new RequetesPemba($doctrine);
+                $RqMeddra = new RequetesMeddra($doctrine);
                 $Indication = $RqPemba->donneListeIndication($susar_a_creer['id']);
                 $Indication = mb_convert_encoding($Indication, 'UTF-8');
-                // dd($Indication);
+                $CodeIndication = $RqPemba->donneListeCodeIndication($susar_a_creer['id']);
+                // $IndicationEng = $RqMeddra->donneIndicEng_UnCode($CodeIndication[0]);
+                $IndicationEng = $RqMeddra->donneIndicEng($CodeIndication);
+
+                // dd($IndicationEng);
 
                 // le MasterId n'existe pas dans la table SUSAR, on peut le creer
                 $Susar = new Susar();
@@ -45,11 +51,11 @@ class Util
                 $Susar->setPaysEtude($susar_a_creer['pays_etude']);
                 $Susar->setTypeSusar($TypeSusar);
                 $Susar->setIndication($Indication);
+                $Susar->setIndicationEng($IndicationEng);
                 $entityManager->persist($Susar);
                 $entityManager->flush();
             }
         }
         return;
     }
-
 }
