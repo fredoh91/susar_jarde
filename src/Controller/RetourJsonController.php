@@ -50,20 +50,9 @@ class RetourJsonController extends AbstractController
     #[Route('/affiche_json', name: 'app_affiche_json')]
     public function affiche_json(ManagerRegistry $doctrine): Response
     {
-        // $entityManager = $doctrine->getManager();
-        // $Susar = $entityManager->getRepository(Susar::class)->findAll();
-        // $Susars = [];
-        // foreach ($Susar as $Key => $Susar) {
-        //     $Susars[$Key]['Id'] = $Susar->getId();
-        //     $Susars[$Key]['Studytitle'] = $Susar->getStudytitle();
-        //     $Susars[$Key]['NumEudract'] = $Susar->getNumEudract();
-        //     $Susars[$Key]['Indication'] = $Susar->getIndication();
-        // }
-        
+
         return $this->render('retour_json/index.html.twig', [
         ]);
 
-
-        // return new JsonResponse($Susars);
     }
 }

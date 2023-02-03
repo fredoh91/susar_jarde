@@ -24,13 +24,6 @@ class RqPembaController extends AbstractController
     {
         $this->em = $em;
     }
-    // #[Route('/cas_dc_pronostic_vital', name: 'app_cas_d_c_pronostic_vital')]
-    // public function index(): Response
-    // {
-    //     return $this->render('cas_dc_pronostic_vital/index.html.twig', [
-    //         'controller_name' => 'CasDCPronosticVitalController',
-    //     ]);
-    // }
 
     #[Route('/test_pemba', name: 'test_pemba')]
     public function test_pemba(EntityManagerInterface $em): Response
