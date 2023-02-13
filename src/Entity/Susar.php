@@ -56,6 +56,18 @@ class Susar
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $indication_eng = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $productName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $substanceName = null;
+
+    #[ORM\ManyToOne(inversedBy: 'susars')]
+    private ?MesureAction $MesureAction = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $Commentaire = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -229,6 +241,54 @@ class Susar
     public function setIndicationEng(?string $indication_eng): self
     {
         $this->indication_eng = $indication_eng;
+
+        return $this;
+    }
+
+    public function getProductName(): ?string
+    {
+        return $this->productName;
+    }
+
+    public function setProductName(?string $productName): self
+    {
+        $this->productName = $productName;
+
+        return $this;
+    }
+
+    public function getSubstanceName(): ?string
+    {
+        return $this->substanceName;
+    }
+
+    public function setSubstanceName(?string $substanceName): self
+    {
+        $this->substanceName = $substanceName;
+
+        return $this;
+    }
+
+    public function getMesureAction(): ?MesureAction
+    {
+        return $this->MesureAction;
+    }
+
+    public function setMesureAction(?MesureAction $MesureAction): self
+    {
+        $this->MesureAction = $MesureAction;
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->Commentaire;
+    }
+
+    public function setCommentaire(?string $Commentaire): self
+    {
+        $this->Commentaire = $Commentaire;
 
         return $this;
     }

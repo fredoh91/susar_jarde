@@ -35,7 +35,10 @@ class Util
                 // $IndicationEng = $RqMeddra->donneIndicEng_UnCode($CodeIndication[0]);
                 $IndicationEng = $RqMeddra->donneIndicEng($CodeIndication);
 
-                // dd($IndicationEng);
+                $medicament = $RqPemba->donneListeMedicament($susar_a_creer['id'],'Suspect');
+                $productName= $medicament['productname']; 
+                $substanceName = $medicament['substancename']; 
+                // dump($susar_a_creer['id'], $productName);
 
                 // le MasterId n'existe pas dans la table SUSAR, on peut le creer
                 $Susar = new Susar();
@@ -52,6 +55,8 @@ class Util
                 $Susar->setTypeSusar($TypeSusar);
                 $Susar->setIndication($Indication);
                 $Susar->setIndicationEng($IndicationEng);
+                $Susar->setProductName($productName);
+                $Susar->setSubstanceName($substanceName);
                 $entityManager->persist($Susar);
                 $entityManager->flush();
             }

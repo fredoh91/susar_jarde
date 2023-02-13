@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Susar;
+// use App\Entity\IntervenantsANSM;
 use DateTimeInterface;
+use App\Entity\SearchListeEvalSusar;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -138,6 +140,90 @@ class SusarRepository extends ServiceEntityRepository
             ->setParameter('val', $master_id)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+    /**
+     * retourne la liste des SUSARs recherchés par un formulaire du type SearchListeEvalSusarType
+     *
+     * @param SearchListeEvalSusar $search
+     * @return Susar|null
+     */
+    public function findBySearchListeEvalSusar(SearchListeEvalSusar $search): ?array
+    {   
+
+        $query = $this->createQueryBuilder('s');
+
+        if ($search->getMasterId()) {
+            $query = $query
+            ->andWhere('s.master_id = :mi')
+            ->setParameter('mi', $search->getMasterId());
+        }
+
+        if ($search->getDLPVersion()) {
+            $query = $query
+            ->andWhere('s.DLPVersion = :dv')
+            ->setParameter('dv', $search->getDLPVersion());
+        }
+
+        if ($search->getCaseid()) {
+            $query = $query
+            ->andWhere('s.caseid = :ci')
+            ->setParameter('ci', $search->getCaseid());
+        }
+
+        if ($search->getNumEudract()) {
+            $query = $query
+            ->andWhere('s.num_eudract = :ne')
+            ->setParameter('ne', $search->getNumEudract());
+        }
+
+        if ($search->getSponsorstudynumb()) {
+            $query = $query
+            ->andWhere('s.sponsorstudynumb = :ssn')
+            ->setParameter('ssn', $search->getSponsorstudynumb());
+        }
+
+        if ($search->getStudytitle()) {
+            $query = $query
+            ->andWhere('s.studytitle LIKE :st')
+            ->setParameter('st', '%'.$search->getStudytitle().'%');
+        }
+
+        if ($search->getProductName()) {
+            $query = $query
+            ->andWhere('s.productName LIKE :pn')
+            ->setParameter('pn', '%'.$search->getProductName().'%');
+        }
+
+        if ($search->getSubstanceName()) {
+            $query = $query
+            ->andWhere('s.substanceName LIKE :sn')
+            ->setParameter('sn', '%'.$search->getSubstanceName().'%');
+        }
+
+        if ($search->getIndication()) {
+            $query = $query
+            ->andWhere('s.indication LIKE :if')
+            ->setParameter('if', '%'.$search->getIndication().'%');
+        }
+
+        if ($search->getIndicationEng()) {
+            $query = $query
+            ->andWhere('s.indication_eng LIKE :ie')
+            ->setParameter('ie', '%'.$search->getIndicationEng().'%');
+        }
+
+// dd($search->getIntervenantANSM()->getDMMPoleCourt());
+
+        if ($search->getIntervenantANSM()) {
+            $query = $query
+            ->leftJoin('s.intervenantANSM', 'iANSM')
+            ->andWhere('iANSM.DMM_pole_court LIKE :ia')
+            ->setParameter('ia', '%'.$search->getIntervenantANSM()->getDMMPoleCourt().'%');
+        }
+
+        return $query 
+            ->getQuery()
+            ->getResult();
     }
 
 

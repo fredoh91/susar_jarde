@@ -19,12 +19,12 @@
 <div class="example-wrapper"> 
     {{ form(form) }}
 </div>
-    
-<div class="container">
+<div class=".container-fluid">
+
     {% if Susar %}
         {# <h3 class="text-center">Cas France - décès et cas France - Pronostic vital</h3> #}
         {# <table class="table table-sm table-bordered table-hover text-center"> #}
-        <table class="table table-sm table-bordered table-hover text-center">
+        <table class="table table-sm table-bordered table-hover text-center ms-3 me-3">
         <thead class="table-secondary">
             <tr>
             <th scope="col">master_id</th>
@@ -38,13 +38,14 @@
             <th scope="col">num_eudract</th>
             <th scope="col">pays_etude</th>
             <th scope="col">TypeSusar</th>
+            <th scope="col">Produit(s)</th>
+            <th scope="col">Substance(s)</th>
             <th scope="col">indication</th>
             <th scope="col">DMM/Pôle</th>
             </tr>
         </thead>
         <tbody>
 
-            {# {{dump(Susar)}} #}
             {% for cas in Susar %}    
                 <tr>
                     {# <th scope="row">{{ cas.MasterId|e }}</th> #}
@@ -61,6 +62,8 @@
                     <td>{{ cas.NumEudract|e }}</td>
                     <td>{{ cas.PaysEtude|e }}</td>
                     <td>{{ cas.TypeSusar|e }}</td>
+                    <td>{{ cas.productName|e }}</td>
+                    <td>{{ cas.substanceName|e }}</td>
                     <td>{{ cas.indication|e }}</td>
                     {% if cas.intervenantANSM != null %}
                         <td>{{ cas.intervenantANSM.getDMMPole() }}</td>
@@ -75,34 +78,6 @@
         </tbody>
         </table>
     {% endif %}
-    {# {% if cas_TherapieGenique %}
-        <h3 class="text-center">Cas thérapie génique</h3>
-        <table class="table table-sm table-bordered table-hover text-center">
-        <thead class="table-secondary">
-            <tr>
-            <th scope="col">id</th>
-            <th scope="col">caseid</th>
-            <th scope="col">specificcaseid</th>
-            <th scope="col">DLPVersion</th>
-            <th scope="col">creationdate</th>
-            <th scope="col">statusdate</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cas in cas_TherapieGenique %}    
-                <tr>
-                    <th scope="row">{{ cas.id|e }}</th>
-                    <td>{{ cas.caseid|e }}</td>
-                    <td>{{ cas.specificcaseid|e }}</td>
-                    <td>{{ cas.DLPVersion|e }}</td>
-                    <td>{{ cas.creationdate|e }}</td>
-                    <td>{{ cas.statusdate|e }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-        </table>
-
-    {% endif %} #}
 
 </div>
 {% endblock %}

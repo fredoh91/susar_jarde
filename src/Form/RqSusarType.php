@@ -18,20 +18,6 @@ class RqSusarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
-
-
-        // $defaultData = ['message' => 'Saisissez une date d\'import'];
-        // $form = $this->createFormBuilder($defaultData)
-        // ->add('DateCreation', DateType::class, [
-        //     'widget' => 'single_text',
-        //     'label' => 'date d\'import : ',
-        //     'format' => 'yyyy-MM-dd',
-        //     'input' => 'string',
-        //     ])
-        // ->add('Recherche', SubmitType::class)
-        // ->getForm();
-
-
         $builder
         ->add('DateCreation', DateType::class, [
             'widget' => 'single_text',
@@ -40,43 +26,7 @@ class RqSusarType extends AbstractType
             'input' => 'string',
             ])
         ->add('Recherche', SubmitType::class);
-            // ->add('master_id', TextType::class, [
-            //     'attr' => ['readonly' => true],
-            // ])
-            // // ->add('caseid')
-            // // ->add('specificcaseid')
-            // // ->add('DLPVersion')
-            // // ->add('creationdate')
-            // // ->add('statusdate')
-            // // ->add('studytitle')
-            // // ->add('sponsorstudynumb')
-            // // ->add('num_eudract')
-            // // ->add('pays_etude')
-            // // ->add('TypeSusar')
-            // // ->add('indication')
-            // ->add('intervenantANSM', EntityType::class, [
-            //     // looks for choices from this entity
-            //     'class' => IntervenantsANSM::class,
-            //     'query_builder' => function (EntityRepository $er) {
-            //         return $er->createQueryBuilder('int')
-            //             ->where('int.inactif = 0')
-            //             ->orderBy('int.OrdreTri', 'ASC');
-            //     },
-            //     // uses the User.username property as the visible option string
-            //     'choice_label' => 'DMM_pole_court',
-            
-            //     // used to render a select box, check boxes or radios
-            //     // 'multiple' => true,
-            //     // 'expanded' => true,
-            // ])
-            // ->add('SaveAndStop', SubmitType::class, [
-            //     'attr' => ['class' => 'btn btn-primary m-2'],
-            //     'label' => 'Sauvegarder et quitter']
-            // )
-            // ->add('SaveAndNext', SubmitType::class, [
-            //     'attr' => ['class' => 'btn btn-primary m-2'],
-            //     'label' => 'Sauvegarder et suivant']
-            // );
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

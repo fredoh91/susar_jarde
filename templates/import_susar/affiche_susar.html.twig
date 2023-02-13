@@ -1,33 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
 
-	{{ encore_entry_link_tags('glossaire_css') }}
+{{ encore_entry_link_tags('glossaire_css') }}
 
-	{% block javascripts %}
-		{{ encore_entry_script_tags('glossaire') }}
-	{% endblock %}
+{% block javascripts %}
+	{{ encore_entry_script_tags('glossaire') }}
+{% endblock %}
 
-	{# {{ form(form) }} #}
+{# {{ form(form) }} #}
 
-	<div class="container">
-		{{ form_start(form) }}
-		<div class="row">
-			<div class="col-4">
-				{{ form_label(form.master_id, 'Master_id :') }}
-				{{ form_widget(form.master_id) }}
-			</div>
-			<div class="col-8">
-				{{ form_label(form.intervenantANSM, 'Intervenant ANSM :') }}
-				{{ form_widget(form.intervenantANSM) }}
-			</div>
+<div class="container-fluid p-5">
+	{{ form_start(form) }}
+	<div class="row">
+		<div class="col-4">
+			{{ form_label(form.master_id, 'Master_id :') }}
+			{{ form_widget(form.master_id) }}
 		</div>
-		<div class="row">
-			<div class="col-12">
-				{{ form_label(form.studytitle, 'Nom de l\'étude :') }}
+		<div class="col-8">
+			{{ form_label(form.intervenantANSM, 'Intervenant ANSM :') }}
+			{{ form_widget(form.intervenantANSM) }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			{{ form_label(form.studytitle, 'Nom de l\'étude :') }}
 				{{ form_widget(form.studytitle) }}
 			</div>
 			{# <div class="col-4">
@@ -54,23 +53,24 @@
 			</div>
 		</div>
 		{{ form_end(form) }}
-		<div
-			class="row">
-			{# {{ dump(Susar) }} #}
-			<div class="row">
-				<div class="frm-json">
-					<form id="aff-json">
+			
+		<div class="frm-json">
+			<form id="aff-json">
+				<div class="row"> 
+					<div class="col-9">
 						<input type="text" id="RechIndic" placeholder="Saisissez une indication" class="form-control">
+					</div>
+					<div class="col-3">
 						<button type="submit" class="btn btn-secondary m-2 btn">Recherche de DMM/Pôle</button>
-					</form>
-
-					<div id="resu-json"></div>
-
-					<table id="TableGlossaire" class="table table-hover"></table>
+					</div>
 				</div>
+			</form>
+		</div>
+		<div class="row">
+			<div id="resu-json"></div>
+				<table id="TableGlossaire" class="table table-hover"></table>
 			</div>
 		</div>
 	</div>
-
 
 {% endblock %}

@@ -80,6 +80,8 @@ class RequetesMeddra
                 }
                 return "";
             }
+        } else {
+            return "";
         }
     }
 }

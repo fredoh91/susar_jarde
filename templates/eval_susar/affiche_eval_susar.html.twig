@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Évaluation d'un SUSAR
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+	{{ form_start(form) }}
+	<div class="row">
+		<div class="col-3">
+			{{ form_label(form.master_id, 'Master_id :') }}
+			{{ form_widget(form.master_id) }}
+		</div>
+		<div class="col-4">
+			{{ form_label(form.mesureAction, 'Mesure/Action :') }}
+			{{ form_widget(form.mesureAction) }}
+		</div>
+		<div class="col-5">
+			{{ form_label(form.commentaire, 'Commentaire :') }}
+			{{ form_widget(form.commentaire) }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			{{ form_label(form.studytitle, 'Nom de l\'étude :') }}
+				{{ form_widget(form.studytitle) }}
+			</div>
+			{# <div class="col-4">
+				{{ form_label(form.indication, 'Indication :') }}
+				{{ form_widget(form.indication) }}
+			</div> #}
+		</div>
+		<div class="row">
+			<div class="col-6">
+				{{ form_label(form.indication, 'Indication :') }}
+				{{ form_widget(form.indication) }}
+			</div>
+			<div class="col-6">
+				{{ form_label(form.indication_eng, 'Indication (anglais) :') }}
+				{{ form_widget(form.indication_eng) }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-3">
+				{{ form_widget(form.Save) }}
+			</div>
+		</div>
+		{{ form_end(form) }}
+
+	</div>
+{{dump (Susar)}}
+
+{% endblock %}

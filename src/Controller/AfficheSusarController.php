@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AfficheSusarController extends AbstractController
 {
     #[Route('/affiche_susar/{master_id}', name: 'app_affiche_susar')]
-    public function index(int $master_id, ManagerRegistry $doctrine, Request $request,EntityManagerInterface $em): Response
+    public function index(int $master_id, ManagerRegistry $doctrine, Request $request, EntityManagerInterface $em): Response
     {
         $entityManager = $doctrine->getManager();
         $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($master_id);
@@ -26,7 +26,7 @@ class AfficheSusarController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            // $data = $form->getData();
+
             if($form->get('SaveAndStop')->isClicked()) {
                 /**
                  *  On clique sur le bouton "Sauvegarder et quitter", ce qui :
@@ -58,8 +58,7 @@ class AfficheSusarController extends AbstractController
                 ->add('Recherche', SubmitType::class)
                 ->getForm();
 
-                // dd($Susar);
-                return $this->render('cas_dc_pronostic_vital/RqSusarDate.html.twig', [
+                return $this->render('import_susar/RqSusarDate.html.twig', [
                     'form' => $form->createView(),
                     'Susar' => $Susar,
                 ]); 
@@ -84,7 +83,6 @@ class AfficheSusarController extends AbstractController
                         'creationdate' => $Susar->getCreationdate()->format('Y-m-d'),
                     ]); 
                     
-
                 } else {
                     //////////////////////////////////////////////////////////////////////////////////////////////
                     // Ce n'est pas le dernier SUSAR de la liste, on affiche le SUSAR suivant : $next_master_id //
@@ -104,7 +102,7 @@ class AfficheSusarController extends AbstractController
             }
         }
         
-        return $this->render('affiche_susar/index.html.twig', [
+        return $this->render('import_susar/affiche_susar.html.twig', [
             'Susar' => $Susar,
             'form' => $form->createView(),
         ]);
