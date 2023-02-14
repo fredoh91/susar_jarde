@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TermeRechAttribDMMpole{% endblock %}
+
+{% block body %}
+    <h1>Edit TermeRechAttribDMMpole</h1>
+
+    {{ include('admin_tbref/terme_rech_attrib_dm_mpole/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_terme_rech_attrib_d_m_mpole_index') }}">back to list</a>
+
+    {{ include('admin_tbref/terme_rech_attrib_dm_mpole/_delete_form.html.twig') }}
+{% endblock %}

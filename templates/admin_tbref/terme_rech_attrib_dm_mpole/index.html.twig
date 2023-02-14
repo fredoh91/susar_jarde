@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TermeRechAttribDMMpole index{% endblock %}
+
+{% block body %}
+    <h1>TermeRechAttribDMMpole index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DMM</th>
+                <th>Pole_long</th>
+                <th>Pole_court</th>
+                <th>TermeRech</th>
+                <th>Actif</th>
+                <th>TypeRech</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for terme_rech_attrib_d_m_mpole in terme_rech_attrib_d_m_mpoles %}
+            <tr>
+                <td>{{ terme_rech_attrib_d_m_mpole.id }}</td>
+                <td>{{ terme_rech_attrib_d_m_mpole.DMM }}</td>
+                <td>{{ terme_rech_attrib_d_m_mpole.poleLong }}</td>
+                <td>{{ terme_rech_attrib_d_m_mpole.poleCourt }}</td>
+                <td>{{ terme_rech_attrib_d_m_mpole.TermeRech }}</td>
+                <td>{{ terme_rech_attrib_d_m_mpole.Actif ? 'Yes' : 'No' }}</td>
+                <td>{{ terme_rech_attrib_d_m_mpole.TypeRech }}</td>
+                <td>
+                    <a href="{{ path('app_terme_rech_attrib_d_m_mpole_show', {'id': terme_rech_attrib_d_m_mpole.id}) }}">show</a>
+                    <a href="{{ path('app_terme_rech_attrib_d_m_mpole_edit', {'id': terme_rech_attrib_d_m_mpole.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_terme_rech_attrib_d_m_mpole_new') }}">Create new</a>
+{% endblock %}

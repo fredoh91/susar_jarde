@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Glossaire{% endblock %}
+
+{% block body %}
+    <h1>Glossaire</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ glossaire.id }}</td>
+            </tr>
+            <tr>
+                <th>ItemGlossaire</th>
+                <td>{{ glossaire.itemGlossaire }}</td>
+            </tr>
+            <tr>
+                <th>Evaluateur</th>
+                <td>{{ glossaire.evaluateur }}</td>
+            </tr>
+            <tr>
+                <th>DP</th>
+                <td>{{ glossaire.DP }}</td>
+            </tr>
+            <tr>
+                <th>DMM</th>
+                <td>{{ glossaire.DMM }}</td>
+            </tr>
+            <tr>
+                <th>Pole_court</th>
+                <td>{{ glossaire.poleCourt }}</td>
+            </tr>
+            <tr>
+                <th>Pole_long</th>
+                <td>{{ glossaire.poleLong }}</td>
+            </tr>
+            <tr>
+                <th>Actif</th>
+                <td>{{ glossaire.Actif ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_glossaire_index') }}">back to list</a>
+
+    <a href="{{ path('app_glossaire_edit', {'id': glossaire.id}) }}">edit</a>
+
+    {{ include('admin_tbref/glossaire/_delete_form.html.twig') }}
+{% endblock %}

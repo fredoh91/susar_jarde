@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Glossaire index{% endblock %}
+
+{% block body %}
+    <h1>Glossaire index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ItemGlossaire</th>
+                <th>Evaluateur</th>
+                <th>DP</th>
+                <th>DMM</th>
+                <th>Pole_court</th>
+                <th>Pole_long</th>
+                <th>Actif</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for glossaire in glossaires %}
+            <tr>
+                <td>{{ glossaire.id }}</td>
+                <td>{{ glossaire.itemGlossaire }}</td>
+                <td>{{ glossaire.evaluateur }}</td>
+                <td>{{ glossaire.DP }}</td>
+                <td>{{ glossaire.DMM }}</td>
+                <td>{{ glossaire.poleCourt }}</td>
+                <td>{{ glossaire.poleLong }}</td>
+                <td>{{ glossaire.Actif ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_glossaire_show', {'id': glossaire.id}) }}">show</a>
+                    <a href="{{ path('app_glossaire_edit', {'id': glossaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_glossaire_new') }}">Create new</a>
+{% endblock %}

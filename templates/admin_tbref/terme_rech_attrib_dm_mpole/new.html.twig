@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TermeRechAttribDMMpole{% endblock %}
+
+{% block body %}
+    <h1>Create new TermeRechAttribDMMpole</h1>
+
+    {{ include('admin_tbref/terme_rech_attrib_dm_mpole/_form.html.twig') }}
+
+    <a href="{{ path('app_terme_rech_attrib_d_m_mpole_index') }}">back to list</a>
+{% endblock %}

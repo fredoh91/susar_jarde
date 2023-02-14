@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TermeRechAttribDMMpole{% endblock %}
+
+{% block body %}
+    <h1>TermeRechAttribDMMpole</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ terme_rech_attrib_d_m_mpole.id }}</td>
+            </tr>
+            <tr>
+                <th>DMM</th>
+                <td>{{ terme_rech_attrib_d_m_mpole.DMM }}</td>
+            </tr>
+            <tr>
+                <th>Pole_long</th>
+                <td>{{ terme_rech_attrib_d_m_mpole.poleLong }}</td>
+            </tr>
+            <tr>
+                <th>Pole_court</th>
+                <td>{{ terme_rech_attrib_d_m_mpole.poleCourt }}</td>
+            </tr>
+            <tr>
+                <th>TermeRech</th>
+                <td>{{ terme_rech_attrib_d_m_mpole.TermeRech }}</td>
+            </tr>
+            <tr>
+                <th>Actif</th>
+                <td>{{ terme_rech_attrib_d_m_mpole.Actif ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>TypeRech</th>
+                <td>{{ terme_rech_attrib_d_m_mpole.TypeRech }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_terme_rech_attrib_d_m_mpole_index') }}">back to list</a>
+
+    <a href="{{ path('app_terme_rech_attrib_d_m_mpole_edit', {'id': terme_rech_attrib_d_m_mpole.id}) }}">edit</a>
+
+    {{ include('admin_tbref/terme_rech_attrib_dm_mpole/_delete_form.html.twig') }}
+{% endblock %}
