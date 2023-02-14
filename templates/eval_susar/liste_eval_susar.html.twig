@@ -113,6 +113,8 @@
 							<th scope="col">indication</th>
 							<th scope="col">indication (angl.)</th>
 							<th scope="col">DMM/Pôle</th>
+							<th scope="col">Mesure/Action</th>
+							<th scope="col">Date d'évaluation</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -140,6 +142,16 @@
 									<td>{{ Susar.intervenantANSM.getDMMPole() }}</td>
 								{% else %}
 									<td>Non-attribué</td>
+								{% endif %}
+								{% if Susar.MesureAction != null %}
+									<td>{{ Susar.MesureAction.getLibelle() }}</td>
+								{% else %}
+									<td>Non-évalué</td>
+								{% endif %}
+								{% if Susar.dateEvalutation != null %}
+									<td>{{ Susar.dateEvalutation|format_datetime(locale='fr') }}</td>
+								{% else %}
+									<td>---</td>
 								{% endif %}
 							</tr>
 						{% endfor %}

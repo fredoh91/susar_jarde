@@ -150,8 +150,6 @@ class SearchListeEvalSusar
         return $this;
     }
 
-
-
     /**
      * Get the value of caseid
      */ 

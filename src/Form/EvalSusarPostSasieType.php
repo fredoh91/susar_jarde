@@ -14,10 +14,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class EvalSusarType extends AbstractType
+class EvalSusarPostSaisieType extends EvalSusarType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // dd($options['data']->getMesureAction()->getLibelle());
         $builder
             ->add('master_id', TextType::class, [
                 'attr' => ['readonly' => true],
@@ -43,21 +44,28 @@ class EvalSusarType extends AbstractType
                 'attr' => ['readonly' => true],
             ])
             ->add('commentaire', TextareaType ::class, [
-                'attr' => ['readonly' => false],
+                'attr' => ['readonly' => true],
             ])
-            ->add('mesureAction', EntityType::class, [
-                'class' => MesureAction::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('Mes')
-                        ->where('Mes.inactif = 0')
-                        ->orderBy('Mes.OrdreTri', 'ASC');
-                },
-                'choice_label' => 'Libelle',
+            ->add('mesureAction', TextType::class, [
+                'attr' => ['readonly' => true],
+                'data' => $options['data']->getMesureAction()->getLibelle()
             ])
-            ->add('Save', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary m-2'],
-                'label' => 'Sauvegarder']
-            );
+            // ->add('mesureAction', EntTextTypetyType::class, [
+            //     'class' => MesureAction::class,
+            //     'choice_label' => 'Libelle',
+            //     'attr' => ['readonly' => true],
+            // ])
+            // ->add('mesureAction', EntityType::class, [
+            //     'class' => MesureAction::class,
+            //     'query_builder' => function (EntityRepository $er) {
+            //         return $er->createQueryBuilder('Mes')
+            //             ->where('Mes.inactif = 0')
+            //             ->orderBy('Mes.OrdreTri', 'ASC');
+            //     },
+            //     'choice_label' => 'Libelle',
+            // ])
+            
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

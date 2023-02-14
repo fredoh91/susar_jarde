@@ -68,6 +68,9 @@ class Susar
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Commentaire = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateEvalutation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -289,6 +292,18 @@ class Susar
     public function setCommentaire(?string $Commentaire): self
     {
         $this->Commentaire = $Commentaire;
+
+        return $this;
+    }
+
+    public function getDateEvalutation(): ?\DateTimeInterface
+    {
+        return $this->dateEvalutation;
+    }
+
+    public function setDateEvalutation(?\DateTimeInterface $dateEvalutation): self
+    {
+        $this->dateEvalutation = $dateEvalutation;
 
         return $this;
     }

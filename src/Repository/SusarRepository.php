@@ -213,12 +213,19 @@ class SusarRepository extends ServiceEntityRepository
         }
 
 // dd($search->getIntervenantANSM()->getDMMPoleCourt());
-
         if ($search->getIntervenantANSM()) {
             $query = $query
             ->leftJoin('s.intervenantANSM', 'iANSM')
             ->andWhere('iANSM.DMM_pole_court LIKE :ia')
             ->setParameter('ia', '%'.$search->getIntervenantANSM()->getDMMPoleCourt().'%');
+        }
+
+// dd($search->getMesureAction()->getLibelle());
+        if ($search->getMesureAction()) {
+            $query = $query
+            ->leftJoin('s.MesureAction', 'ma')
+            ->andWhere('ma.Libelle LIKE :ia')
+            ->setParameter('ia', '%'.$search->getMesureAction()->getLibelle().'%');
         }
 
         return $query 
