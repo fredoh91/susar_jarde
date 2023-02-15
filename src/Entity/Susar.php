@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SusarRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -70,6 +72,18 @@ class Susar
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateEvalutation = null;
+
+    #[ORM\OneToMany(mappedBy: 'susar', targetEntity: Medicaments::class)]
+    private Collection $Medicament;
+
+    #[ORM\OneToMany(mappedBy: 'susar', targetEntity: EffetsIndesirables::class)]
+    private Collection $EffetsIndesirables;
+
+    public function __construct()
+    {
+        $this->Medicament = new ArrayCollection();
+        $this->EffetsIndesirables = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -304,6 +318,66 @@ class Susar
     public function setDateEvalutation(?\DateTimeInterface $dateEvalutation): self
     {
         $this->dateEvalutation = $dateEvalutation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Medicaments>
+     */
+    public function getMedicament(): Collection
+    {
+        return $this->Medicament;
+    }
+
+    public function addMedicament(Medicaments $medicament): self
+    {
+        if (!$this->Medicament->contains($medicament)) {
+            $this->Medicament->add($medicament);
+            $medicament->setSusar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedicament(Medicaments $medicament): self
+    {
+        if ($this->Medicament->removeElement($medicament)) {
+            // set the owning side to null (unless already changed)
+            if ($medicament->getSusar() === $this) {
+                $medicament->setSusar(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EffetsIndesirables>
+     */
+    public function getEffetsIndesirables(): Collection
+    {
+        return $this->EffetsIndesirables;
+    }
+
+    public function addEffetsIndesirable(EffetsIndesirables $effetsIndesirable): self
+    {
+        if (!$this->EffetsIndesirables->contains($effetsIndesirable)) {
+            $this->EffetsIndesirables->add($effetsIndesirable);
+            $effetsIndesirable->setSusar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEffetsIndesirable(EffetsIndesirables $effetsIndesirable): self
+    {
+        if ($this->EffetsIndesirables->removeElement($effetsIndesirable)) {
+            // set the owning side to null (unless already changed)
+            if ($effetsIndesirable->getSusar() === $this) {
+                $effetsIndesirable->setSusar(null);
+            }
+        }
 
         return $this;
     }

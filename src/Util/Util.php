@@ -4,10 +4,12 @@ namespace App\Util;
 
 use \DateTime;
 use App\Entity\Susar;
+use App\Entity\Medicaments;
 // use App\Entity\TermeRechAttribDMMpole;
 // use function PHPUnit\Framework\isNull;
 use App\Pemba\RequetesPemba;
 use App\Meddra\RequetesMeddra;
+use App\Pemba\RequetesPembaMedicaments;
 use Doctrine\Persistence\ManagerRegistry;
 
 class Util
@@ -28,6 +30,7 @@ class Util
 
                 // pour récupérer le liste des indications
                 $RqPemba = new RequetesPemba($doctrine);
+                $RqPembaMedicaments = new RequetesPembaMedicaments($doctrine);
                 $RqMeddra = new RequetesMeddra($doctrine);
                 $Indication = $RqPemba->donneListeIndication($susar_a_creer['id']);
                 $Indication = mb_convert_encoding($Indication, 'UTF-8');
@@ -35,9 +38,9 @@ class Util
                 // $IndicationEng = $RqMeddra->donneIndicEng_UnCode($CodeIndication[0]);
                 $IndicationEng = $RqMeddra->donneIndicEng($CodeIndication);
 
-                $medicament = $RqPemba->donneListeMedicament($susar_a_creer['id'],'Suspect');
-                $productName= $medicament['productname']; 
-                $substanceName = $medicament['substancename']; 
+                $medicament = $RqPemba->donneListeMedicament($susar_a_creer['id'], 'Suspect');
+                $productName = $medicament['productname'];
+                $substanceName = $medicament['substancename'];
                 // dump($susar_a_creer['id'], $productName);
 
                 // le MasterId n'existe pas dans la table SUSAR, on peut le creer
@@ -57,9 +60,47 @@ class Util
                 $Susar->setIndicationEng($IndicationEng);
                 $Susar->setProductName($productName);
                 $Susar->setSubstanceName($substanceName);
+
                 $entityManager->persist($Susar);
                 $entityManager->flush();
+
+                // $susar_id = $Susar->getId();
+
+                // $lstMed = $RqPembaMedicaments->donneMedicaments($susar_a_creer['id']);
+
+                // // dd($lstMed);
+                // self::CreeMedicaments($doctrine, $lstMed);
             }
+        }
+        return;
+    }
+
+    /**
+     * crée des médicaments dans la table Medicament à partir des requêtes de la BNPV
+     *
+     * @param ManagerRegistry $doctrine
+     * @param array $TbEntree resultat de la requête de la BNPV
+     * @return void
+     */
+    public static function CreeMedicaments(ManagerRegistry $doctrine, array $TbEntree, int $susar_id): void
+    {
+        $entityManager = $doctrine->getManager();
+        foreach ($TbEntree as $medic_a_creer) {
+
+            dump($medic_a_creer);
+
+            $medic = new Medicaments;
+            $medic->setId((int) $susar_id);
+            $medic->setMasterId((int) $medic_a_creer['id']);
+            $medic->setCaseid((int) $medic_a_creer['caseid']);
+            $medic->setSpecificcaseid($medic_a_creer['specificcaseid']);
+            $medic->setDLPVersion($medic_a_creer['DLPVersion']);
+            $medic->setProductcharacterization($medic_a_creer['productcharacterization']);
+            $medic->setProductname($medic_a_creer['productname']);
+            $medic->setNBBlock($medic_a_creer['NBBlock']);
+            $medic->setSubstancename($medic_a_creer['substancename']);
+            $entityManager->persist($medic);
+            $entityManager->flush();
         }
         return;
     }

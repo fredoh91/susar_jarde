@@ -88,6 +88,7 @@
 	{{form_end(form)}}
 			{# {{ form(form) }} #}
 
+
 	</div>
 
 		<div class="container-fluid">
@@ -122,7 +123,15 @@
 							<tr>
 								{# <th scope="row">{{ Susar.MasterId|e }}</th> #}
 								<th scope="row">
-									<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.MasterId|e }}</a>
+
+								{% if typeIntervenantANSM == 'DMFR' %}
+								<a href="{{ path('app_affiche_dmfr_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.MasterId|e }}</a>
+								{% elseif typeIntervenantANSM == 'DMM' %}
+								<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.MasterId|e }}</a>
+								{% else %}
+								<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.MasterId|e }}</a>
+								{% endif %}
+								
 								</th>
 								<td>{{ Susar.caseid|e }}</td>
 								<td>{{ Susar.specificcaseid|e }}</td>

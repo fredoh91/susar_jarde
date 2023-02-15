@@ -2,17 +2,7 @@
 
 namespace App\Pemba;
 
-// use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-// use Symfony\Component\HttpFoundation\Request;
-// use Symfony\Component\HttpFoundation\Response;
-// use Symfony\Component\Routing\Annotation\Route;
-// use Symfony\Component\Form\Extension\Core\Type\DateType;
-// use Symfony\Component\Form\Extension\Core\Type\TextType;
-// use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-// use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-// use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-// use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class RequetesPemba
 {
@@ -29,11 +19,7 @@ class RequetesPemba
     {
 
         $sql = "SELECT DISTINCT "
-            // . "  mv.id, mv.caseid, mv.specificcaseid, mv.DLPVersion, id.worldwideuniquecaseidentificationnumber, " 
-            // . "  ci.iscaseserious, ci.seriousnesscriteria, ci.receivedate, mo.receiptdate, mv.creationdate, mv.statusdate, " 
-            // . "  pa.patientsex, pa.patientonsetage, pa.patientonsetageunitlabel, pa.patientagegroup, " 
-            // . "  ps.reportercountry, " 
-            // . "  na.narrativeincludeclinical, cs.casesummarylanguage, cs.casesummary " 
+
             . "mv.id, mv.caseid, mv.specificcaseid, mv.DLPVersion, mv.creationdate, mv.statusdate, "
             . "st.studytitle, st.sponsorstudynumb, "
             . "sr.studyname num_eudract, sr.studyregistrationcountry pays_etude, "
@@ -45,7 +31,6 @@ class RequetesPemba
             . "na.narrativeincludeclinical, "
             . "cs.casesummarylanguage, cs.casesummary "
             . "FROM master_versions mv "
-            // . "INNER JOIN bi_mostrecentinformation mo ON mv.id = mo.master_id " 
             . "INNER JOIN (SELECT master_id, MAX(receiptdate) AS receiptdate FROM bi_mostrecentinformation GROUP BY master_id) AS mo ON mv.id = mo.master_id "
             . "INNER JOIN bi_caseinfo ci ON mv.id = ci.master_id "
             . "INNER JOIN bi_identifiers id ON mv.id = id.master_id "
@@ -126,9 +111,7 @@ class RequetesPemba
 
         $stmt = $this->em->getConnection()->prepare($sql);
         $stmt_2 = $stmt->execute()->fetchAll();
-        // dd($stmt_2[0]['productindication']);
-        // dump($stmt_2);
-        // dd($stmt_2);
+
         if (is_null($stmt_2[0]['productindication'])) {
             return "";
         } else {
@@ -159,9 +142,6 @@ class RequetesPemba
 
         $stmt = $this->em->getConnection()->prepare($sql);
         $stmt_2 = $stmt->execute()->fetchAll();
-        // dd($stmt_2[0]['productindication']);
-        // dump($stmt_2);
-        // dd($stmt_2);
 
         $lst = [];
         if (is_null($stmt_2[0]['codeproductindication'])) {
@@ -170,11 +150,7 @@ class RequetesPemba
         } else {
             foreach ($stmt_2[0] as $ter) {
                 $lst[] = $ter;
-                // if (isset($lst) ) {
-                //     $lst .= ",".$ter;
-                // } else { 
-                //     $lst = $ter; 
-                // }
+
             }
             return $lst;
         };
@@ -182,16 +158,7 @@ class RequetesPemba
 
     public function donneListeMedicament(int $master_id, string $prodCharact): array
     {
-        // $sql = "SELECT DISTINCT "
-        // . "id.productindication "
-        // . "FROM master_versions mv "
-        // . "INNER JOIN bi_product pr ON mv.id = pr.master_id "
-        // . "LEFT JOIN bi_product_indication id ON pr.master_id = id.master_id AND pr.NBBlock = id.NBBlock "
-        // . "WHERE 1 = 1 "
-        // . "AND specificcaseid LIKE 'EC%' "
-        // . "AND mv.id = " . $master_id . " "
-        // . "AND pr.productcharacterization = 'Suspect' "
-        // . "ORDER BY id.productindication; ";
+
         $sql = "SELECT DISTINCT "
             . "mv.id, mv.caseid, mv.specificcaseid, mv.DLPVersion, "
             . "pr.productcharacterization, TRIM(REPLACE(pr.productname, '\n', '')) productname, pr.NBBlock, su.substancename "
@@ -213,10 +180,6 @@ class RequetesPemba
         $stmt = $this->em->getConnection()->prepare($sql);
         $stmt_2 = $stmt->execute()->fetchAll();
 
-        // dd($stmt_2[0]['productindication']);
-        // dump($stmt_2);
-        // dd($stmt_2);
-        // if (is_null($stmt_2[0]['productname'])) {
         if (is_null($stmt_2[0])) {
             return "";
         } else {

@@ -12,9 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
 
-class ListeEvalSusarController extends AbstractController
+class ListeDmfrSusarController extends AbstractController
 {
-    #[Route('/liste_eval_susar', name: 'app_liste_eval_susar')]
+    #[Route('/liste_dmfr_susar', name: 'app_liste_dmfr_susar')]
     public function index(ManagerRegistry $doctrine, Request $request, PaginatorInterface $paginator): Response
     {
 
@@ -61,7 +61,7 @@ class ListeEvalSusarController extends AbstractController
         return $this->render('eval_susar/liste_eval_susar.html.twig', [
             'Susars' => $Susars,
             'form' => $form->createView(),
-            'typeIntervenantANSM' => 'DMM'
+            'typeIntervenantANSM' => 'DMFR'
         ]);
     }
 }
