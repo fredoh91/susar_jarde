@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Susar;
-use App\Form\EvalSusarType;
-use App\Form\EvalSusarPostSaisieType;
+use App\Form\DmfrSusarType;
+use App\Form\DmfrSusarPostSaisieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +19,7 @@ class AfficheDmfrSusarController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
         $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($master_id);
-        $form = $this->createForm(EvalSusarType::class, $Susar);
+        $form = $this->createForm(DmfrSusarType::class, $Susar);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -27,7 +27,7 @@ class AfficheDmfrSusarController extends AbstractController
             $em->persist($Susar);
             $em->flush();
             $this->addFlash('success', 'Votre évaluation a bien été prise en compte, vous pouvez fermer cet onglet.');
-            return $this->redirectToRoute('app_affiche_eval_susar_post_saisie', [
+            return $this->redirectToRoute('app_affiche_dmfr_susar_post_saisie', [
                 'master_id' => $master_id,
             ]); 
         }
@@ -43,7 +43,7 @@ class AfficheDmfrSusarController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
         $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($master_id);
-        $form = $this->createForm(EvalSusarPostSaisieType::class, $Susar);
+        $form = $this->createForm(DmfrSusarPostSaisieType::class, $Susar);
         // $form = $this->createForm(EvalSusarType::class, $Susar, [
         //     'attr' => 'ReadOnly',
         // ]);

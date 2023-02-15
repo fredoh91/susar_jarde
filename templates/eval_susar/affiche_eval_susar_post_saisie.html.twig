@@ -8,6 +8,17 @@
 <div class="container-fluid">
 	{{ form_start(form) }}
 	<div class="row">
+
+		<div class="col-4">
+			{{ form_label(form.mesureAction, 'Mesure/Action :') }}
+			{{ form_widget(form.mesureAction) }}
+		</div>
+		<div class="col-6">
+			{{ form_label(form.commentaire, 'Commentaire :') }}
+			{{ form_widget(form.commentaire) }}
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-2">
 			{{ form_label(form.master_id, 'Master_id :') }}
 			{{ form_widget(form.master_id) }}
@@ -15,14 +26,6 @@
 		<div class="col-2">
 			{{ form_label(form.DLPVersion, 'DLP version :') }}
 			{{ form_widget(form.DLPVersion) }}
-		</div>
-		<div class="col-4">
-			{{ form_label(form.mesureAction, 'Mesure/Action :') }}
-			{{ form_widget(form.mesureAction) }}
-		</div>
-		<div class="col-5">
-			{{ form_label(form.commentaire, 'Commentaire :') }}
-			{{ form_widget(form.commentaire) }}
 		</div>
 	</div>
 	<div class="row">
@@ -51,14 +54,14 @@
 			</div>
 		</div> #}
 		{{ form_end(form) }}
-
 	</div>
-	
-	{% for message in app.flashes('success') %}
-		<div class="alert alert-success">
-			{{ message }}
-		</div>
-	{% endfor %}
+	<div class="p-3">
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+	</div>
 {# {{dump (Susar)}} #}
 
 {% endblock %}

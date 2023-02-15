@@ -8,14 +8,13 @@
 <div class="container-fluid">
 	{{ form_start(form) }}
 	<div class="row">
-
 		<div class="col-4">
-			{{ form_label(form.mesureAction, 'Mesure/Action :') }}
-			{{ form_widget(form.mesureAction) }}
+			{{ form_label(form.intervenantANSM, 'Intervenant ANSM :') }}
+			{{ form_widget(form.intervenantANSM) }}
 		</div>
 		<div class="col-6">
-			{{ form_label(form.commentaire, 'Commentaire :') }}
-			{{ form_widget(form.commentaire) }}
+			{# {{ form_label(form.commentaire, 'Commentaire :') }}
+			{{ form_widget(form.commentaire) }} #}
 		</div>
 	</div>
 	<div class="row">
@@ -27,7 +26,6 @@
 			{{ form_label(form.DLPVersion, 'DLP version :') }}
 			{{ form_widget(form.DLPVersion) }}
 		</div>
-
 	</div>
 	<div class="row">
 		<div class="col-12">
@@ -47,6 +45,16 @@
 			<div class="col-6">
 				{{ form_label(form.indication_eng, 'Indication (anglais) :') }}
 				{{ form_widget(form.indication_eng) }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				{{ form_label(form.productname, 'Produit :') }}
+				{{ form_widget(form.productname) }}
+			</div>
+			<div class="col-6">
+				{{ form_label(form.substancename, 'Substance :') }}
+				{{ form_widget(form.substancename) }}
 			</div>
 		</div>
 		<div class="row">
