@@ -67,7 +67,9 @@ class RqSusarController extends AbstractController
             'input' => 'string',
             'data' => $data2,
             ])
-        ->add('Recherche', SubmitType::class)
+        ->add('Recherche', SubmitType::class, [
+            'label' => 'Recherche et import',
+            ])
         ->getForm();
 
         $form->handleRequest($request);

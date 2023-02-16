@@ -23,7 +23,6 @@ class AfficheDmfrSusarController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $Susar->setDateEvalutation(new \DateTime());
             $em->persist($Susar);
             $em->flush();
             $this->addFlash('success', 'Votre évaluation a bien été prise en compte, vous pouvez fermer cet onglet.');

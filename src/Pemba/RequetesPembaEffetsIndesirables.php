@@ -4,7 +4,7 @@ namespace App\Pemba;
 
 use Doctrine\Persistence\ManagerRegistry;
 
-class EffetsIndesirables
+class RequetesPembaEffetsIndesirables
 {
     private $em;
     private $doctrine;
