@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Susar;
-use App\Form\DmfrSusarType;
-use App\Form\DmfrSusarPostSaisieType;
+// use App\Form\DmfrSusarType;
+use App\Form\EditSusarDmfrType;
+// use App\Form\EditSusarEvalType;
+// use App\Form\DmfrSusarPostSaisieType;
+use App\Form\SusarPostSaisieDmfrType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +22,8 @@ class AfficheDmfrSusarController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
         $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($master_id);
-        $form = $this->createForm(DmfrSusarType::class, $Susar);
+        // $form = $this->createForm(DmfrSusarType::class, $Susar);
+        $form = $this->createForm(EditSusarDmfrType::class, $Susar);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -42,7 +46,8 @@ class AfficheDmfrSusarController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
         $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($master_id);
-        $form = $this->createForm(DmfrSusarPostSaisieType::class, $Susar);
+        // $form = $this->createForm(DmfrSusarPostSaisieType::class, $Susar);
+        $form = $this->createForm(SusarPostSaisieDmfrType::class, $Susar);
         // $form = $this->createForm(EvalSusarType::class, $Susar, [
         //     'attr' => 'ReadOnly',
         // ]);

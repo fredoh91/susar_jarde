@@ -64,6 +64,7 @@ class Util
                 $Susar->setIndicationEng($IndicationEng);
                 $Susar->setProductName($productName);
                 $Susar->setSubstanceName($substanceName);
+                $Susar->setNarratif($susar_a_creer['narrativeincludeclinical']);
 
                 // Ajout des médicmaments dans l'entité Medicaments et gestion de la liaison avec l'entité Susar
                 foreach ($lstMed as $medic_a_creer) {

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Glossaire;
-use App\Form\Glossaire1Type;
+use App\Form\GlossaireType;
 use App\Repository\GlossaireRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class GlossaireController extends AbstractController
     public function new(Request $request, GlossaireRepository $glossaireRepository): Response
     {
         $glossaire = new Glossaire();
-        $form = $this->createForm(Glossaire1Type::class, $glossaire);
+        $form = $this->createForm(GlossaireType::class, $glossaire);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class GlossaireController extends AbstractController
     #[Route('/{id}/edit', name: 'app_glossaire_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Glossaire $glossaire, GlossaireRepository $glossaireRepository): Response
     {
-        $form = $this->createForm(Glossaire1Type::class, $glossaire);
+        $form = $this->createForm(GlossaireType::class, $glossaire);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

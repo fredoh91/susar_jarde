@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\TermeRechAttribDMMpole;
-use App\Form\TermeRechAttribDMMpole1Type;
+use App\Form\TermeRechAttribDMMpoleType;
 use App\Repository\TermeRechAttribDMMpoleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class TermeRechAttribDMMpoleController extends AbstractController
     public function new(Request $request, TermeRechAttribDMMpoleRepository $termeRechAttribDMMpoleRepository): Response
     {
         $termeRechAttribDMMpole = new TermeRechAttribDMMpole();
-        $form = $this->createForm(TermeRechAttribDMMpole1Type::class, $termeRechAttribDMMpole);
+        $form = $this->createForm(TermeRechAttribDMMpoleType::class, $termeRechAttribDMMpole);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class TermeRechAttribDMMpoleController extends AbstractController
     #[Route('/{id}/edit', name: 'app_terme_rech_attrib_d_m_mpole_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, TermeRechAttribDMMpole $termeRechAttribDMMpole, TermeRechAttribDMMpoleRepository $termeRechAttribDMMpoleRepository): Response
     {
-        $form = $this->createForm(TermeRechAttribDMMpole1Type::class, $termeRechAttribDMMpole);
+        $form = $this->createForm(TermeRechAttribDMMpoleType::class, $termeRechAttribDMMpole);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

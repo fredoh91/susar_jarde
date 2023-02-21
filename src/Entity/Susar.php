@@ -79,6 +79,9 @@ class Susar
     #[ORM\OneToMany(mappedBy: 'susar', targetEntity: EffetsIndesirables::class)]
     private Collection $EffetsIndesirables;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $narratif = null;
+
     public function __construct()
     {
         $this->Medicament = new ArrayCollection();
@@ -378,6 +381,18 @@ class Susar
                 $effetsIndesirable->setSusar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNarratif(): ?string
+    {
+        return $this->narratif;
+    }
+
+    public function setNarratif(?string $narratif): self
+    {
+        $this->narratif = $narratif;
 
         return $this;
     }

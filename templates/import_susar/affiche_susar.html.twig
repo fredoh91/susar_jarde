@@ -15,9 +15,13 @@
 <div class="container-fluid p-5">
 	{{ form_start(form) }}
 	<div class="row">
-		<div class="col-4">
+		<div class="col-2">
 			{{ form_label(form.master_id, 'Master_id :') }}
 			{{ form_widget(form.master_id) }}
+		</div>
+		<div class="col-2">
+			{{ form_label(form.DLPVersion, 'DLP version :') }}
+			{{ form_widget(form.DLPVersion) }}
 		</div>
 		<div class="col-8">
 			{{ form_label(form.intervenantANSM, 'Intervenant ANSM :') }}
@@ -33,6 +37,22 @@
 				{{ form_label(form.indication, 'Indication :') }}
 				{{ form_widget(form.indication) }}
 			</div> #}
+		</div>
+		<div class="row">
+			<div class="col-12">
+				{{ form_label(form.narratif, 'Narratif :') }}
+				{{ form_widget(form.narratif) }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				{{ form_label(form.productname, 'Produit :') }}
+				{{ form_widget(form.productname) }}
+			</div>
+			<div class="col-6">
+				{{ form_label(form.substancename, 'Substance :') }}
+				{{ form_widget(form.substancename) }}
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-6">

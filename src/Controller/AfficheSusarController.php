@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Susar;
-use App\Form\SusarType;
+// use App\Form\SusarType;
+use App\Form\EditSusarImportDmfrType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class AfficheSusarController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
         $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($master_id);
-        $form = $this->createForm(SusarType::class, $Susar);
+        $form = $this->createForm(EditSusarImportDmfrType::class, $Susar);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,7 +91,7 @@ class AfficheSusarController extends AbstractController
 
                     $entityManager = $doctrine->getManager();
                     $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($next_master_id);
-                    $form = $this->createForm(SusarType::class, $Susar);
+                    $form = $this->createForm(EditSusarImportDmfrType::class, $Susar);
 
                     return $this->redirectToRoute('app_affiche_susar', [
                         'master_id' => $next_master_id,
