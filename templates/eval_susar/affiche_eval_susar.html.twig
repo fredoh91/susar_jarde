@@ -26,35 +26,50 @@
 			{{ form_label(form.DLPVersion, 'DLP version :') }}
 			{{ form_widget(form.DLPVersion) }}
 		</div>
+		<div class="col-8">
+			{{ form_label(form.intervenantANSM, 'Intervenant ANSM :') }}
+			{{ form_widget(form.intervenantANSM) }}
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-12">
 			{{ form_label(form.studytitle, 'Nom de l\'étude :') }}
 				{{ form_widget(form.studytitle) }}
-			</div>
-			{# <div class="col-4">
-				{{ form_label(form.indication, 'Indication :') }}
-				{{ form_widget(form.indication) }}
-			</div> #}
 		</div>
-		<div class="row">
-			<div class="col-6">
-				{{ form_label(form.indication, 'Indication :') }}
-				{{ form_widget(form.indication) }}
-			</div>
-			<div class="col-6">
-				{{ form_label(form.indication_eng, 'Indication (anglais) :') }}
-				{{ form_widget(form.indication_eng) }}
-			</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			{{ form_label(form.narratif, 'Narratif :') }}
+			{{ form_widget(form.narratif) }}
 		</div>
-		<div class="row">
-			<div class="col-3">
-				{{ form_widget(form.Save) }}
-			</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			{{ form_label(form.productname, 'Produit :') }}
+			{{ form_widget(form.productname) }}
 		</div>
+		<div class="col-6">
+			{{ form_label(form.substancename, 'Substance :') }}
+			{{ form_widget(form.substancename) }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			{{ form_label(form.indication, 'Indication :') }}
+			{{ form_widget(form.indication) }}
+		</div>
+		<div class="col-6">
+			{{ form_label(form.indication_eng, 'Indication (anglais) :') }}
+			{{ form_widget(form.indication_eng) }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-3">
+			{{ form_widget(form.Save) }}
+		</div>
+	</div>
 		{{ form_end(form) }}
 
 	</div>
-{# {{dump (Susar)}} #}
 
 {% endblock %}
