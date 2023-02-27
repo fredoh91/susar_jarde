@@ -39,14 +39,17 @@ class RqSusarController extends AbstractController
 
             // recherche des susar en fonction de la $creationDate renseignée   \DateTime::createFromFormat('Y-m-d', $creationdate)
             $Susar = $entityManager->getRepository(Susar::class)->findByCreationdate($creationdate_dateTime);
+            $NbSusar = count($Susar);
             // dd($Susar);
             return $this->render('import_susar/RqSusarDate.html.twig', [
                 'form' => $form->createView(),
                 'Susar' => $Susar,
+                'NbSusar' => $NbSusar,
             ]);
         return $this->render('import_susar/RqSusarDate.html.twig', [
             'form' => $form->createView(),
             'Susar' => '',
+            'NbSusar' => '',
         ]);
     }
 
@@ -97,14 +100,17 @@ class RqSusarController extends AbstractController
             $creationdate_dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $creationdate . " 00:00:00" );
             // recherche des susar en fonction de la $creationDate renseignée   \DateTime::createFromFormat('Y-m-d', $creationdate)
             $Susar = $entityManager->getRepository(Susar::class)->findByCreationdate($creationdate_dateTime);
+            $NbSusar = count($Susar);
             return $this->render('import_susar/RqSusarDate.html.twig', [
                 'form' => $form->createView(),
                 'Susar' => $Susar,
+                'NbSusar' => $NbSusar,
             ]);
         }
         return $this->render('import_susar/RqSusarDate.html.twig', [
             'form' => $form->createView(),
             'Susar' => '',
+            'NbSusar' => '',
         ]);
     }
  

@@ -30,9 +30,15 @@ class SusarPostSaisieBaseType extends AbstractType
             ->add('DLPVersion', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
+            ->add('pays_survenue', TextType::class, [
+                'attr' => ['readonly' => true],
+            ])
             // ->add('creationdate')
             // ->add('statusdate')
             ->add('studytitle', TextType::class, [
+                'attr' => ['readonly' => true],
+            ])
+            ->add('num_eudract', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
             // ->add('sponsorstudynumb')

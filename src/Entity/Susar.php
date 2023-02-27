@@ -82,6 +82,12 @@ class Susar
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $narratif = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pays_survenue = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateAiguillage = null;
+
     public function __construct()
     {
         $this->Medicament = new ArrayCollection();
@@ -393,6 +399,30 @@ class Susar
     public function setNarratif(?string $narratif): self
     {
         $this->narratif = $narratif;
+
+        return $this;
+    }
+
+    public function getPaysSurvenue(): ?string
+    {
+        return $this->pays_survenue;
+    }
+
+    public function setPaysSurvenue(?string $pays_survenue): self
+    {
+        $this->pays_survenue = $pays_survenue;
+
+        return $this;
+    }
+
+    public function getDateAiguillage(): ?\DateTimeInterface
+    {
+        return $this->dateAiguillage;
+    }
+
+    public function setDateAiguillage(?\DateTimeInterface $dateAiguillage): self
+    {
+        $this->dateAiguillage = $dateAiguillage;
 
         return $this;
     }

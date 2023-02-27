@@ -29,9 +29,8 @@ class ListeEvalSusarController extends AbstractController
             if ($form->get('recherche')->isClicked()) {
                 // si on a cliqué sur le bouton de recherche 
                 $TousSusars = $entityManager->getRepository(Susar::class)->findBySearchListeEvalSusar($search);
-    
+                
                 // dd($TousSusars);
-
             } else if ($form->get('reset')->isClicked()) {
                 // si on a cliqué sur le bouton reset 
                 $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
@@ -41,14 +40,11 @@ class ListeEvalSusarController extends AbstractController
             } else {
                 dd('je sais pas quoi faire');
             }
-
-
-
-
         } else {
             // Affichage de tous les susars par defaut :
             $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
         }
+        $NbSusar = count($TousSusars);
         // dump(count($TousSusars));
         $Susars = $paginator->paginate(
             $TousSusars, // Requête contenant les données à paginer (ici nos articles)
@@ -61,7 +57,8 @@ class ListeEvalSusarController extends AbstractController
         return $this->render('eval_susar/liste_eval_susar.html.twig', [
             'Susars' => $Susars,
             'form' => $form->createView(),
-            'typeIntervenantANSM' => 'DMM'
+            'typeIntervenantANSM' => 'DMM',
+            'NbSusar' => $NbSusar,
         ]);
     }
 }

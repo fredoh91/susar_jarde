@@ -34,6 +34,7 @@ class AfficheSusarController extends AbstractController
                  *      - valide le cas en cours
                  *      - affiche la liste des cas pour le jour en cours
                  */
+                $Susar->setDateAiguillage(new \DateTime());
                 $em->persist($Susar);
                 $em->flush();
 
@@ -70,6 +71,8 @@ class AfficheSusarController extends AbstractController
                  *      - cherche le cas suivant
                  *      - si il y a un cas suivant, l'affiche et met a jour l'URL avec l'ID de ce cas suivant
                  */
+                
+                $Susar->setDateAiguillage(new \DateTime());
                 $creationdate = $Susar->getCreationdate();
                 $master_id = $Susar->getMasterId();
                 $em->persist($Susar);

@@ -5,11 +5,12 @@ namespace App\Util;
 use \DateTime;
 use App\Entity\Susar;
 use App\Entity\Medicaments;
-use App\Entity\EffetsIndesirables;
+use App\Pemba\RequetesPemba;
 // use App\Entity\TermeRechAttribDMMpole;
 // use function PHPUnit\Framework\isNull;
-use App\Pemba\RequetesPemba;
 use App\Meddra\RequetesMeddra;
+use App\Entity\IntervenantsANSM;
+use App\Entity\EffetsIndesirables;
 use App\Pemba\RequetesPembaMedicaments;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Pemba\RequetesPembaEffetsIndesirables;
@@ -35,6 +36,7 @@ class Util
                 $RqPembaMedicaments = new RequetesPembaMedicaments($doctrine);
                 $RqPembaEI = new RequetesPembaEffetsIndesirables($doctrine);
                 $RqMeddra = new RequetesMeddra($doctrine);
+                $IntervTherapGen = $entityManager->getRepository(IntervenantsANSM::class)->findOneDMM_pole_court('THÉRAPIE GÉNIQUE');
                 $Indication = $RqPemba->donneListeIndication($susar_a_creer['id']);
                 $Indication = mb_convert_encoding($Indication, 'UTF-8');
                 $CodeIndication = $RqPemba->donneListeCodeIndication($susar_a_creer['id']);
@@ -59,12 +61,18 @@ class Util
                 $Susar->setSponsorstudynumb($susar_a_creer['sponsorstudynumb']);
                 $Susar->setNumEudract($susar_a_creer['num_eudract']);
                 $Susar->setPaysEtude($susar_a_creer['pays_etude']);
+                $Susar->setPaysSurvenue($susar_a_creer['pays_survenue']);
                 $Susar->setTypeSusar($TypeSusar);
                 $Susar->setIndication($Indication);
                 $Susar->setIndicationEng($IndicationEng);
                 $Susar->setProductName($productName);
                 $Susar->setSubstanceName($substanceName);
                 $Susar->setNarratif($susar_a_creer['narrativeincludeclinical']);
+
+                if ($TypeSusar === 'TherapGen') {
+                    $Susar->setIntervenantANSM($IntervTherapGen);
+                    $Susar->setDateAiguillage(new \DateTime());
+                } 
 
                 // Ajout des médicmaments dans l'entité Medicaments et gestion de la liaison avec l'entité Susar
                 foreach ($lstMed as $medic_a_creer) {

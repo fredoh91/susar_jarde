@@ -17,13 +17,28 @@
         <li>Your template at <code><a href="{{ 'D:/www_htdocs/susar_jarde/templates/cas_dc_pronostic_vital/index.html.twig'|file_link(0) }}">templates/cas_dc_pronostic_vital/index.html.twig</a></code></li>
     </ul> #}
 <div class="example-wrapper"> 
+{# <div class="container">  #}
+	{# <div class="row">
+		<div class="col-2">
+			{{ form_label(form.DateCreation, 'Date d\'import :') }}
+		</div>
+		<div class="col-2">
+			{{ form_widget(form.DateCreation) }}
+		</div>
+		<div class="col-2">
+			{{ form_label(form.Recherche, 'Recherche et import') }}
+			{{ form_widget(form.Recherche) }}
+		</div>
+	</div> #}
     {{ form(form) }}
 </div>
-<div class=".container-fluid">
+<div class="container-fluid p-5">
 
     {% if Susar %}
         {# <h3 class="text-center">Cas France - décès et cas France - Pronostic vital</h3> #}
         {# <table class="table table-sm table-bordered table-hover text-center"> #}
+        Nombre de lignes : {{ NbSusar }}
+
         <table class="table table-sm table-bordered table-hover text-center ms-3 me-3">
         <thead class="table-secondary">
             <tr>
@@ -36,8 +51,8 @@
             <th scope="col-2">studytitle</th>
             <th scope="col">sponsorstudynumb</th>
             <th scope="col">num_eudract</th>
-            <th scope="col">pays_etude</th>
-            <th scope="col">TypeSusar</th>
+            <th scope="col">pays_survenue</th>
+            {# <th scope="col">TypeSusar</th> #}
             <th scope="col">Produit(s)</th>
             <th scope="col">Substance(s)</th>
             <th scope="col">indication</th>
@@ -60,8 +75,8 @@
                     <td>{{ cas.studytitle|e }}</td>
                     <td>{{ cas.sponsorstudynumb|e }}</td>
                     <td>{{ cas.NumEudract|e }}</td>
-                    <td>{{ cas.PaysEtude|e }}</td>
-                    <td>{{ cas.TypeSusar|e }}</td>
+                    <td>{{ cas.PaysSurvenue|e }}</td>
+                    {# <td>{{ cas.TypeSusar|e }}</td> #}
                     <td>{{ cas.productName|e }}</td>
                     <td>{{ cas.substanceName|e }}</td>
                     <td>{{ cas.indication|e }}</td>

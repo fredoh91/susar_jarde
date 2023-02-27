@@ -42,13 +42,14 @@ class ListeDmfrSusarController extends AbstractController
                 dd('je sais pas quoi faire');
             }
 
-
-
-
+            
+            
+            
         } else {
             // Affichage de tous les susars par defaut :
             $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
         }
+        $NbSusar = count($TousSusars);
         // dump(count($TousSusars));
         $Susars = $paginator->paginate(
             $TousSusars, // Requête contenant les données à paginer (ici nos articles)
@@ -61,7 +62,8 @@ class ListeDmfrSusarController extends AbstractController
         return $this->render('eval_susar/liste_eval_susar.html.twig', [
             'Susars' => $Susars,
             'form' => $form->createView(),
-            'typeIntervenantANSM' => 'DMFR'
+            'typeIntervenantANSM' => 'DMFR',
+            'NbSusar' => $NbSusar,
         ]);
     }
 }

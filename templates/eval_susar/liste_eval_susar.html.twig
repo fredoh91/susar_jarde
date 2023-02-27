@@ -93,6 +93,8 @@
 
 		<div class="container-fluid">
 			{% if Susars %}
+			
+        		Nombre de lignes : {{ NbSusar }}
 				<h3>Liste des SUSARs</h3>
 				{# {{dump(Susars)}} #}
 				<table class="table table-sm table-bordered table-hover text-center">
@@ -107,13 +109,14 @@
 							<th scope="col-2">studytitle</th>
 							<th scope="col">sponsorstudynumb</th>
 							<th scope="col">num_eudract</th>
-							<th scope="col">pays_etude</th>
+							<th scope="col">pays_survenue</th>
 							{# <th scope="col">TypeSusar</th> #}
 							<th scope="col">produit(s)</th>
 							<th scope="col">substance(s)</th>
 							<th scope="col">indication</th>
 							<th scope="col">indication (angl.)</th>
 							<th scope="col">DMM/Pôle</th>
+							<th scope="col">Date d'aiguillage</th>
 							<th scope="col">Mesure/Action</th>
 							<th scope="col">Date d'évaluation</th>
 						</tr>
@@ -141,7 +144,7 @@
 								<td>{{ Susar.studytitle|e }}</td>
 								<td>{{ Susar.sponsorstudynumb|e }}</td>
 								<td>{{ Susar.NumEudract|e }}</td>
-								<td>{{ Susar.PaysEtude|e }}</td>
+								<td>{{ Susar.PaysSurvenue|e }}</td>
 								{# <td>{{ Susar.TypeSusar|e }}</td> #}
 								<td>{{ Susar.productname|e }}</td>
 								<td>{{ Susar.substancename|e }}</td>
@@ -151,6 +154,11 @@
 									<td>{{ Susar.intervenantANSM.getDMMPole() }}</td>
 								{% else %}
 									<td>Non-attribué</td>
+								{% endif %}
+								{% if Susar.dateAiguillage != null %}
+									<td>{{ Susar.dateAiguillage|format_datetime(locale='fr') }}</td>
+								{% else %}
+									<td>---</td>
 								{% endif %}
 								{% if Susar.MesureAction != null %}
 									<td>{{ Susar.MesureAction.getLibelle() }}</td>
