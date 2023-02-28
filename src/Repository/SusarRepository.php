@@ -68,7 +68,7 @@ class SusarRepository extends ServiceEntityRepository
             //     dump($test . " : false");
             //     return false;
             // }
-                return false;
+            return false;
         } else {
             // dump($test . " : true");
             return true;
@@ -104,29 +104,29 @@ class SusarRepository extends ServiceEntityRepository
     public function findNextMasterIdByCreationdate(DateTimeInterface $creationdate, int $master_id): int
     {
         $SerieSusar = $this->findByCreationdate($creationdate);
-        $iCpt=0;
-        $iCpt_master_id=-1;
+        $iCpt = 0;
+        $iCpt_master_id = -1;
 
-        foreach($SerieSusar as $Susar) {
+        foreach ($SerieSusar as $Susar) {
             $iCpt++;
 
             // dump("--".$Susar->getMasterId() . " icpt : " . $iCpt . " icpt + 1 " .($iCpt_master_id + 1));
 
-            if(($iCpt_master_id + 1) === $iCpt) {
-                $next_master_id=$Susar->getMasterId();
+            if (($iCpt_master_id + 1) === $iCpt) {
+                $next_master_id = $Susar->getMasterId();
                 // dump("NMI : ".$next_master_id);
                 // dd($iCpt);
             }
-            if($Susar->getMasterId()===$master_id) {
-                $iCpt_master_id=$iCpt;
+            if ($Susar->getMasterId() === $master_id) {
+                $iCpt_master_id = $iCpt;
                 // dump("cpt_master_id : " . $iCpt_master_id);
             }
         }
-        if ($iCpt_master_id===$iCpt) {
+        if ($iCpt_master_id === $iCpt) {
             return 0;
         }
-        
-        if(isset($next_master_id)) {
+
+        if (isset($next_master_id)) {
             return $next_master_id;
         }
         return 0;
@@ -148,104 +148,104 @@ class SusarRepository extends ServiceEntityRepository
      * @return Susar|null
      */
     public function findBySearchListeEvalSusar(SearchListeEvalSusar $search): ?array
-    {   
+    {
 
         $query = $this->createQueryBuilder('s');
 
         if ($search->getMasterId()) {
             $query = $query
-            ->andWhere('s.master_id = :mi')
-            ->setParameter('mi', $search->getMasterId());
+                ->andWhere('s.master_id = :mi')
+                ->setParameter('mi', $search->getMasterId());
         }
 
         if ($search->getDLPVersion()) {
             $query = $query
-            ->andWhere('s.DLPVersion = :dv')
-            ->setParameter('dv', $search->getDLPVersion());
+                ->andWhere('s.DLPVersion = :dv')
+                ->setParameter('dv', $search->getDLPVersion());
         }
 
         if ($search->getCaseid()) {
             $query = $query
-            ->andWhere('s.caseid = :ci')
-            ->setParameter('ci', $search->getCaseid());
+                ->andWhere('s.caseid = :ci')
+                ->setParameter('ci', $search->getCaseid());
         }
 
         if ($search->getNumEudract()) {
             $query = $query
-            ->andWhere('s.num_eudract = :ne')
-            ->setParameter('ne', $search->getNumEudract());
+                ->andWhere('s.num_eudract = :ne')
+                ->setParameter('ne', $search->getNumEudract());
         }
 
         if ($search->getSponsorstudynumb()) {
             $query = $query
-            ->andWhere('s.sponsorstudynumb = :ssn')
-            ->setParameter('ssn', $search->getSponsorstudynumb());
+                ->andWhere('s.sponsorstudynumb = :ssn')
+                ->setParameter('ssn', $search->getSponsorstudynumb());
         }
 
         if ($search->getStudytitle()) {
             $query = $query
-            ->andWhere('s.studytitle LIKE :st')
-            ->setParameter('st', '%'.$search->getStudytitle().'%');
+                ->andWhere('s.studytitle LIKE :st')
+                ->setParameter('st', '%' . $search->getStudytitle() . '%');
         }
 
         if ($search->getProductName()) {
             $query = $query
-            ->andWhere('s.productName LIKE :pn')
-            ->setParameter('pn', '%'.$search->getProductName().'%');
+                ->andWhere('s.productName LIKE :pn')
+                ->setParameter('pn', '%' . $search->getProductName() . '%');
         }
 
         if ($search->getSubstanceName()) {
             $query = $query
-            ->andWhere('s.substanceName LIKE :sn')
-            ->setParameter('sn', '%'.$search->getSubstanceName().'%');
+                ->andWhere('s.substanceName LIKE :sn')
+                ->setParameter('sn', '%' . $search->getSubstanceName() . '%');
         }
 
         if ($search->getIndication()) {
             $query = $query
-            ->andWhere('s.indication LIKE :if')
-            ->setParameter('if', '%'.$search->getIndication().'%');
+                ->andWhere('s.indication LIKE :if')
+                ->setParameter('if', '%' . $search->getIndication() . '%');
         }
 
         if ($search->getIndicationEng()) {
             $query = $query
-            ->andWhere('s.indication_eng LIKE :ie')
-            ->setParameter('ie', '%'.$search->getIndicationEng().'%');
+                ->andWhere('s.indication_eng LIKE :ie')
+                ->setParameter('ie', '%' . $search->getIndicationEng() . '%');
         }
 
-// dd($search->getIntervenantANSM()->getDMMPoleCourt());
+        // dd($search->getIntervenantANSM()->getDMMPoleCourt());
         if ($search->getIntervenantANSM()) {
             $query = $query
-            ->leftJoin('s.intervenantANSM', 'iANSM')
-            ->andWhere('iANSM.DMM_pole_court LIKE :ia')
-            ->setParameter('ia', '%'.$search->getIntervenantANSM()->getDMMPoleCourt().'%');
+                ->leftJoin('s.intervenantANSM', 'iANSM')
+                ->andWhere('iANSM.DMM_pole_court LIKE :ia')
+                ->setParameter('ia', '%' . $search->getIntervenantANSM()->getDMMPoleCourt() . '%');
         }
 
-// dd($search->getMesureAction()->getLibelle());
+        // dd($search->getMesureAction()->getLibelle());
         if ($search->getMesureAction()) {
             $query = $query
-            ->leftJoin('s.MesureAction', 'ma')
-            ->andWhere('ma.Libelle LIKE :ia')
-            ->setParameter('ia', '%'.$search->getMesureAction()->getLibelle().'%');
+                ->leftJoin('s.MesureAction', 'ma')
+                ->andWhere('ma.Libelle LIKE :ia')
+                ->setParameter('ia', '%' . $search->getMesureAction()->getLibelle() . '%');
         }
 
-        return $query 
+        return $query
             ->getQuery()
             ->getResult();
     }
 
-
-       /**
-        * @return Susar[] Returns an array of Susar objects
-        */
-       public function findFiveFirst(): array
-       {
-           return $this->createQueryBuilder('s')
-               ->orderBy('s.id', 'ASC')
-               ->setMaxResults(5)
-               ->getQuery()
-               ->getResult()
-           ;
-       }
+    /**
+     * retourne les 5 premiers Susar, pour tester
+     *
+     * @return array Susar[] Returns an array of Susar objects
+     */
+    public function findFiveFirst(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->orderBy('s.id', 'ASC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Susar[] Returns an array of Susar objects
