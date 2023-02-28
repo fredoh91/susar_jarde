@@ -2,8 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\Susar;
+use DateTime;
 // use App\Entity\IntervenantsANSM;
+use App\Entity\Susar;
 use DateTimeInterface;
 use App\Entity\SearchListeEvalSusar;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,10 +19,14 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  * @method Susar[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SusarRepository extends ServiceEntityRepository
-{
+{    
+    // private $connexion;
+    private $registry;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Susar::class);
+        $this->registry = $registry;
     }
 
     public function save(Susar $entity, bool $flush = false): void
@@ -246,6 +251,118 @@ class SusarRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * retourne le nombre de susar import pour la creationdate envoyé en parametre
+     *
+     * @return array
+     */
+    public function LstSusarImporte(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('count(s.id), s.creationdate')
+            ->groupBy('s.creationdate')
+            ->orderBy('s.creationdate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+                        /*************************************/
+                        /**    Bilan des susars importés    **/
+                        /*************************************/
+
+    /**
+     * retourne le nombre de susar import pour la creationdate envoyé en parametre
+     *
+     * @return Int
+     */
+    public function NbSusarImporte(): Int
+    {
+        return $this->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * retourne le nombre de susar importés NON-AIGUILLÉS pour la creationdate envoyé en parametre
+     *
+     * @return Int
+     */
+    public function NbSusarNonAiguille(DateTime $creationdate): Int
+    {
+        return $this->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->andWhere('s.dateAiguillage IS NULL')
+            ->andWhere('s.creationdate = :val')
+            ->setParameter('val', $creationdate)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * retourne le nombre de susar importés AIGUILLÉS pour la creationdate envoyé en parametre
+     *
+     * @return Int
+     */
+    public function NbSusarAiguille(DateTime $creationdate): Int
+    {
+        return $this->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->andWhere('s.dateAiguillage IS NOT NULL')
+            ->andWhere('s.creationdate = :val')
+            ->setParameter('val', $creationdate)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+    /**
+     * retourne le nombre de susar importés NON-ÉVALUÉS pour la creationdate envoyé en parametre
+     *
+     * @return Int
+     */
+    public function NbSusarNonEvalue(DateTime $creationdate): Int
+    {
+        return $this->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->andWhere('s.dateEvaluation IS NULL')
+            ->andWhere('s.creationdate = :val')
+            ->setParameter('val', $creationdate)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * retourne le nombre de susar importés ÉVALUÉS pour la creationdate envoyé en parametre
+     *
+     * @return Int
+     */
+    public function NbSusarEvalue(DateTime $creationdate): Int
+    {
+        return $this->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->andWhere('s.dateEvaluation IS NOT NULL')
+            ->andWhere('s.creationdate = :val')
+            ->setParameter('val', $creationdate)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+    public function effaceBilanSusar(): void
+    {
+        // dd($this->connexion);
+        $sql = "START TRANSACTION;";
+        $sql .= "SET FOREIGN_KEY_CHECKS=0;";
+        $sql .= "TRUNCATE bilansusar;";
+        $sql .= "SET FOREIGN_KEY_CHECKS=1;";
+        $sql .= "COMMIT;";
+
+        $this->registry->getConnection()->query($sql);
+
+    }
+
 
     //    /**
     //     * @return Susar[] Returns an array of Susar objects

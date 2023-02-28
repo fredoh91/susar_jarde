@@ -68,6 +68,7 @@ class Util
                 $Susar->setProductName($productName);
                 $Susar->setSubstanceName($substanceName);
                 $Susar->setNarratif($susar_a_creer['narrativeincludeclinical']);
+                $Susar->setDateImport(new \DateTime());
 
                 if ($TypeSusar === 'TherapGen') {
                     $Susar->setIntervenantANSM($IntervTherapGen);

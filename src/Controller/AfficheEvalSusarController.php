@@ -26,7 +26,7 @@ class AfficheEvalSusarController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $Susar->setDateEvalutation(new \DateTime());
+            $Susar->setDateEvaluation(new \DateTime());
 // dd( $Susar);
             $em->persist($Susar);
             $em->flush();

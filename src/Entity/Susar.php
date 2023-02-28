@@ -71,7 +71,7 @@ class Susar
     private ?string $Commentaire = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateEvalutation = null;
+    private ?\DateTimeInterface $dateEvaluation = null;
 
     #[ORM\OneToMany(mappedBy: 'susar', targetEntity: Medicaments::class)]
     private Collection $Medicament;
@@ -87,6 +87,9 @@ class Susar
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateAiguillage = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateImport = null;
 
     public function __construct()
     {
@@ -319,14 +322,14 @@ class Susar
         return $this;
     }
 
-    public function getDateEvalutation(): ?\DateTimeInterface
+    public function getDateEvaluation(): ?\DateTimeInterface
     {
-        return $this->dateEvalutation;
+        return $this->dateEvaluation;
     }
 
-    public function setDateEvalutation(?\DateTimeInterface $dateEvalutation): self
+    public function setDateEvaluation(?\DateTimeInterface $dateEvaluation): self
     {
-        $this->dateEvalutation = $dateEvalutation;
+        $this->dateEvaluation = $dateEvaluation;
 
         return $this;
     }
@@ -423,6 +426,18 @@ class Susar
     public function setDateAiguillage(?\DateTimeInterface $dateAiguillage): self
     {
         $this->dateAiguillage = $dateAiguillage;
+
+        return $this;
+    }
+
+    public function getDateImport(): ?\DateTimeInterface
+    {
+        return $this->dateImport;
+    }
+
+    public function setDateImport(?\DateTimeInterface $DateImport): self
+    {
+        $this->dateImport = $DateImport;
 
         return $this;
     }

@@ -60,9 +60,11 @@ class AfficheSusarController extends AbstractController
                 ->add('Recherche', SubmitType::class)
                 ->getForm();
 
+                $NbSusar = count($Susar);
                 return $this->render('import_susar/RqSusarDate.html.twig', [
                     'form' => $form->createView(),
                     'Susar' => $Susar,
+                    'NbSusar' => $NbSusar,
                 ]); 
             } else if ($form->get('SaveAndNext')->isClicked()) {
                 /**

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BilanSusarsImportesController!
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container-fluid p-5">
+	{% if BilanSusars %}
+
+		Nombre de lignes :
+		{{ NbBilanSusar }}
+		<h3>Liste des SUSARs</h3>
+		{# {{dump(Susars)}} #}
+		<table class="table table-sm table-bordered table-hover text-center">
+			<thead class="table-secondary">
+				<tr>
+					<th scope="col">Date de création</th>
+					<th scope="col">Date d'import</th>
+					<th scope="col">Nombre de SUSARs importés</th>
+					<th scope="col">Nombre de SUSARs non-aiguillés</th>
+					<th scope="col">Nombre de SUSARs aiguillés</th>
+					<th scope="col">Nombre de SUSARs non-évalués</th>
+					<th scope="col">Nombre de SUSARs évalués</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				{% for BilanSusar in BilanSusars %}
+					<tr>
+						<td>{{ BilanSusar.creationdate|format_datetime('short', 'none', locale='fr') }}</td>
+						<td>{{ BilanSusar.dateImport|format_datetime('short', 'none', locale='fr') }}</td>
+						<td>{{ BilanSusar.NbTotal|e }}</td>
+						<td>{{ BilanSusar.NbNonAiguille|e }}</td>
+						<td>{{ BilanSusar.NbAiguille|e }}</td>
+						<td>{{ BilanSusar.NbNonEvalue|e }}</td>
+						<td>{{ BilanSusar.NbEvalue|e }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+
+		{{ knp_pagination_render(BilanSusars) }}
+	{% endif %}
+</div>
+
+{% endblock %}
