@@ -16,7 +16,9 @@ class SearchListeEvalSusar
     private ?string $indication_eng = null;
     private ?IntervenantsANSM $intervenantANSM = null;
     private ?MesureAction $MesureAction = null;
-
+    private ?\DateTimeInterface $debutDateAiguillage = null;
+    private ?\DateTimeInterface $finDateAiguillage = null;
+    private ?string $evalue = null;
  
     public function getMasterId(): ?int
     {
@@ -169,4 +171,41 @@ class SearchListeEvalSusar
 
         return $this;
     }
+    
+    public function getDebutDateAiguillage(): ?\DateTimeInterface
+    {
+        return $this->debutDateAiguillage;
+    }
+
+    public function setDebutDateAiguillage(?\DateTimeInterface $debutDateAiguillage): self
+    {
+        $this->debutDateAiguillage = $debutDateAiguillage;
+
+        return $this;
+    }
+    
+    public function getFinDateAiguillage(): ?\DateTimeInterface
+    {
+        return $this->finDateAiguillage;
+    }
+
+    public function setFinDateAiguillage(?\DateTimeInterface $finDateAiguillage): self
+    {
+        $this->finDateAiguillage = $finDateAiguillage;
+
+        return $this;
+    }
+    
+    public function getEvalue(): ?string
+    {
+        return $this->evalue;
+    }
+
+    public function setEvalue(?string $evalue): self
+    {
+        $this->evalue = $evalue;
+
+        return $this;
+    }
+
 }

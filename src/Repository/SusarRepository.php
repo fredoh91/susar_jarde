@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use DateTime;
 // use App\Entity\IntervenantsANSM;
+use DateInterval;
 use App\Entity\Susar;
 use DateTimeInterface;
 use App\Entity\SearchListeEvalSusar;
@@ -231,6 +232,28 @@ class SusarRepository extends ServiceEntityRepository
                 ->leftJoin('s.MesureAction', 'ma')
                 ->andWhere('ma.Libelle LIKE :ia')
                 ->setParameter('ia', '%' . $search->getMesureAction()->getLibelle() . '%');
+        }
+
+        if ($search->getDebutDateAiguillage()) {
+            $query = $query
+                ->andWhere('s.dateAiguillage >= :da')
+                ->setParameter('da', $search->getDebutDateAiguillage());
+        }
+
+        if ($search->getFinDateAiguillage()) {
+            $query = $query
+                ->andWhere('s.dateAiguillage <= :fa')
+                ->setParameter('fa', $search->getFinDateAiguillage()->modify('+1 day'));
+        }
+
+        if ($search->getEvalue()) {
+            if ($search->getEvalue() === 'Non') {
+                $query = $query
+                    ->andWhere('s.dateEvaluation IS NULL');
+            } elseif ($search->getEvalue() === 'Oui') {
+                $query = $query
+                    ->andWhere('s.dateEvaluation IS NOT NULL');
+            } else {}
         }
 
         return $query

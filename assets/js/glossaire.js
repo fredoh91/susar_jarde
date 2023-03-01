@@ -9,6 +9,7 @@ function recupjson(evt) {
 
     evt.preventDefault();
 
+    // fetch(`http://172.16.71.227/susar_jarde/public/index.php/retour_json/${RechIndic}`)
     fetch(`http://localhost/susar_jarde/public/index.php/retour_json/${RechIndic}`)
         .then(data => data.json())
         .then(jsonData => {

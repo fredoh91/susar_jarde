@@ -11,8 +11,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
@@ -72,6 +74,30 @@ class SearchListeEvalSusarType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
             ])
+            ->add('debutDateAiguillage', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'début de date d\'aiguillage : ',
+                'format' => 'yyyy-MM-dd',
+                // 'input' => 'string',
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+                ])
+            ->add('finDateAiguillage', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'fin de date d\'aiguillage : ',
+                'format' => 'yyyy-MM-dd',
+                // 'input' => 'string',
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+                ])
+            ->add('evalue', ChoiceType::class, [
+                    'choices'  => [
+                        '' => null,
+                        'Oui' => 'Oui',
+                        'Non' => 'Non',
+                    ],
+                    'attr' => ['class' => 'chpRq'],
+                ])
             ->add('recherche', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary m-2'],
                 'label' => 'Rechercher',
