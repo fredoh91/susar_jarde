@@ -1,8 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des SUSARs
-{% endblock %}
-
 {% block body %}
 
 
@@ -68,6 +65,14 @@
 			<div class="col-3">
 				{{ form_label(form.mesureAction, 'Mesure / Action :') }}
 				{{ form_widget(form.mesureAction) }}
+			</div>
+			<div class="col-1">
+				{{ form_label(form.debutCreationDate, 'Début date création EUDRA :') }}
+				{{ form_widget(form.debutCreationDate) }}
+			</div>
+			<div class="col-1">
+				{{ form_label(form.finCreationDate, 'Fin date création EUDRA :') }}
+				{{ form_widget(form.finCreationDate) }}
 			</div>
 			<div class="col-1">
 				{{ form_label(form.debutDateAiguillage, 'Début date aiguillage :') }}

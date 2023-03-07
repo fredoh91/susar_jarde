@@ -90,6 +90,23 @@ class SearchListeEvalSusarType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
                 ])
+                
+            ->add('debutCreationDate', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'début de date de création EUDRA : ',
+                'format' => 'yyyy-MM-dd',
+                // 'input' => 'string',
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+                ])
+            ->add('finCreationDate', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'fin de date de création EUDRA : ',
+                'format' => 'yyyy-MM-dd',
+                // 'input' => 'string',
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+                ])
             ->add('evalue', ChoiceType::class, [
                     'choices'  => [
                         '' => null,

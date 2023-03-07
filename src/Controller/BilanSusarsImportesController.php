@@ -10,8 +10,10 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Security("is_granted('ROLE_DMFR_REF') or is_granted('ROLE_SURV_PILOTEVEC')")]
 class BilanSusarsImportesController extends AbstractController
 {
     #[Route('/bilan_susars_importes', name: 'app_bilan_susars_importes')]
@@ -34,10 +36,14 @@ class BilanSusarsImportesController extends AbstractController
 
             $bilanSusar->setCreationdate($creationDate);
             $bilanSusar->setNbTotal($SusarImporte[1]);
-            $bilanSusar->setNbNonAiguille($repo->NbSusarNonAiguille($creationDate));
-            $bilanSusar->setNbAiguille($repo->NbSusarAiguille($creationDate));
-            $bilanSusar->setNbNonEvalue($repo->NbSusarNonEvalue($creationDate));
-            $bilanSusar->setNbEvalue($repo->NbSusarEvalue($creationDate));
+            $bilanSusar->setNbNonAiguille($repo->NbSusarAiguilleEvalue($creationDate,'dateAiguillage',''));
+            $bilanSusar->setNbAiguille($repo->NbSusarAiguilleEvalue($creationDate,'dateAiguillage','NOT'));
+            $bilanSusar->setNbNonEvalue($repo->NbSusarAiguilleEvalue($creationDate,'dateEvaluation',''));
+            $bilanSusar->setNbEvalue($repo->NbSusarAiguilleEvalue($creationDate,'dateEvaluation','NOT'));
+            // $bilanSusar->setNbNonAiguille($repo->NbSusarNonAiguille($creationDate));
+            // $bilanSusar->setNbAiguille($repo->NbSusarAiguille($creationDate));
+            // $bilanSusar->setNbNonEvalue($repo->NbSusarNonEvalue($creationDate));
+            // $bilanSusar->setNbEvalue($repo->NbSusarEvalue($creationDate));
 
             $em->persist($bilanSusar);
             $em->flush();

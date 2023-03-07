@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SUSAR_Jardé
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class="text-center">
+			<h1 class="text-center">SUSAR_Jardé</h1>
+			<ul>
+
+				{% if is_granted('ROLE_DMFR_GEST') %}
+					<li class="">
+						<a class="" href="{{ path ('RqSusarDate') }}">Import des SUSARs depuis la BNPV</a>
+					</li>
+				{% endif %}
+
+				{% if is_granted('ROLE_DMFR_REF') or is_granted('ROLE_SURV_PILOTEVEC') %}
+					<li class="">
+						<a class="" href="{{ path ('app_liste_dmfr_susar') }}">Liste des SUSARs (pour DMFR)</a>
+					</li>
+
+					<li class="">
+						<a class="" href="{{ path ('app_bilan_susars_importes') }}">Bilan des SUSARs importés (pour DMFR)</a>
+					</li>
+				{% endif %}
+
+				{% if is_granted('ROLE_DMM_EVAL')  or is_granted('ROLE_SURV_PILOTEVEC') %}
+					<li class="">
+						<a class="" href="{{ path ('app_liste_eval_susar') }}">Liste des SUSARs à évaluer (pour DMM)</a>
+					</li>
+				{% endif %}
+
+				{% if is_granted('ROLE_DMFR_ADMIN') or is_granted('ROLE_SURV_ADMIN') %}
+					<li class="">
+						<a class="" href="{{ path ('app_admin_tbref') }}">Administration des tables de référence</a>
+					</li>
+				{% endif %}
+
+			</ul>
+		</div>
+	</div>
+
+{% endblock %}

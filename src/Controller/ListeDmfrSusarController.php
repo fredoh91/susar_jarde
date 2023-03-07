@@ -10,8 +10,10 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Security("is_granted('ROLE_DMFR_REF') or is_granted('ROLE_SURV_PILOTEVEC')")]
 class ListeDmfrSusarController extends AbstractController
 {
     #[Route('/liste_dmfr_susar', name: 'app_liste_dmfr_susar')]
@@ -42,9 +44,6 @@ class ListeDmfrSusarController extends AbstractController
                 dd('je sais pas quoi faire');
             }
 
-            
-            
-            
         } else {
             // Affichage de tous les susars par defaut :
             $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
@@ -56,8 +55,6 @@ class ListeDmfrSusarController extends AbstractController
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
             15 // Nombre de résultats par page
         );
-
-
 
         return $this->render('eval_susar/liste_eval_susar.html.twig', [
             'Susars' => $Susars,

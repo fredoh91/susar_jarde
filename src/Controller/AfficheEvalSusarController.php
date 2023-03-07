@@ -12,8 +12,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Security("is_granted('ROLE_DMM_EVAL') or is_granted('ROLE_SURV_PILOTEVEC')")]
 class AfficheEvalSusarController extends AbstractController
 {
     #[Route('/affiche_eval_susar/{master_id}', name: 'app_affiche_eval_susar')]

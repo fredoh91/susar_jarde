@@ -6,7 +6,7 @@ use DateTime;
 use App\Util\Util;
 use App\Entity\Susar;
 use DateTimeImmutable;
-use App\Form\RqSusarType;
+// use App\Form\RqSusarType;
 use App\Pemba\RequetesPemba;
 use App\Entity\TermeRechAttribDMMpole;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,11 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Security("is_granted('ROLE_DMFR_GEST')")]
 class RqSusarController extends AbstractController
 {
-
     #[Route('/RqSusarDate/{creationdate}', name: 'RqSusarDateAffDate')]
     public function RqSusarDateAffDate(string $creationdate, ManagerRegistry $doctrine, Request $request): Response
     {

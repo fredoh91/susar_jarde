@@ -1,31 +1,64 @@
 <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-    <a class="navbar-brand" href="#">SUSAR_Jardé</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-        {# <li class="nav-item">
-            <a class="nav-link" href="{{ path ('RqPembaDate') }}">Rq PEMBA</a>
-        </li> #}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path ('RqSusarDate') }}">Import des SUSARs depuis la BNPV</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path ('app_liste_dmfr_susar') }}">Liste des SUSARs (pour DMFR)</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path ('app_bilan_susars_importes') }}">Bilan des SUSARs importés (pour DMFR)</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path ('app_liste_eval_susar') }}">Liste des SUSARs à évaluer (pour DMM)</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path ('app_admin_tbref') }}">Administration des tables de référence</a>
-        </li>
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{{ path ('app_home') }}">SUSAR_Jardé</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div
+			class="collapse navbar-collapse" id="navbarNav">
+			{# Lien vers les différents écrans de l'application SUSAR_Jardé #}
+			<ul
+				class="navbar-nav">
 
-        </ul>
-    </div>
-    </div>
+				{# Menu import des SUSAR depuis la BNPV et aiguillage des SUSAR#}
+				{% if is_granted('ROLE_DMFR_GEST') %}
+					<li class="nav-item me-auto mb-2 mb-lg-0">
+						<a class="nav-link" href="{{ path ('RqSusarDate') }}">Import des SUSARs depuis la BNPV et/ou aiguillage vers les DMM</a>
+					</li>
+				{% endif %}
+
+
+				{% if is_granted('ROLE_DMFR_REF') or is_granted('ROLE_SURV_PILOTEVEC') %}
+					{# Menus SUSAR DMFR : requete sur les SUSAR et modif de l'aiguillage #}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path ('app_liste_dmfr_susar') }}">Liste des SUSARs (pour DMFR)</a>
+					</li>
+
+					{# Menus SUSAR : statistique d'import/aiguillage #}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path ('app_bilan_susars_importes') }}">Bilan des SUSARs importés (pour DMFR)</a>
+					</li>
+				{% endif %}
+
+				{% if is_granted('ROLE_DMM_EVAL')  or is_granted('ROLE_SURV_PILOTEVEC') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path ('app_liste_eval_susar') }}">Liste des SUSARs à évaluer (pour DMM)</a>
+					</li>
+				{% endif %}
+
+				{% if is_granted('ROLE_DMFR_ADMIN') or is_granted('ROLE_SURV_ADMIN') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path ('app_admin_tbref') }}">Administration</a>
+					</li>
+				{% endif %}
+
+			</ul>
+
+			{# Liens pour la connexion/deconnexion #}
+			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+				{% if app.user %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path ('app_logout') }}">Deconnexion</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path ('app_login') }}">Connexion</a>
+					</li>
+					{# <li class="nav-item">
+																									<a class="nav-link" href="{{ path ('app_contact_admin') }}">Inscription</a>
+																								</li> #}
+				{% endif %}
+			</ul>
+		</div>
+	</div>
 </nav>

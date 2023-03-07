@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Glossaire;
 use App\Form\GlossaireType;
 use App\Repository\GlossaireRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Security("is_granted('ROLE_DMFR_ADMIN') or is_granted('ROLE_SURV_ADMIN')")]
 #[Route('/admin_tbref/glossaire')]
 class GlossaireController extends AbstractController
 {

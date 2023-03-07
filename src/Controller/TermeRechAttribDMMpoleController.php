@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Security("is_granted('ROLE_DMFR_ADMIN') or is_granted('ROLE_SURV_ADMIN')")]
 #[Route('/admin_tbref/terme_rech_attrib_dmmpole')]
 class TermeRechAttribDMMpoleController extends AbstractController
 {

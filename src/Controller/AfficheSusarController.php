@@ -13,9 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
+#[Security("is_granted('ROLE_DMFR_GEST')")]
 class AfficheSusarController extends AbstractController
 {
     #[Route('/affiche_susar/{master_id}', name: 'app_affiche_susar')]

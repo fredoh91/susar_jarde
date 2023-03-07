@@ -18,6 +18,8 @@ class SearchListeEvalSusar
     private ?MesureAction $MesureAction = null;
     private ?\DateTimeInterface $debutDateAiguillage = null;
     private ?\DateTimeInterface $finDateAiguillage = null;
+    private ?\DateTimeInterface $debutCreationDate = null;
+    private ?\DateTimeInterface $finCreationDate = null;
     private ?string $evalue = null;
  
     public function getMasterId(): ?int
@@ -171,7 +173,7 @@ class SearchListeEvalSusar
 
         return $this;
     }
-    
+
     public function getDebutDateAiguillage(): ?\DateTimeInterface
     {
         return $this->debutDateAiguillage;
@@ -194,6 +196,30 @@ class SearchListeEvalSusar
         $this->finDateAiguillage = $finDateAiguillage;
 
         return $this;
+    } 
+
+    public function getDebutCreationDate(): ?\DateTimeInterface
+    {
+        return $this->debutCreationDate;
+    }
+
+    public function setDebutCreationDate(?\DateTimeInterface $debutCreationDate): self
+    {
+        $this->debutCreationDate = $debutCreationDate;
+
+        return $this;
+    }
+    
+    public function getFinCreationDate(): ?\DateTimeInterface
+    {
+        return $this->finCreationDate;
+    }
+
+    public function setFinCreationDate(?\DateTimeInterface $finCreationDate): self
+    {
+        $this->finCreationDate = $finCreationDate;
+
+        return $this;
     }
     
     public function getEvalue(): ?string
@@ -207,5 +233,4 @@ class SearchListeEvalSusar
 
         return $this;
     }
-
 }

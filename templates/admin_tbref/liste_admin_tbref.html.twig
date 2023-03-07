@@ -1,38 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des SUSARs
-{% endblock %}
-
 {% block body %}
-{# <ul>
-<li><a href="{{ path('app_glossaire_index') }}">Administration du glossaire</a></li>
-<li><a href="{{ path('app_terme_rech_attrib_d_m_mpole_index') }}">Administration de la table de thérapie génique</a></li>
-</ul> #}
-
-
-
-
-
-
-<div class="container p-5">
-
-	<div class="list-group">
-	<a href="{{ path('app_glossaire_index') }}" class="list-group-item list-group-item-action">
-		<div class="d-flex w-100 justify-content-between">
-		<h5 class="mb-1">Administration du glossaire</h5>
-		{# <small>3 days ago</small> #}
+	<div class="container p-5">
+		<div class="list-group">
+			{% if is_granted('ROLE_DMFR_ADMIN') or is_granted('ROLE_SURV_ADMIN') %}
+				<a href="{{ path('app_glossaire_index') }}" class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Administration du glossaire</h5>
+					</div>
+					<p class="mb-1">Le glossaire est utilisé pour aiguiller les SUSARs selon l'indication.</p>
+				</a>
+				<a href="{{ path('app_terme_rech_attrib_d_m_mpole_index') }}" class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Administration de la table de recherche pour thérapie génique</h5>
+					</div>
+					<p class="mb-1">Cette table permet d'identifier les SUSARs "thérapie génique" selon le NumEUDRA_CT, le produit ...</p>
+				</a>
+			{% endif %}
+			{% if is_granted('ROLE_SUPER_ADMIN') %}
+				<a href="{{ path('app_register') }}" class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Ajout d'un utilisateur</h5>
+					</div>
+					<p class="mb-1"></p>
+				</a>
+				<a href="{{ path('app_liste_user') }}" class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Liste des utilisateurs</h5>
+					</div>
+					<p class="mb-1"></p>
+				</a>
+			{% endif %}
 		</div>
-		<p class="mb-1">Le glossaire est utilisé pour aiguiller les SUSARs selon l'indication.</p>
-	</a>
-	<a href="{{ path('app_terme_rech_attrib_d_m_mpole_index') }}" class="list-group-item list-group-item-action">
-		<div class="d-flex w-100 justify-content-between">
-		<h5 class="mb-1">Administration de la table de recherche pour thérapie génique</h5>
-		{# <small class="text-muted">3 days ago</small> #}
-		</div>
-		<p class="mb-1">Cette table permet d'identifier les SUSARs "thérapie génique" selon le NumEUDRA_CT, le produit ...</p>
-	</a>
 	</div>
-
-</div>
-
 {% endblock %}

@@ -6,12 +6,14 @@ use App\Entity\Susar;
 use App\Entity\SearchListeEvalSusar;
 use App\Form\SearchListeEvalSusarType;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Knp\Component\Pager\PaginatorInterface;
 
+#[Security("is_granted('ROLE_DMM_EVAL') or is_granted('ROLE_SURV_PILOTEVEC')")]
 class ListeEvalSusarController extends AbstractController
 {
     #[Route('/liste_eval_susar', name: 'app_liste_eval_susar')]

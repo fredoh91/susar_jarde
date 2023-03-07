@@ -234,16 +234,28 @@ class SusarRepository extends ServiceEntityRepository
                 ->setParameter('ia', '%' . $search->getMesureAction()->getLibelle() . '%');
         }
 
+        if ($search->getDebutCreationDate()) {
+            $query = $query
+                ->andWhere('s.creationdate >= :dcd')
+                ->setParameter('dcd', $search->getDebutCreationDate());
+        }
+
+        if ($search->getFinCreationDate()) {
+            $query = $query
+                ->andWhere('s.creationdate <= :fcd')
+                ->setParameter('fcd', $search->getFinCreationDate());
+        }
+
         if ($search->getDebutDateAiguillage()) {
             $query = $query
-                ->andWhere('s.dateAiguillage >= :da')
-                ->setParameter('da', $search->getDebutDateAiguillage());
+                ->andWhere('s.dateAiguillage >= :dda')
+                ->setParameter('dda', $search->getDebutDateAiguillage());
         }
 
         if ($search->getFinDateAiguillage()) {
             $query = $query
-                ->andWhere('s.dateAiguillage <= :fa')
-                ->setParameter('fa', $search->getFinDateAiguillage()->modify('+1 day'));
+                ->andWhere('s.dateAiguillage <= :fda')
+                ->setParameter('fda', $search->getFinDateAiguillage()->modify('+1 day'));
         }
 
         if ($search->getEvalue()) {
@@ -308,64 +320,15 @@ class SusarRepository extends ServiceEntityRepository
     }
 
     /**
-     * retourne le nombre de susar importés NON-AIGUILLÉS pour la creationdate envoyé en parametre
+     * retourne le nombre de susar importés AIGUILLÉS et ÉVALUÉS pour la creationdate envoyé en parametre
      *
      * @return Int
      */
-    public function NbSusarNonAiguille(DateTime $creationdate): Int
+    public function NbSusarAiguilleEvalue(DateTime $creationdate, string $nomColonne, string $nullNotNull): Int
     {
         return $this->createQueryBuilder('s')
             ->select('count(s.id)')
-            ->andWhere('s.dateAiguillage IS NULL')
-            ->andWhere('s.creationdate = :val')
-            ->setParameter('val', $creationdate)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
-    /**
-     * retourne le nombre de susar importés AIGUILLÉS pour la creationdate envoyé en parametre
-     *
-     * @return Int
-     */
-    public function NbSusarAiguille(DateTime $creationdate): Int
-    {
-        return $this->createQueryBuilder('s')
-            ->select('count(s.id)')
-            ->andWhere('s.dateAiguillage IS NOT NULL')
-            ->andWhere('s.creationdate = :val')
-            ->setParameter('val', $creationdate)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
-
-    /**
-     * retourne le nombre de susar importés NON-ÉVALUÉS pour la creationdate envoyé en parametre
-     *
-     * @return Int
-     */
-    public function NbSusarNonEvalue(DateTime $creationdate): Int
-    {
-        return $this->createQueryBuilder('s')
-            ->select('count(s.id)')
-            ->andWhere('s.dateEvaluation IS NULL')
-            ->andWhere('s.creationdate = :val')
-            ->setParameter('val', $creationdate)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
-    /**
-     * retourne le nombre de susar importés ÉVALUÉS pour la creationdate envoyé en parametre
-     *
-     * @return Int
-     */
-    public function NbSusarEvalue(DateTime $creationdate): Int
-    {
-        return $this->createQueryBuilder('s')
-            ->select('count(s.id)')
-            ->andWhere('s.dateEvaluation IS NOT NULL')
+            ->andWhere('s.' . $nomColonne . ' IS ' . $nullNotNull . ' NULL')
             ->andWhere('s.creationdate = :val')
             ->setParameter('val', $creationdate)
             ->getQuery()
