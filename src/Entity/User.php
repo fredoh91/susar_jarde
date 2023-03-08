@@ -43,6 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $DateCreation = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $DateDerniereConnexion = null;
+
 
     public function __construct()
     {
@@ -163,6 +166,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateCreation(?\DateTimeInterface $DateCreation): self
     {
         $this->DateCreation = $DateCreation;
+
+        return $this;
+    }
+
+    public function getDateDerniereConnexion(): ?\DateTimeInterface
+    {
+        return $this->DateDerniereConnexion;
+    }
+
+    public function setDateDerniereConnexion(?\DateTimeInterface $DateDerniereConnexion): self
+    {
+        $this->DateDerniereConnexion = $DateDerniereConnexion;
 
         return $this;
     }

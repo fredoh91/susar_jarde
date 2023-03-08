@@ -28,23 +28,27 @@ class UserEditPasswordType extends AbstractType
                 'label' => 'E-mail : ',
                 'attr' => ['readonly' => true],
                 'required' => false,
+                'disabled' => true,
             ])
 
             ->add('Prenom', TextType::class, [
                 'label' => 'Prénom : ',
                 'attr' => ['readonly' => true],
                 'required' => false,
+                'disabled' => true,
             ])
 
             ->add('Nom', TextType::class, [
                 'label' => 'Nom : ',
                 'attr' => ['readonly' => true],
                 'required' => false,
+                'disabled' => true,
             ])
             ->add('UserName', TextType::class, [
                 'label' => 'Username : ',
                 'attr' => ['readonly' => true],
                 'required' => false,
+                'disabled' => true,
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
@@ -60,6 +64,7 @@ class UserEditPasswordType extends AbstractType
                 ],
                 'attr' => ['readonly' => true],
                 'required' => false,
+                'disabled' => true,
                 'expanded' => true,
                 'multiple' => true,
                 'label' => 'Rôle(s)'

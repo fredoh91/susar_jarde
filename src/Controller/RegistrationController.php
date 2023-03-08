@@ -63,18 +63,18 @@ class RegistrationController extends AbstractController
             if ($form->get('Valider')->isClicked()) {
                 /**
                  * L'utilisateur a cliqué sur le bouton "Valider", ce qui :
-                 *      - 
+                 *      - met a jour l'entité user (sauf le champ mot de passe)
                  *      - 
                  */
-
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
+                // $user->setPassword(
+                //     $userPasswordHasher->hashPassword(
+                //         $user,
+                //         $form->get('plainPassword')->getData()
+                //     )
+                // );
                 $entityManager->persist($user);
                 $entityManager->flush();
+                $this->addFlash('success', 'Les données de l\'utilisateur ont bien été mise à jour.');
             } else if ($form->get('Annuler')->isClicked()) {
                 /**
                  * L'utilisateur a cliqué sur le bouton "Annuler", on ne fait rien, a part être redirigé versla liste des utilisateurs
@@ -101,11 +101,12 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dump($form->get('plainPassword')->getData());
 
             if ($form->get('Valider')->isClicked()) {
                 /**
                  * L'utilisateur a cliqué sur le bouton "Valider", ce qui :
-                 *      - 
+                 *      - met a jour la mot de passe en BDD
                  *      - 
                  */
 
@@ -115,20 +116,20 @@ class RegistrationController extends AbstractController
                         $form->get('plainPassword')->getData()
                     )
                 );
+
                 $entityManager->persist($user);
                 $entityManager->flush();
+                $this->addFlash('success', 'Le mot de passe de l\'utilisateur a bien été mis à jour.');
+
             } else if ($form->get('Annuler')->isClicked()) {
                 /**
-                 * L'utilisateur a cliqué sur le bouton "Annuler", on ne fait rien, a part être redirigé versla liste des utilisateurs
+                 * L'utilisateur a cliqué sur le bouton "Annuler", on ne fait rien, a part être redirigé vers la liste des utilisateurs
                  */
             } else {
             }
 
             return $this->redirectToRoute('app_liste_user'); // liste des utilisateurs
 
-            // $message = $translator->trans('User modified successfully');
-
-            // $this->addFlash('message', $message);
         }
 
         return $this->render('user/edituser_password.html.twig', [
