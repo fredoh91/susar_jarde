@@ -6,12 +6,17 @@ use App\Entity\Glossaire;
 use App\Form\GlossaireType;
 use App\Repository\GlossaireRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
+// use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Security("is_granted('ROLE_DMFR_ADMIN') or is_granted('ROLE_SURV_ADMIN')")]
+// #[Security("is_granted('ROLE_DMFR_ADMIN') or is_granted('ROLE_SURV_ADMIN')")]
+// #[IsGranted('ROLE_DMFR_ADMIN')]
+// #[IsGranted('ROLE_SURV_ADMIN')]
+#[IsGranted(new Expression('is_granted("ROLE_DMFR_ADMIN") or is_granted("ROLE_SURV_ADMIN")'))]
 #[Route('/admin_tbref/glossaire')]
 class GlossaireController extends AbstractController
 {

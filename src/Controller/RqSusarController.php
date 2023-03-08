@@ -15,10 +15,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+// use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+// use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Security("is_granted('ROLE_DMFR_GEST')")]
+// #[Security("is_granted('ROLE_DMFR_GEST')")]
+#[IsGranted('ROLE_DMFR_GEST')]
 class RqSusarController extends AbstractController
 {
     #[Route('/RqSusarDate/{creationdate}', name: 'RqSusarDateAffDate')]

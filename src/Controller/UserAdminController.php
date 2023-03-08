@@ -9,8 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+// use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+// use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Security("is_granted('ROLE_SUPER_ADMIN')")]
+// #[Security("is_granted('ROLE_SUPER_ADMIN')")]
+#[IsGranted('ROLE_SUPER_ADMIN')]
 class UserAdminController extends AbstractController
 {
     #[Route('/super_admin/liste_user', name: 'app_liste_user')]
