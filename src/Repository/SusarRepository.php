@@ -295,7 +295,7 @@ class SusarRepository extends ServiceEntityRepository
     public function LstSusarImporte(): array
     {
         return $this->createQueryBuilder('s')
-            ->select('count(s.id), s.creationdate')
+            ->select('count(s.id), s.creationdate, s.dateImport')
             ->groupBy('s.creationdate')
             ->orderBy('s.creationdate', 'ASC')
             ->getQuery()

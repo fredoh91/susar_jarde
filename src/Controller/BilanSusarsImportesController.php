@@ -33,7 +33,6 @@ class BilanSusarsImportesController extends AbstractController
         $LstSusarImporte = $entityManager->getRepository(Susar::class)->LstSusarImporte();
         $repo = $entityManager->getRepository(Susar::class);
         $repo->effaceBilanSusar();
-
         foreach ($LstSusarImporte as $SusarImporte) {
 
             $bilanSusar = new BilanSusar;
@@ -41,6 +40,7 @@ class BilanSusarsImportesController extends AbstractController
             $creationDate= $SusarImporte['creationdate'];
 
             $bilanSusar->setCreationdate($creationDate);
+            $bilanSusar->setDateImport($SusarImporte['dateImport']);
             $bilanSusar->setNbTotal($SusarImporte[1]);
             $bilanSusar->setNbNonAiguille($repo->NbSusarAiguilleEvalue($creationDate,'dateAiguillage',''));
             $bilanSusar->setNbAiguille($repo->NbSusarAiguilleEvalue($creationDate,'dateAiguillage','NOT'));
