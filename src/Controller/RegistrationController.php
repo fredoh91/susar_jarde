@@ -20,9 +20,9 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 // #[Security("is_granted('ROLE_SUPER_ADMIN')")]
-#[IsGranted('ROLE_SUPER_ADMIN')]
 class RegistrationController extends AbstractController
 {
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/super_admin/inscription', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
@@ -55,6 +55,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/super_admin/modif_user/{id}', name: 'app_modif_user')]
     public function modif_user(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
@@ -97,6 +98,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     #[Route('/super_admin/modif_user_password/{id}', name: 'app_modif_user_password')]
     public function modif_user_password(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
