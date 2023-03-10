@@ -10,6 +10,9 @@
             <form method="post">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+
+                    
+                    {% include "_partials/_contact_admin.html.twig" %}
                 {% endif %}
 
                 {% if app.user %}
