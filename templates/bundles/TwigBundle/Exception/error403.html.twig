@@ -1,0 +1,19 @@
+{# 403 	Forbidden 	Le serveur a compris la requête, mais refuse de l'exécuter. Les droits d'accès ne permettent pas au client d'accéder à la ressource. #}
+{% extends 'base.html.twig' %}
+
+{% block title %}SUSAR_Jardé
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class="text-center">
+			<h1 class="text-center">SUSAR_Jardé - Droits d'accès insuffisants</h1>
+			<p>Vous n'avez les droits d'accès sur la page demandée.</p>
+			<p>Code de l'erreur : {{ status_code }}</p>
+			<p>Message de l'erreur : {{ status_text }}</p>
+            {% include "_partials/_contact_admin.html.twig" %}
+		</div>
+	</div>
+
+{% endblock %}

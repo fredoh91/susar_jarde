@@ -1,0 +1,19 @@
+{# 401 	Unauthorized 	Une authentification est nécessaire pour accéder à la ressource.  #}
+{% extends 'base.html.twig' %}
+
+{% block title %}SUSAR_Jardé
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class="text-center">
+			<h1 class="text-center">SUSAR_Jardé - Vous n'êtes pas connecté</h1>
+			<p>Il est nécessaire de vous connecter pour accéder à la page demandée.</p>
+			<p>Code de l'erreur : {{ status_code }}</p>
+			<p>Message de l'erreur : {{ status_text }}</p>
+            {% include "_partials/_contact_admin.html.twig" %}
+		</div>
+	</div>
+
+{% endblock %}
