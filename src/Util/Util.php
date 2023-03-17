@@ -38,7 +38,7 @@ class Util
                 $RqMeddra = new RequetesMeddra($doctrine);
                 $IntervTherapGen = $entityManager->getRepository(IntervenantsANSM::class)->findOneDMM_pole_court('THÉRAPIE GÉNIQUE');
                 $Indication = $RqPemba->donneListeIndication($susar_a_creer['id']);
-                $Indication = mb_convert_encoding($Indication, 'UTF-8');
+                // $Indication = mb_convert_encoding($Indication, 'UTF-8');
                 $CodeIndication = $RqPemba->donneListeCodeIndication($susar_a_creer['id']);
                 // $IndicationEng = $RqMeddra->donneIndicEng_UnCode($CodeIndication[0]);
                 $IndicationEng = $RqMeddra->donneIndicEng($CodeIndication);
@@ -68,6 +68,12 @@ class Util
                 $Susar->setProductName($productName);
                 $Susar->setSubstanceName($substanceName);
                 $Susar->setNarratif($susar_a_creer['narrativeincludeclinical']);
+                $Susar->setPatientSex($susar_a_creer['patientsex']);
+                $Susar->setPatientAge($susar_a_creer['patientonsetage']);
+                $Susar->setPatientAgeUnitLabel($susar_a_creer['patientonsetageunitlabel']);
+                $Susar->setPatientAgeGroup($susar_a_creer['patientagegroup']);
+                $Susar->setIsCaseSerious($susar_a_creer['iscaseserious']);
+                $Susar->setSeriousnessCriteria($susar_a_creer['seriousnesscriteria']);
                 $Susar->setDateImport(new \DateTime());
 
                 if ($TypeSusar === 'TherapGen') {
@@ -76,8 +82,13 @@ class Util
                 } 
 
                 // Ajout des médicmaments dans l'entité Medicaments et gestion de la liaison avec l'entité Susar
+                
+                $NbMedicSuspect = 0;
                 foreach ($lstMed as $medic_a_creer) {
-
+                    if ($medic_a_creer['productcharacterization'] === 'Suspect') {
+                        $NbMedicSuspect++;
+                    }
+                    
                     // dump($medic_a_creer);
         
                     $medic = new Medicaments;
@@ -95,6 +106,7 @@ class Util
                     unset($medic);
                     // $entityManager->flush();
                 }
+                $Susar->setNbMedicSuspect($NbMedicSuspect);
 
 
                 // Ajout des EI dans l'entité EffetsIndesirables et gestion de la liaison avec l'entité Susar

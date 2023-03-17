@@ -1,6 +1,7 @@
 const affJsonForm = document.getElementById('aff-json');
 const resuJson = document.getElementById('resu-json');
 const TableGlossaire = document.getElementById('TableGlossaire');
+const adrServeur = window.location.host;
 
 affJsonForm.addEventListener('submit', recupjson)
 
@@ -9,8 +10,9 @@ function recupjson(evt) {
 
     evt.preventDefault();
 
+    fetch(`http://${adrServeur}/susar_jarde/public/index.php/retour_json/${RechIndic}`)
     // fetch(`http://172.16.71.227/susar_jarde/public/index.php/retour_json/${RechIndic}`)
-    fetch(`http://localhost/susar_jarde/public/index.php/retour_json/${RechIndic}`)
+    // fetch(`http://localhost/susar_jarde/public/index.php/retour_json/${RechIndic}`)
         .then(data => data.json())
         .then(jsonData => {
             // console.log('jsonData : ',jsonData);

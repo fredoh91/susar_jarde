@@ -91,10 +91,35 @@ class Susar
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateImport = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $NbMedicSuspect = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $patientAgeGroup = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $patientAge = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $patientAgeUnitLabel = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $isCaseSerious = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $seriousnessCriteria = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $patientSex = null;
+
+    #[ORM\OneToMany(mappedBy: 'susar', targetEntity: Indication::class)]
+    private Collection $IndicationTable;
+
     public function __construct()
     {
         $this->Medicament = new ArrayCollection();
         $this->EffetsIndesirables = new ArrayCollection();
+        $this->IndicationTable = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -438,6 +463,120 @@ class Susar
     public function setDateImport(?\DateTimeInterface $DateImport): self
     {
         $this->dateImport = $DateImport;
+
+        return $this;
+    }
+
+    public function getNbMedicSuspect(): ?int
+    {
+        return $this->NbMedicSuspect;
+    }
+
+    public function setNbMedicSuspect(?int $NbMedicSuspect): self
+    {
+        $this->NbMedicSuspect = $NbMedicSuspect;
+
+        return $this;
+    }
+
+    public function getPatientAgeGroup(): ?string
+    {
+        return $this->patientAgeGroup;
+    }
+
+    public function setPatientAgeGroup(?string $patientAgeGroup): self
+    {
+        $this->patientAgeGroup = $patientAgeGroup;
+
+        return $this;
+    }
+
+    public function getPatientAge(): ?float
+    {
+        return $this->patientAge;
+    }
+
+    public function setPatientAge(?float $patientAge): self
+    {
+        $this->patientAge = $patientAge;
+
+        return $this;
+    }
+
+    public function getPatientAgeUnitLabel(): ?string
+    {
+        return $this->patientAgeUnitLabel;
+    }
+
+    public function setPatientAgeUnitLabel(?string $patientAgeUnitLabel): self
+    {
+        $this->patientAgeUnitLabel = $patientAgeUnitLabel;
+
+        return $this;
+    }
+
+    public function getIsCaseSerious(): ?string
+    {
+        return $this->isCaseSerious;
+    }
+
+    public function setIsCaseSerious(?string $isCaseSerious): self
+    {
+        $this->isCaseSerious = $isCaseSerious;
+
+        return $this;
+    }
+
+    public function getSeriousnessCriteria(): ?string
+    {
+        return $this->seriousnessCriteria;
+    }
+
+    public function setSeriousnessCriteria(?string $seriousnessCriteria): self
+    {
+        $this->seriousnessCriteria = $seriousnessCriteria;
+
+        return $this;
+    }
+
+    public function getPatientSex(): ?string
+    {
+        return $this->patientSex;
+    }
+
+    public function setPatientSex(?string $patientSex): self
+    {
+        $this->patientSex = $patientSex;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Indication>
+     */
+    public function getIndicationTable(): Collection
+    {
+        return $this->IndicationTable;
+    }
+
+    public function addIndicationTable(Indication $indicationTable): self
+    {
+        if (!$this->IndicationTable->contains($indicationTable)) {
+            $this->IndicationTable->add($indicationTable);
+            $indicationTable->setSusar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIndicationTable(Indication $indicationTable): self
+    {
+        if ($this->IndicationTable->removeElement($indicationTable)) {
+            // set the owning side to null (unless already changed)
+            if ($indicationTable->getSusar() === $this) {
+                $indicationTable->setSusar(null);
+            }
+        }
 
         return $this;
     }
