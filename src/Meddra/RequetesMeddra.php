@@ -48,6 +48,14 @@ class RequetesMeddra
             return $lst;
         }
     }
+
+    /**
+     * Retourne une chaine de caractères contenant la liste des indications en anglais, concaténées, à partir d'un array de code indication
+     * Cette méthode est utilisée pour stocker dans la table Susar la liste des indications en anglais
+     * 
+     * @param array $tabCodeIndic tableau de code indication
+     * @return string liste des indications en anglais concaténées, séparée par une virgule.
+     */
     public function donneIndicEng(array $tabCodeIndic): string
     {
         if (!empty($tabCodeIndic)) {
@@ -80,6 +88,49 @@ class RequetesMeddra
                 }
                 return "";
             }
+        } else {
+            return "";
+        }
+    }
+    
+    /**
+     * Permet de retourner l'indication en anglais à partir du code indiction
+     * Cette méthode est utilisée pour stocker la valeur de retour dans la table Indication
+     * 
+     * @param integer $codeIndic : code indication
+     * @return string indication en anglais
+     */
+    public function donneIndicEng_not_array(int $codeIndic): string
+    {
+        if (!empty($codeIndic)) {
+
+            $stmt = $this->em->getConnection();
+
+
+                $sql = "SELECT llt_name_en "
+                    . "FROM 1_low_level_term "
+                    . "WHERE llt_code = " . $codeIndic;
+
+                $stmt_2 = $stmt->prepare($sql)->execute()->fetchAll();
+                // dd($stmt_2);
+
+                if (!empty($stmt_2)) {
+                    if (is_null($stmt_2[0]['llt_name_en'])) {
+                        // return "";
+                    } else {
+                        foreach ($stmt_2[0] as $ter) {
+                            if (isset($lst)) {
+                                $lst .= "," . $ter;
+                            } else {
+                                $lst = $ter;
+                            }
+                        }
+                    }
+
+                    return $lst;
+
+                }
+                return "";
         } else {
             return "";
         }

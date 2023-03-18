@@ -14,7 +14,13 @@ class RequetesPemba
         $this->doctrine = $doctrine;
         $this->em = $this->doctrine->getManager('pemba');
     }
-
+    /**
+     * Retourne un array pour remplir les différentes table, lors de l'import depuis la BNPV
+     * Retourne les SUSARs : France-Décès et France-Pronostic vital
+     *
+     * @param string $dateCreation
+     * @return array
+     */
     public function donneListeEC_FrDC_FrPronVit(string $dateCreation): array
     {
 
@@ -55,6 +61,15 @@ class RequetesPemba
         return $stmt_2;
     }
 
+    /**
+     * Retourne un array pour remplir les différentes table, lors de l'import depuis la BNPV
+     * Retourne les SUSARs : Thérapie génique, selon une liste de codes produit ou de NumEUDRA_CT
+     *
+     * @param string $dateCreation
+     * @param string $lst_NumEUDRA_CT
+     * @param string $lst_Produit
+     * @return array
+     */
     public function donneListeEC_TherapieGenique(string $dateCreation, string $lst_NumEUDRA_CT, string $lst_Produit): array
     {
 
@@ -94,7 +109,38 @@ class RequetesPemba
 
         return $stmt_2;
     }
+    /**
+     * Retourne la liste des indications pour stockage dans les tables Susar et Indications, lors de l'import depuis la BNPV
+     *
+     * @param integer $master_id
+     * @return array
+     */
+    public function donneListeIndicationMedSuspect_array(int $master_id): array
+    {
+        $sql = "SELECT DISTINCT "
+            . "mv.id, mv.caseid, mv.specificcaseid, mv.DLPVersion, "
+            . "TRIM(REPLACE(pr.productname, '\n', '')) productname, "
+            . "id.productindication, id.codeproductindication "
+            . "FROM master_versions mv "
+            . "INNER JOIN bi_product pr ON mv.id = pr.master_id "
+            . "LEFT JOIN bi_product_indication id ON pr.master_id = id.master_id AND pr.NBBlock = id.NBBlock "
+            . "WHERE 1 = 1 "
+            . "AND specificcaseid LIKE 'EC%' "
+            . "AND mv.id = " . $master_id . " "
+            . "AND pr.productcharacterization = 'Suspect' "
+            . "ORDER BY id.productindication; ";
 
+        $stmt = $this->em->getConnection()->prepare($sql);
+        $stmt_2 = $stmt->execute()->fetchAll();
+        return $stmt_2;
+    }
+
+    /**
+     * Ancienne methode utilisée pour remplir l'indication fr dans la table Susar, lors de l'import depuis la BNPV
+     *
+     * @param integer $master_id
+     * @return string
+     */
     public function donneListeIndication(int $master_id): string
     {
 
@@ -126,7 +172,12 @@ class RequetesPemba
             return $lst;
         };
     }
-
+    /**
+     * Ancienne méthode utilisée pour récupérer les codes indications pour ensuite retrouver les indications en anglais et les stocker dans la table Susar, lors de l'import depuis la BNPV
+     *
+     * @param integer $master_id
+     * @return array
+     */
     public function donneListeCodeIndication(int $master_id): array
     {
         $sql = "SELECT DISTINCT "
@@ -150,12 +201,18 @@ class RequetesPemba
         } else {
             foreach ($stmt_2[0] as $ter) {
                 $lst[] = $ter;
-
             }
             return $lst;
         };
     }
 
+    /**
+     * Retourne un tableau de médicament, utilisé pour remplir la table Médicaments, lors de l'import depuis la BNPV
+     *
+     * @param integer $master_id
+     * @param string $prodCharact
+     * @return array
+     */
     public function donneListeMedicament(int $master_id, string $prodCharact): array
     {
 

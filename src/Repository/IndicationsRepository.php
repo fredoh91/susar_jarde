@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Indication;
+use App\Entity\Indications;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Indication>
+ * @extends ServiceEntityRepository<Indications>
  *
- * @method Indication|null find($id, $lockMode = null, $lockVersion = null)
- * @method Indication|null findOneBy(array $criteria, array $orderBy = null)
- * @method Indication[]    findAll()
- * @method Indication[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Indications|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Indications|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Indications[]    findAll()
+ * @method Indications[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class IndicationRepository extends ServiceEntityRepository
+class IndicationsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Indication::class);
+        parent::__construct($registry, Indications::class);
     }
 
-    public function save(Indication $entity, bool $flush = false): void
+    public function save(Indications $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class IndicationRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Indication $entity, bool $flush = false): void
+    public function remove(Indications $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class IndicationRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Indication[] Returns an array of Indication objects
+//     * @return Indications[] Returns an array of Indications objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class IndicationRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Indication
+//    public function findOneBySomeField($value): ?Indications
 //    {
 //        return $this->createQueryBuilder('i')
 //            ->andWhere('i.exampleField = :val')

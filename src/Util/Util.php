@@ -11,9 +11,12 @@ use App\Pemba\RequetesPemba;
 use App\Meddra\RequetesMeddra;
 use App\Entity\IntervenantsANSM;
 use App\Entity\EffetsIndesirables;
+use App\Entity\Indications;
 use App\Pemba\RequetesPembaMedicaments;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Pemba\RequetesPembaEffetsIndesirables;
+
+use function PHPUnit\Framework\isNull;
 
 class Util
 {
@@ -37,11 +40,11 @@ class Util
                 $RqPembaEI = new RequetesPembaEffetsIndesirables($doctrine);
                 $RqMeddra = new RequetesMeddra($doctrine);
                 $IntervTherapGen = $entityManager->getRepository(IntervenantsANSM::class)->findOneDMM_pole_court('THÉRAPIE GÉNIQUE');
-                $Indication = $RqPemba->donneListeIndication($susar_a_creer['id']);
-                // $Indication = mb_convert_encoding($Indication, 'UTF-8');
-                $CodeIndication = $RqPemba->donneListeCodeIndication($susar_a_creer['id']);
+                // $lstIndication = $RqPemba->donneListeIndication($susar_a_creer['id']);
+                $lstIndication = $RqPemba->donneListeIndicationMedSuspect_array($susar_a_creer['id']);
+                // $CodeIndication = $RqPemba->donneListeCodeIndication($susar_a_creer['id']);
                 // $IndicationEng = $RqMeddra->donneIndicEng_UnCode($CodeIndication[0]);
-                $IndicationEng = $RqMeddra->donneIndicEng($CodeIndication);
+                // $IndicationEng = $RqMeddra->donneIndicEng($CodeIndication);
                 $lstMed = $RqPembaMedicaments->donneMedicaments($susar_a_creer['id']);
                 $lstEI = $RqPembaEI->donneEffetsIndesirables($susar_a_creer['id']);
                 $medicament = $RqPemba->donneListeMedicament($susar_a_creer['id'], 'Suspect');
@@ -63,8 +66,8 @@ class Util
                 $Susar->setPaysEtude($susar_a_creer['pays_etude']);
                 $Susar->setPaysSurvenue($susar_a_creer['pays_survenue']);
                 $Susar->setTypeSusar($TypeSusar);
-                $Susar->setIndication($Indication);
-                $Susar->setIndicationEng($IndicationEng);
+                // $Susar->setIndication($Indication);
+                // $Susar->setIndicationEng($IndicationEng);
                 $Susar->setProductName($productName);
                 $Susar->setSubstanceName($substanceName);
                 $Susar->setNarratif($susar_a_creer['narrativeincludeclinical']);
@@ -79,18 +82,16 @@ class Util
                 if ($TypeSusar === 'TherapGen') {
                     $Susar->setIntervenantANSM($IntervTherapGen);
                     $Susar->setDateAiguillage(new \DateTime());
-                } 
+                }
 
-                // Ajout des médicmaments dans l'entité Medicaments et gestion de la liaison avec l'entité Susar
-                
+                // Ajout des médicaments dans l'entité Medicaments et gestion de la liaison avec l'entité Susar
+
                 $NbMedicSuspect = 0;
                 foreach ($lstMed as $medic_a_creer) {
                     if ($medic_a_creer['productcharacterization'] === 'Suspect') {
                         $NbMedicSuspect++;
                     }
-                    
-                    // dump($medic_a_creer);
-        
+
                     $medic = new Medicaments;
                     $medic->setMasterId((int) $medic_a_creer['id']);
                     $medic->setCaseid((int) $medic_a_creer['caseid']);
@@ -104,16 +105,64 @@ class Util
 
                     $entityManager->persist($medic);
                     unset($medic);
-                    // $entityManager->flush();
                 }
                 $Susar->setNbMedicSuspect($NbMedicSuspect);
 
+                // Ajout des indications dans l'entité Indications et gestion de la liaison avec l'entité Susar
+
+                $IndicationEng = '';
+                $Indication = '';
+
+                foreach ($lstIndication as $indic_a_creer) {
+
+                    $indic = new Indications;
+
+                    $indic->setProductName((string) $indic_a_creer['productname']);
+                    $indic->setCodeProductIndications((int) $indic_a_creer['codeproductindication']);
+
+                    if (is_null($indic_a_creer['codeproductindication'])) {
+                        $indicationAnglaise = '';
+                    } else {
+                        $indicationAnglaise = (string) $RqMeddra->donneIndicEng_not_array($indic_a_creer['codeproductindication']);
+                    }
+                    $indicationFrancaise = (string) $indic_a_creer['productindication'];
+
+                    if ($IndicationEng === '') {
+                        $IndicationEng = $indicationAnglaise;
+                    } else {
+                        // on vérifie si la liste concaténée des indication en anglais, contient déjà cette indication
+                        if (stripos($IndicationEng, $indicationAnglaise) === false) {
+                            $IndicationEng .= ', ' . $indicationAnglaise;
+                        }
+                    }
+
+                    if ($Indication === '') {
+                        $Indication = $indicationFrancaise;
+                    } else {
+                        // on vérifie si la liste concaténée des indication en fançais, contient déjà cette indication
+                        if (stripos($Indication, $indicationFrancaise) === false) {
+                            $Indication .= ', ' . $indicationFrancaise;
+                        }
+                    }
+
+                    $indic->setProductIndications($indicationFrancaise);
+                    $indic->setProductIndicationsEng($indicationAnglaise);
+
+                    $indic->setProductcharacterization((string) 'Suspect');
+                    $indic->setSusar($Susar);
+
+                    $entityManager->persist($indic);
+                    unset($indic);
+                }
+
+                $Susar->setIndication($Indication);
+                $Susar->setIndicationEng($IndicationEng);
 
                 // Ajout des EI dans l'entité EffetsIndesirables et gestion de la liaison avec l'entité Susar
                 foreach ($lstEI as $EI_a_creer) {
 
                     // dump($EI_a_creer);
-        
+
                     $EI = new EffetsIndesirables;
                     $EI->setMasterId((int) $EI_a_creer['id']);
                     $EI->setCaseid((int) $EI_a_creer['caseid']);
@@ -164,7 +213,7 @@ class Util
         $entityManager = $doctrine->getManager();
         foreach ($TbEntree as $medic_a_creer) {
 
-            dump($medic_a_creer);
+            // dump($medic_a_creer);
 
             $medic = new Medicaments;
             // $medic->setId((int) $susar_id);

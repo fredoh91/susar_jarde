@@ -112,14 +112,14 @@ class Susar
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $patientSex = null;
 
-    #[ORM\OneToMany(mappedBy: 'susar', targetEntity: Indication::class)]
-    private Collection $IndicationTable;
+    #[ORM\OneToMany(mappedBy: 'susar', targetEntity: Indications::class)]
+    private Collection $IndicationsTable;
 
     public function __construct()
     {
         $this->Medicament = new ArrayCollection();
         $this->EffetsIndesirables = new ArrayCollection();
-        $this->IndicationTable = new ArrayCollection();
+        $this->IndicationsTable = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -552,29 +552,29 @@ class Susar
     }
 
     /**
-     * @return Collection<int, Indication>
+     * @return Collection<int, Indications>
      */
-    public function getIndicationTable(): Collection
+    public function getIndicationsTable(): Collection
     {
-        return $this->IndicationTable;
+        return $this->IndicationsTable;
     }
 
-    public function addIndicationTable(Indication $indicationTable): self
+    public function addIndicationsTable(Indications $IndicationsTable): self
     {
-        if (!$this->IndicationTable->contains($indicationTable)) {
-            $this->IndicationTable->add($indicationTable);
-            $indicationTable->setSusar($this);
+        if (!$this->IndicationsTable->contains($IndicationsTable)) {
+            $this->IndicationsTable->add($IndicationsTable);
+            $IndicationsTable->setSusar($this);
         }
 
         return $this;
     }
 
-    public function removeIndicationTable(Indication $indicationTable): self
+    public function removeIndicationsTable(Indications $IndicationsTable): self
     {
-        if ($this->IndicationTable->removeElement($indicationTable)) {
+        if ($this->IndicationsTable->removeElement($IndicationsTable)) {
             // set the owning side to null (unless already changed)
-            if ($indicationTable->getSusar() === $this) {
-                $indicationTable->setSusar(null);
+            if ($IndicationsTable->getSusar() === $this) {
+                $IndicationsTable->setSusar(null);
             }
         }
 
