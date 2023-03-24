@@ -12,16 +12,16 @@
 
 	<div class="row">
 		<div class="col-2">
-			{{ form_label(form.master_id, 'Master_id :') }}
+			{{ form_label(form.master_id, 'Master_id (numero cas BNPV) :') }}
 			{{ form_widget(form.master_id) }}
 		</div>
 		<div class="col-2">
-			{{ form_label(form.DLPVersion, 'DLP version :') }}
+			{{ form_label(form.DLPVersion, 'F.U. BNPV :') }}
 			{{ form_widget(form.DLPVersion) }}
 		</div>
 		<div class="col-2">
-			{{ form_label(form.caseid, 'Case_id :') }}
-			{{ form_widget(form.caseid) }}
+			{# {{ form_label(form.caseid, 'Case_id :') }}
+			{{ form_widget(form.caseid) }} #}
 		</div>
 		<div class="col-2">
 			{{ form_label(form.num_eudract, 'N° EudraCT :') }}
@@ -40,11 +40,11 @@
 
 		<div class="row">
 			<div class="col-3">
-				{{ form_label(form.productName, 'Produit :') }}
+				{{ form_label(form.productName, 'Produit(s) :') }}
 				{{ form_widget(form.productName) }}
 			</div>
 			<div class="col-3">
-				{{ form_label(form.substanceName, 'Substance :') }}
+				{{ form_label(form.substanceName, 'substance(s) active(s) :') }}
 				{{ form_widget(form.substanceName) }}
 			</div>
 			<div class="col-3">
@@ -67,20 +67,20 @@
 				{{ form_widget(form.mesureAction) }}
 			</div>
 			<div class="col-1">
-				{{ form_label(form.debutCreationDate, 'Début date création EUDRA :') }}
-				{{ form_widget(form.debutCreationDate) }}
-			</div>
-			<div class="col-1">
-				{{ form_label(form.finCreationDate, 'Fin date création EUDRA :') }}
-				{{ form_widget(form.finCreationDate) }}
-			</div>
-			<div class="col-1">
-				{{ form_label(form.debutDateAiguillage, 'Début date aiguillage :') }}
+				{{ form_label(form.debutDateAiguillage, 'Début date aiguillage (DMFR) :') }}
 				{{ form_widget(form.debutDateAiguillage) }}
 			</div>
 			<div class="col-1">
-				{{ form_label(form.finDateAiguillage, 'Fin date aiguillage :') }}
+				{{ form_label(form.finDateAiguillage, 'Fin date aiguillage (DMFR) :') }}
 				{{ form_widget(form.finDateAiguillage) }}
+			</div>
+			<div class="col-1">
+				{{ form_label(form.debutDateEvaluation, 'Début date évaluation :') }}
+				{{ form_widget(form.debutDateEvaluation) }}
+			</div>
+			<div class="col-1">
+				{{ form_label(form.finDateEvaluation, 'Fin date évaluation :') }}
+				{{ form_widget(form.finDateEvaluation) }}
 			</div>
 			<div class="col-1">
 				{{ form_label(form.evalue, 'Susar évalué :') }}
@@ -117,23 +117,24 @@
 				<table class="table table-sm table-bordered table-hover text-center">
 					<thead class="table-secondary">
 						<tr>
-							<th scope="col">master_id</th>
-							<th scope="col">caseid</th>
-							<th scope="col">specificcaseid</th>
-							<th scope="col">DLPVersion</th>
+							<th scope="col">master_id (numero cas BNPV)</th>
+							{# <th scope="col">caseid</th> #}
+							{# <th scope="col">specificcaseid</th> #}
+							<th scope="col">F.U. BNPV</th>
 							<th scope="col">creationdate</th>
 							{# <th scope="col">statusdate</th> #}
 							<th scope="col-2">studytitle</th>
 							<th scope="col">sponsorstudynumb</th>
 							<th scope="col">num_eudract</th>
-							<th scope="col">pays_survenue</th>
+							<th scope="col">sponsor study number</th>
+							{# <th scope="col">pays_survenue</th> #}
 							{# <th scope="col">TypeSusar</th> #}
 							<th scope="col">produit(s)</th>
-							<th scope="col">substance(s)</th>
+							<th scope="col">substance(s) active(s)</th>
 							<th scope="col">indication</th>
-							<th scope="col">indication (angl.)</th>
+							{# <th scope="col">indication (angl.)</th> #}
 							<th scope="col">DMM/Pôle</th>
-							<th scope="col">Date d'aiguillage</th>
+							<th scope="col">Date d'aiguillage (DMFR)</th>
 							<th scope="col">Mesure/Action</th>
 							<th scope="col">Date d'évaluation</th>
 						</tr>
@@ -153,20 +154,21 @@
 								{% endif %}
 								
 								</th>
-								<td>{{ Susar.caseid|e }}</td>
-								<td>{{ Susar.specificcaseid|e }}</td>
+								{# <td>{{ Susar.caseid|e }}</td> #}
+								{# <td>{{ Susar.specificcaseid|e }}</td> #}
 								<td>{{ Susar.DLPVersion|e }}</td>
 								<td>{{ Susar.creationdate|format_datetime('short', 'none', locale='fr') }}</td>
 								{# <td>{{ Susar.statusdate|format_datetime('short', 'none', locale='fr') }}</td> #}
 								<td>{{ Susar.studytitle|e }}</td>
 								<td>{{ Susar.sponsorstudynumb|e }}</td>
 								<td>{{ Susar.NumEudract|e }}</td>
-								<td>{{ Susar.PaysSurvenue|e }}</td>
+								<td>{{ Susar.sponsorstudynumb|e }}</td>
+								{# <td>{{ Susar.PaysSurvenue|e }}</td> #}
 								{# <td>{{ Susar.TypeSusar|e }}</td> #}
 								<td>{{ Susar.productname|e }}</td>
 								<td>{{ Susar.substancename|e }}</td>
 								<td>{{ Susar.indication|e }}</td>
-								<td>{{ Susar.indicationEng|e }}</td>
+								{# <td>{{ Susar.indicationEng|e }}</td> #}
 								{% if Susar.intervenantANSM != null %}
 									<td>{{ Susar.intervenantANSM.getDMMPole() }}</td>
 								{% else %}

@@ -234,17 +234,17 @@ class SusarRepository extends ServiceEntityRepository
                 ->setParameter('ia', '%' . $search->getMesureAction()->getLibelle() . '%');
         }
 
-        if ($search->getDebutCreationDate()) {
-            $query = $query
-                ->andWhere('s.creationdate >= :dcd')
-                ->setParameter('dcd', $search->getDebutCreationDate());
-        }
+        // if ($search->getDebutCreationDate()) {
+        //     $query = $query
+        //         ->andWhere('s.creationdate >= :dcd')
+        //         ->setParameter('dcd', $search->getDebutCreationDate());
+        // }
 
-        if ($search->getFinCreationDate()) {
-            $query = $query
-                ->andWhere('s.creationdate <= :fcd')
-                ->setParameter('fcd', $search->getFinCreationDate());
-        }
+        // if ($search->getFinCreationDate()) {
+        //     $query = $query
+        //         ->andWhere('s.creationdate <= :fcd')
+        //         ->setParameter('fcd', $search->getFinCreationDate());
+        // }
 
         if ($search->getDebutDateAiguillage()) {
             $query = $query
@@ -256,6 +256,18 @@ class SusarRepository extends ServiceEntityRepository
             $query = $query
                 ->andWhere('s.dateAiguillage <= :fda')
                 ->setParameter('fda', $search->getFinDateAiguillage()->modify('+1 day'));
+        }
+
+        if ($search->getDebutDateEvaluation()) {
+            $query = $query
+                ->andWhere('s.dateEvaluation >= :dde')
+                ->setParameter('dde', $search->getDebutDateEvaluation());
+        }
+
+        if ($search->getFinDateEvaluation()) {
+            $query = $query
+                ->andWhere('s.dateEvaluation <= :fde')
+                ->setParameter('fde', $search->getFinDateEvaluation()->modify('+1 day'));
         }
 
         if ($search->getEvalue()) {

@@ -115,11 +115,15 @@ class Susar
     #[ORM\OneToMany(mappedBy: 'susar', targetEntity: Indications::class)]
     private Collection $IndicationsTable;
 
+    #[ORM\OneToMany(mappedBy: 'susar', targetEntity: MedicalHistory::class)]
+    private Collection $medicalHistories;
+
     public function __construct()
     {
         $this->Medicament = new ArrayCollection();
         $this->EffetsIndesirables = new ArrayCollection();
         $this->IndicationsTable = new ArrayCollection();
+        $this->medicalHistories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -575,6 +579,36 @@ class Susar
             // set the owning side to null (unless already changed)
             if ($IndicationsTable->getSusar() === $this) {
                 $IndicationsTable->setSusar(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MedicalHistory>
+     */
+    public function getMedicalHistories(): Collection
+    {
+        return $this->medicalHistories;
+    }
+
+    public function addMedicalHistory(MedicalHistory $medicalHistory): self
+    {
+        if (!$this->medicalHistories->contains($medicalHistory)) {
+            $this->medicalHistories->add($medicalHistory);
+            $medicalHistory->setSusar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedicalHistory(MedicalHistory $medicalHistory): self
+    {
+        if ($this->medicalHistories->removeElement($medicalHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($medicalHistory->getSusar() === $this) {
+                $medicalHistory->setSusar(null);
             }
         }
 

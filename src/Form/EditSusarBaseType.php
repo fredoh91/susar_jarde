@@ -53,30 +53,6 @@ class EditSusarBaseType extends AbstractType
                 ],
                 
             ])
-            // ->add('caseid')
-            // ->add('specificcaseid')
-            // ->add('creationdate')
-            // ->add('statusdate')
-            // ->add('sponsorstudynumb')
-            // ->add('num_eudract')
-            // ->add('pays_etude')
-            // ->add('TypeSusar')
-            // ->add('commentaire', TextareaType ::class, [
-            //     'attr' => ['readonly' => false],
-            // ])
-            // ->add('mesureAction', EntityType::class, [
-            //     'class' => MesureAction::class,
-            //     'query_builder' => function (EntityRepository $er) {
-            //         return $er->createQueryBuilder('Mes')
-            //             ->where('Mes.inactif = 0')
-            //             ->orderBy('Mes.OrdreTri', 'ASC');
-            //     },
-            //     'choice_label' => 'Libelle',
-            // ])
-            // ->add('Save', SubmitType::class, [
-            //     'attr' => ['class' => 'btn btn-primary m-2'],
-            //     'label' => 'Sauvegarder']
-            // )
             ;
     }
 

@@ -36,10 +36,6 @@ class EditSusarEvalType extends EditSusarBaseType
                 'choice_label' => 'Libelle',
                 'required' => false,
             ])
-            // ->add('intervenantANSM', TextType::class, [
-            //     'attr' => ['readonly' => true],
-            //     'data' => $options['data']->getIntervenantANSM()->getDMMPoleCourt()
-            // ])
             ->add('intervenantANSM', EntityType::class, [
                 'class' => IntervenantsANSM::class,
                 'choice_label' => 'DMM_pole_court',
@@ -47,17 +43,6 @@ class EditSusarEvalType extends EditSusarBaseType
                 'disabled' => true,
                 'attr' => ['class' => 'chpRq','readonly' => true],
             ])
-            // ->add('intervenantANSM', EntityType::class, [
-            //     'class' => IntervenantsANSM::class,
-            //     'query_builder' => function (EntityRepository $er) {
-            //         return $er->createQueryBuilder('int')
-            //             ->where('int.inactif = 0')
-            //             ->orderBy('int.OrdreTri', 'ASC');
-            //     },
-            //     'choice_label' => 'DMM_pole_court',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq','readonly' => true],
-            // ])
             ->add('Save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary m-2'],
                 'label' => 'Sauvegarder']

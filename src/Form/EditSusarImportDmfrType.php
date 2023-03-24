@@ -40,35 +40,6 @@ class EditSusarImportDmfrType extends EditSusarBaseType
                 'label' => 'Sauvegarder et suivant']
             )
             ;
-            
-            // ->add('master_id', TextType::class, [
-            //     'attr' => ['readonly' => true],
-            // ])
-            // ->add('studytitle', TextType::class, [
-            //     'attr' => ['readonly' => true],
-            // ])
-            // ->add('narratif', TextareaType ::class, [
-            //     'attr' => [
-            //         'readonly' => true,
-            //         'rows' => 12,
-            //     ],
-                
-            // ])
-            // ->add('indication', TextType::class, [
-            //     'attr' => ['readonly' => true],
-            // ])
-            // ->add('indication_eng', TextType::class, [
-            //     'attr' => ['readonly' => true],
-            // ])
-            // ->add('caseid')
-            // ->add('specificcaseid')
-            // ->add('DLPVersion')
-            // ->add('creationdate')
-            // ->add('statusdate')
-            // ->add('sponsorstudynumb')
-            // ->add('num_eudract')
-            // ->add('pays_etude')
-            // ->add('TypeSusar')
     }
 
     public function configureOptions(OptionsResolver $resolver): void

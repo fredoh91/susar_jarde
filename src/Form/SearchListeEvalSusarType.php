@@ -26,30 +26,42 @@ class SearchListeEvalSusarType extends AbstractType
             ->add('master_id', IntegerType::class, [
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
-                ])
-            ->add('caseid', IntegerType::class,[
+            ])
+            // ->add('caseid', IntegerType::class,[
+            //     'required' => false,
+            //     'attr' => ['class' => 'chpRq'],
+            //     ])
+            // ->add('specificcaseid')
+            ->add('DLPVersion', IntegerType::class, [
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
-                ])
-            // ->add('specificcaseid')
-            ->add('DLPVersion', IntegerType::class,['required' => false,
-            'attr' => ['class' => 'chpRq'],])
+            ])
             // ->add('creationdate')
             // ->add('statusdate')
-            ->add('studytitle', TextType::class,['required' => false,
-            'attr' => ['class' => 'chpRq'],])
+            ->add('studytitle', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+            ])
             ->add('sponsorstudynumb')
             ->add('num_eudract')
             // ->add('pays_etude')
             // ->add('TypeSusar')
-            ->add('indication', TextType::class,['required' => false,
-            'attr' => ['class' => 'chpRq'],])
-            ->add('indication_eng', TextType::class,['required' => false,
-            'attr' => ['class' => 'chpRq'],])
-            ->add('productName', TextType::class,['required' => false,
-            'attr' => ['class' => 'chpRq'],])
-            ->add('substanceName', TextType::class,['required' => false,
-            'attr' => ['class' => 'chpRq'],])
+            ->add('indication', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+            ])
+            ->add('indication_eng', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+            ])
+            ->add('productName', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+            ])
+            ->add('substanceName', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+            ])
             // ->add('Commentaire')
             // ->add('intervenantANSM')
             ->add('intervenantANSM', EntityType::class, [
@@ -81,7 +93,7 @@ class SearchListeEvalSusarType extends AbstractType
                 // 'input' => 'string',
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
-                ])
+            ])
             ->add('finDateAiguillage', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'fin de date d\'aiguillage : ',
@@ -89,44 +101,66 @@ class SearchListeEvalSusarType extends AbstractType
                 // 'input' => 'string',
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
-                ])
-                
-            ->add('debutCreationDate', DateType::class, [
+            ])
+            // ->add('debutCreationDate', DateType::class, [
+            //     'widget' => 'single_text',
+            //     'label' => 'début de date de création EUDRA : ',
+            //     'format' => 'yyyy-MM-dd',
+            //     // 'input' => 'string',
+            //     'required' => false,
+            //     'attr' => ['class' => 'chpRq'],
+            //     ])
+            // ->add('finCreationDate', DateType::class, [
+            //     'widget' => 'single_text',
+            //     'label' => 'fin de date de création EUDRA : ',
+            //     'format' => 'yyyy-MM-dd',
+            //     // 'input' => 'string',
+            //     'required' => false,
+            //     'attr' => ['class' => 'chpRq'],
+            //     ])
+            ->add('debutDateEvaluation', DateType::class, [
                 'widget' => 'single_text',
-                'label' => 'début de date de création EUDRA : ',
+                'label' => 'début de date d\'évaluation : ',
                 'format' => 'yyyy-MM-dd',
                 // 'input' => 'string',
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
-                ])
-            ->add('finCreationDate', DateType::class, [
+            ])
+            ->add('finDateEvaluation', DateType::class, [
                 'widget' => 'single_text',
-                'label' => 'fin de date de création EUDRA : ',
+                'label' => 'fin de date d\'évaluation : ',
                 'format' => 'yyyy-MM-dd',
                 // 'input' => 'string',
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
-                ])
+            ])
             ->add('evalue', ChoiceType::class, [
-                    'choices'  => [
-                        '' => null,
-                        'Oui' => 'Oui',
-                        'Non' => 'Non',
-                    ],
-                    'attr' => ['class' => 'chpRq'],
-                ])
-            ->add('recherche', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary m-2'],
-                'label' => 'Rechercher',
-                'row_attr' => ['id' => 'recherche'],]
+                'choices'  => [
+                    '' => null,
+                    'Oui' => 'Oui',
+                    'Non' => 'Non',
+                ],
+                'attr' => ['class' => 'chpRq'],
+            ])
+            ->add(
+                'recherche',
+                SubmitType::class,
+                [
+                    'attr' => ['class' => 'btn btn-primary m-2'],
+                    'label' => 'Rechercher',
+                    'row_attr' => ['id' => 'recherche'],
+                ]
 
             )
-            ->add('reset', SubmitType ::class, [
-                'attr' => ['class' => 'btn btn-primary m-2'],
-                'label' => 'Reset',
-                'row_attr' => ['id' => 'reset'],]
-            )
-            ;
+            ->add(
+                'reset',
+                SubmitType::class,
+                [
+                    'attr' => ['class' => 'btn btn-primary m-2'],
+                    'label' => 'Reset',
+                    'row_attr' => ['id' => 'reset'],
+                ]
+            );
             // ->add('MesureAction')
         ;
     }

@@ -4,19 +4,21 @@ namespace App\Util;
 
 use \DateTime;
 use App\Entity\Susar;
+use App\Entity\Indications;
 use App\Entity\Medicaments;
 use App\Pemba\RequetesPemba;
-// use App\Entity\TermeRechAttribDMMpole;
-// use function PHPUnit\Framework\isNull;
+use App\Entity\MedicalHistory;
 use App\Meddra\RequetesMeddra;
 use App\Entity\IntervenantsANSM;
 use App\Entity\EffetsIndesirables;
-use App\Entity\Indications;
 use App\Pemba\RequetesPembaMedicaments;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Pemba\RequetesPembaMedicalHistory;
 use App\Pemba\RequetesPembaEffetsIndesirables;
 
-use function PHPUnit\Framework\isNull;
+// use App\Entity\TermeRechAttribDMMpole;
+// use function PHPUnit\Framework\isNull;
+// use function PHPUnit\Framework\isNull;
 
 class Util
 {
@@ -38,6 +40,7 @@ class Util
                 $RqPemba = new RequetesPemba($doctrine);
                 $RqPembaMedicaments = new RequetesPembaMedicaments($doctrine);
                 $RqPembaEI = new RequetesPembaEffetsIndesirables($doctrine);
+                $RqPembaMedHist = new RequetesPembaMedicalHistory($doctrine);
                 $RqMeddra = new RequetesMeddra($doctrine);
                 $IntervTherapGen = $entityManager->getRepository(IntervenantsANSM::class)->findOneDMM_pole_court('THÉRAPIE GÉNIQUE');
                 // $lstIndication = $RqPemba->donneListeIndication($susar_a_creer['id']);
@@ -47,6 +50,7 @@ class Util
                 // $IndicationEng = $RqMeddra->donneIndicEng($CodeIndication);
                 $lstMed = $RqPembaMedicaments->donneMedicaments($susar_a_creer['id']);
                 $lstEI = $RqPembaEI->donneEffetsIndesirables($susar_a_creer['id']);
+                $lstMedHist = $RqPembaMedHist->donneMedicalHistories($susar_a_creer['id']);
                 $medicament = $RqPemba->donneListeMedicament($susar_a_creer['id'], 'Suspect');
                 $productName = $medicament['productname'];
                 $substanceName = $medicament['substancename'];
@@ -184,7 +188,25 @@ class Util
 
                     $entityManager->persist($EI);
                     unset($EI);
-                    // $entityManager->flush();
+                }
+
+                // Ajout des medical histories dans l'entité MedicalHistory et gestion de la liaison avec l'entité Susar
+                // dd($lstMedHist);
+
+                foreach ($lstMedHist as $MedHist_a_creer) {
+
+                    $MedHist = new MedicalHistory;
+                    $MedHist->setMasterId((int) $MedHist_a_creer['master_id']);
+                    $MedHist->setDiseaseLibLLT($MedHist_a_creer['lib_LLT']);
+                    $MedHist->setDiseaseCodeLLT((int) $MedHist_a_creer['code_LLT']);
+                    $MedHist->setDiseaseLibPT($MedHist_a_creer['lib_PT']);
+                    $MedHist->setDiseaseCodePT((int) $MedHist_a_creer['code_PT']);
+                    $MedHist->setContinuing($MedHist_a_creer['patientmedicalcontinue']);
+                    $MedHist->setMedicalcomment($MedHist_a_creer['patientmedicalcomment']);
+                    $MedHist->setSusar($Susar);
+
+                    $entityManager->persist($MedHist);
+                    unset($MedHist);
                 }
 
                 $entityManager->persist($Susar);

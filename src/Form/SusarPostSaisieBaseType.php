@@ -18,9 +18,6 @@ class SusarPostSaisieBaseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // dd($options['data']->getMesureAction()->getLibelle());
-        // dd($options['data']->getIntervenantANSM()->getDMMPoleCourt());
-        // dd($options['data']->getIntervenantANSM());
         $builder
             ->add('master_id', TextType::class, [
                 'attr' => ['readonly' => true],

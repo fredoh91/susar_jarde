@@ -18,8 +18,10 @@ class SearchListeEvalSusar
     private ?MesureAction $MesureAction = null;
     private ?\DateTimeInterface $debutDateAiguillage = null;
     private ?\DateTimeInterface $finDateAiguillage = null;
-    private ?\DateTimeInterface $debutCreationDate = null;
-    private ?\DateTimeInterface $finCreationDate = null;
+    private ?\DateTimeInterface $debutDateEvaluation = null;
+    private ?\DateTimeInterface $finDateEvaluation = null;
+    // private ?\DateTimeInterface $debutCreationDate = null;
+    // private ?\DateTimeInterface $finCreationDate = null;
     private ?string $evalue = null;
  
     public function getMasterId(): ?int
@@ -198,29 +200,53 @@ class SearchListeEvalSusar
         return $this;
     } 
 
-    public function getDebutCreationDate(): ?\DateTimeInterface
+    public function getDebutDateEvaluation(): ?\DateTimeInterface
     {
-        return $this->debutCreationDate;
+        return $this->debutDateEvaluation;
     }
 
-    public function setDebutCreationDate(?\DateTimeInterface $debutCreationDate): self
+    public function setDebutDateEvaluation(?\DateTimeInterface $debutDateEvaluation): self
     {
-        $this->debutCreationDate = $debutCreationDate;
+        $this->debutDateEvaluation = $debutDateEvaluation;
 
         return $this;
     }
     
-    public function getFinCreationDate(): ?\DateTimeInterface
+    public function getFinDateEvaluation(): ?\DateTimeInterface
     {
-        return $this->finCreationDate;
+        return $this->finDateEvaluation;
     }
 
-    public function setFinCreationDate(?\DateTimeInterface $finCreationDate): self
+    public function setFinDateEvaluation(?\DateTimeInterface $finDateEvaluation): self
     {
-        $this->finCreationDate = $finCreationDate;
+        $this->finDateEvaluation = $finDateEvaluation;
 
         return $this;
-    }
+    } 
+
+    // public function getDebutCreationDate(): ?\DateTimeInterface
+    // {
+    //     return $this->debutCreationDate;
+    // }
+
+    // public function setDebutCreationDate(?\DateTimeInterface $debutCreationDate): self
+    // {
+    //     $this->debutCreationDate = $debutCreationDate;
+
+    //     return $this;
+    // }
+    
+    // public function getFinCreationDate(): ?\DateTimeInterface
+    // {
+    //     return $this->finCreationDate;
+    // }
+
+    // public function setFinCreationDate(?\DateTimeInterface $finCreationDate): self
+    // {
+    //     $this->finCreationDate = $finCreationDate;
+
+    //     return $this;
+    // }
     
     public function getEvalue(): ?string
     {

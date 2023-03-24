@@ -61,27 +61,6 @@ class UserBaseType extends AbstractType
                 'attr' => ['readonly' => false],
                 'required' => true,
             ])
-            // ->add('plainPassword', PasswordType::class, [
-            //     // instead of being set onto the object directly,
-            //     // this is read and encoded in the controller
-            //     'label' => 'Mot de passe : ',
-            //     'mapped' => false,
-            //     'attr' => ['autocomplete' => 'new-password'],
-            //     'constraints' => [
-            //         new NotBlank([
-            //             'message' => 'Please enter a password',
-            //         ]),
-            //         new Length([
-            //             'min' => 6,
-            //             'minMessage' => 'Your password should be at least {{ limit }} characters',
-            //             // max length allowed by Symfony for security reasons
-            //             'max' => 4096,
-            //         ]),
-            //     ],
-            // ])
-            // ->add('id', TextType ::class, [
-            //     'attr' => ['readonly' => true],
-            // ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN',
@@ -98,19 +77,6 @@ class UserBaseType extends AbstractType
                 'multiple' => true,
                 'label' => 'Rôle(s)'
             ])
-
-            // ->add('Valider', SubmitType::class, [
-            //     'attr' => ['class' => 'btn btn-primary m-2'],
-            //     'label' => 'Valider']
-            // )
-            // ->add('Annuler', SubmitType::class, [
-            //     'attr' => ['class' => 'btn btn-primary m-2'],
-            //     'label' => 'Annuler']
-            // )
-            // ->add('Inscription', SubmitType::class, [
-            //     'attr' => ['class' => 'btn btn-primary btn-lg my-3'],
-            //     'label' => 'Inscription']
-            // )
         ;
     }
 
