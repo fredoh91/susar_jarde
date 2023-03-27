@@ -4,16 +4,17 @@ namespace App\Controller;
 
 use App\Entity\Susar;
 use App\Entity\SearchListeEvalSusar;
-use App\Form\SearchListeEvalSusarType;
+// use App\Form\SearchListeEvalSusarType;
+use App\Form\SearchListeSusarDmfrType;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 // use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 // #[Security("is_granted('ROLE_DMFR_REF') or is_granted('ROLE_SURV_PILOTEVEC')")]
 // #[IsGranted('ROLE_DMFR_REF')]
@@ -26,7 +27,7 @@ class ListeDmfrSusarController extends AbstractController
     {
 
         $search = new SearchListeEvalSusar;
-        $form = $this->createForm(SearchListeEvalSusarType::class, $search);
+        $form = $this->createForm(SearchListeSusarDmfrType::class, $search);
         $form->handleRequest($request);
 
         $entityManager = $doctrine->getManager();

@@ -19,9 +19,9 @@
 			{{ form_label(form.DLPVersion, 'F.U. BNPV :') }}
 			{{ form_widget(form.DLPVersion) }}
 		</div>
-		<div class="col-2">
-			{# {{ form_label(form.caseid, 'Case_id :') }}
-			{{ form_widget(form.caseid) }} #}
+		<div
+			class="col-2">{# {{ form_label(form.caseid, 'Case_id :') }}
+							{{ form_widget(form.caseid) }} #}
 		</div>
 		<div class="col-2">
 			{{ form_label(form.num_eudract, 'N° EudraCT :') }}
@@ -66,26 +66,54 @@
 				{{ form_label(form.mesureAction, 'Mesure / Action :') }}
 				{{ form_widget(form.mesureAction) }}
 			</div>
-			<div class="col-1">
-				{{ form_label(form.debutDateAiguillage, 'Début date aiguillage (DMFR) :') }}
-				{{ form_widget(form.debutDateAiguillage) }}
-			</div>
-			<div class="col-1">
-				{{ form_label(form.finDateAiguillage, 'Fin date aiguillage (DMFR) :') }}
-				{{ form_widget(form.finDateAiguillage) }}
-			</div>
-			<div class="col-1">
-				{{ form_label(form.debutDateEvaluation, 'Début date évaluation :') }}
-				{{ form_widget(form.debutDateEvaluation) }}
-			</div>
-			<div class="col-1">
-				{{ form_label(form.finDateEvaluation, 'Fin date évaluation :') }}
-				{{ form_widget(form.finDateEvaluation) }}
-			</div>
-			<div class="col-1">
-				{{ form_label(form.evalue, 'Susar évalué :') }}
-				{{ form_widget(form.evalue) }}
-			</div>
+
+
+
+			{% if typeIntervenantANSM == 'DMFR' %}
+				<div class="col-1">
+					{{ form_label(form.debutCreationDate, 'Début date création BNPV :') }}
+					{{ form_widget(form.debutCreationDate) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.finCreationDate, 'Fin date création BNPV :') }}
+					{{ form_widget(form.finCreationDate) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.debutDateAiguillage, 'Début date aiguillage (DMFR) :') }}
+					{{ form_widget(form.debutDateAiguillage) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.finDateAiguillage, 'Fin date aiguillage (DMFR) :') }}
+					{{ form_widget(form.finDateAiguillage) }}
+				</div>
+
+			
+			{% elseif typeIntervenantANSM == 'DMM' %}
+				<div class="col-1">
+					{{ form_label(form.debutDateAiguillage, 'Début date aiguillage (DMFR) :') }}
+					{{ form_widget(form.debutDateAiguillage) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.finDateAiguillage, 'Fin date aiguillage (DMFR) :') }}
+					{{ form_widget(form.finDateAiguillage) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.debutDateEvaluation, 'Début date évaluation :') }}
+					{{ form_widget(form.debutDateEvaluation) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.finDateEvaluation, 'Fin date évaluation :') }}
+					{{ form_widget(form.finDateEvaluation) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.evalue, 'Susar évalué :') }}
+					{{ form_widget(form.evalue) }}
+				</div>
+
+			{% else %}
+			
+			{% endif %}
+
 		</div>
 		<div class="row">
 			<div class="col-10">

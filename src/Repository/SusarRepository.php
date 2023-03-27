@@ -234,17 +234,17 @@ class SusarRepository extends ServiceEntityRepository
                 ->setParameter('ia', '%' . $search->getMesureAction()->getLibelle() . '%');
         }
 
-        // if ($search->getDebutCreationDate()) {
-        //     $query = $query
-        //         ->andWhere('s.creationdate >= :dcd')
-        //         ->setParameter('dcd', $search->getDebutCreationDate());
-        // }
+        if ($search->getDebutCreationDate()) {
+            $query = $query
+                ->andWhere('s.creationdate >= :dcd')
+                ->setParameter('dcd', $search->getDebutCreationDate());
+        }
 
-        // if ($search->getFinCreationDate()) {
-        //     $query = $query
-        //         ->andWhere('s.creationdate <= :fcd')
-        //         ->setParameter('fcd', $search->getFinCreationDate());
-        // }
+        if ($search->getFinCreationDate()) {
+            $query = $query
+                ->andWhere('s.creationdate <= :fcd')
+                ->setParameter('fcd', $search->getFinCreationDate());
+        }
 
         if ($search->getDebutDateAiguillage()) {
             $query = $query

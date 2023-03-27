@@ -20,8 +20,8 @@ class SearchListeEvalSusar
     private ?\DateTimeInterface $finDateAiguillage = null;
     private ?\DateTimeInterface $debutDateEvaluation = null;
     private ?\DateTimeInterface $finDateEvaluation = null;
-    // private ?\DateTimeInterface $debutCreationDate = null;
-    // private ?\DateTimeInterface $finCreationDate = null;
+    private ?\DateTimeInterface $debutCreationDate = null;
+    private ?\DateTimeInterface $finCreationDate = null;
     private ?string $evalue = null;
  
     public function getMasterId(): ?int
@@ -224,29 +224,29 @@ class SearchListeEvalSusar
         return $this;
     } 
 
-    // public function getDebutCreationDate(): ?\DateTimeInterface
-    // {
-    //     return $this->debutCreationDate;
-    // }
+    public function getDebutCreationDate(): ?\DateTimeInterface
+    {
+        return $this->debutCreationDate;
+    }
 
-    // public function setDebutCreationDate(?\DateTimeInterface $debutCreationDate): self
-    // {
-    //     $this->debutCreationDate = $debutCreationDate;
+    public function setDebutCreationDate(?\DateTimeInterface $debutCreationDate): self
+    {
+        $this->debutCreationDate = $debutCreationDate;
 
-    //     return $this;
-    // }
+        return $this;
+    }
     
-    // public function getFinCreationDate(): ?\DateTimeInterface
-    // {
-    //     return $this->finCreationDate;
-    // }
+    public function getFinCreationDate(): ?\DateTimeInterface
+    {
+        return $this->finCreationDate;
+    }
 
-    // public function setFinCreationDate(?\DateTimeInterface $finCreationDate): self
-    // {
-    //     $this->finCreationDate = $finCreationDate;
+    public function setFinCreationDate(?\DateTimeInterface $finCreationDate): self
+    {
+        $this->finCreationDate = $finCreationDate;
 
-    //     return $this;
-    // }
+        return $this;
+    }
     
     public function getEvalue(): ?string
     {
