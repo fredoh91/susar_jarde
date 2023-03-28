@@ -118,6 +118,9 @@ class Susar
     #[ORM\OneToMany(mappedBy: 'susar', targetEntity: MedicalHistory::class)]
     private Collection $medicalHistories;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $worldWide_id = null;
+
     public function __construct()
     {
         $this->Medicament = new ArrayCollection();
@@ -611,6 +614,18 @@ class Susar
                 $medicalHistory->setSusar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWorldWideId(): ?string
+    {
+        return $this->worldWide_id;
+    }
+
+    public function setWorldWideId(?string $worldWide_id): self
+    {
+        $this->worldWide_id = $worldWide_id;
 
         return $this;
     }

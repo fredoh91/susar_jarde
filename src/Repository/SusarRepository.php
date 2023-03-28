@@ -182,6 +182,12 @@ class SusarRepository extends ServiceEntityRepository
                 ->setParameter('ne', $search->getNumEudract());
         }
 
+        if ($search->getWorldWideId()) {
+            $query = $query
+                ->andWhere('s.worldWide_id LIKE :wwi')
+                ->setParameter('wwi', '%' . $search->getWorldWideId() . '%');
+        }
+
         if ($search->getSponsorstudynumb()) {
             $query = $query
                 ->andWhere('s.sponsorstudynumb = :ssn')

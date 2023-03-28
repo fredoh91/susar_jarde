@@ -1,96 +1,72 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
 
-{# <div class="example-wrapper"> #}
-    {# <h1>Hello {{ controller_name }}! ✅</h1>
+	<div class="example-wrapper">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/www_htdocs/susar_jarde/src/Controller/CasDCPronosticVitalController.php'|file_link(0) }}">src/Controller/CasDCPronosticVitalController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/www_htdocs/susar_jarde/templates/cas_dc_pronostic_vital/index.html.twig'|file_link(0) }}">templates/cas_dc_pronostic_vital/index.html.twig</a></code></li>
-    </ul> #}
-<div class="example-wrapper"> 
-{# <div class="container">  #}
-	{# <div class="row">
-		<div class="col-2">
-			{{ form_label(form.DateCreation, 'Date d\'import :') }}
+		{{ form(form) }}
 		</div>
-		<div class="col-2">
-			{{ form_widget(form.DateCreation) }}
+		<div class="container-fluid p-5">
+			{% if Susar %}
+				{# <h3 class="text-center">Cas France - décès et cas France - Pronostic vital</h3> #}
+				{# <table class="table table-sm table-bordered table-hover text-center"> #}
+				Nombre de lignes :
+				{{ NbSusar }}
+					<table class="table table-sm table-bordered table-hover text-center ms-3 me-3"> <thead class="table-secondary">
+						<th scope="col">numero cas BNPV</th>
+						<th scope="col">F.U. BNPV</th>
+						<th scope="col">creationdate</th>
+						<th scope="col-2">studytitle</th>
+						<th scope="col">world wide id</th>
+						<th scope="col">num_eudract</th>
+						<th scope="col">sponsor study number</th>
+						<th scope="col">produit(s)</th>
+						<th scope="col">substance(s) active(s)</th>
+						<th scope="col">indication</th>
+						<th scope="col">DMM/Pôle</th>
+						<th scope="col">Date d'aiguillage (DMFR)</th>
+					</thead>
+					<tbody>
+						{% for cas in Susar %}
+							<tr>
+								<th scope="row">
+									<a href="{{ path('app_affiche_susar',{'master_id':cas.MasterId}) }}">{{ cas.specificcaseid|e }}</a>
+								</th>
+								<td>{{ cas.DLPVersion|e }}</td>
+								<td>{{ cas.creationdate|format_datetime('short', 'none', locale='fr') }}</td>
+								<td>{{ cas.studytitle|e }}</td>
+								<td>{{ cas.WorldWideId|e }}</td>
+								<td>{{ cas.NumEudract|e }}</td>
+								<td>{{ cas.sponsorstudynumb|e }}</td>
+								<td>{{ cas.productname|e }}</td>
+								<td>{{ cas.substancename|e }}</td>
+								<td>{{ cas.indication|e }}</td>
+								{% if cas.intervenantANSM != null %}
+									<td>{{ cas.intervenantANSM.getDMMPole() }}</td>
+								{% else %}
+									<td>Non-attribué</td>
+								{% endif %}
+								{% if cas.dateAiguillage != null %}
+									<td>{{ cas.dateAiguillage|format_datetime(locale='fr') }}</td>
+								{% else %}
+									<td>---</td>
+								{% endif %}
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}
 		</div>
-		<div class="col-2">
-			{{ form_label(form.Recherche, 'Recherche et import') }}
-			{{ form_widget(form.Recherche) }}
-		</div>
-	</div> #}
-    {{ form(form) }}
-</div>
-<div class="container-fluid p-5">
-
-    {% if Susar %}
-        {# <h3 class="text-center">Cas France - décès et cas France - Pronostic vital</h3> #}
-        {# <table class="table table-sm table-bordered table-hover text-center"> #}
-        Nombre de lignes : {{ NbSusar }}
-
-        <table class="table table-sm table-bordered table-hover text-center ms-3 me-3">
-        <thead class="table-secondary">
-            <tr>
-            <th scope="col">master_id</th>
-            <th scope="col">caseid</th>
-            <th scope="col">specificcaseid</th>
-            <th scope="col">DLPVersion</th>
-            <th scope="col">creationdate</th>
-            <th scope="col">statusdate</th>
-            <th scope="col-2">studytitle</th>
-            <th scope="col">sponsorstudynumb</th>
-            <th scope="col">num_eudract</th>
-            <th scope="col">pays_survenue</th>
-            {# <th scope="col">TypeSusar</th> #}
-            <th scope="col">Produit(s)</th>
-            <th scope="col">Substance(s)</th>
-            <th scope="col">indication</th>
-            <th scope="col">DMM/Pôle</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            {% for cas in Susar %}    
-                <tr>
-                    {# <th scope="row">{{ cas.MasterId|e }}</th> #}
-                    <th scope="row"><a href="{{ path('app_affiche_susar',{'master_id':cas.MasterId}) }}">{{ cas.MasterId|e }}</a></th>
-                    <td>{{ cas.caseid|e }}</td>
-                    <td>{{ cas.specificcaseid|e }}</td>
-                    <td>{{ cas.DLPVersion|e }}</td>
-                    <td>{{ cas.creationdate|format_datetime('short', 'none', locale='fr') }}</td>
-                    <td>{{ cas.statusdate|format_datetime('short', 'none', locale='fr') }}</td>
-                    {# <td>{{ cas.creationdate|format_datetime('short', 'none', locale='en') }}</td>
-                    <td>{{ cas.statusdate|format_datetime('short', 'none', locale='en') }}</td> #}
-                    <td>{{ cas.studytitle|e }}</td>
-                    <td>{{ cas.sponsorstudynumb|e }}</td>
-                    <td>{{ cas.NumEudract|e }}</td>
-                    <td>{{ cas.PaysSurvenue|e }}</td>
-                    {# <td>{{ cas.TypeSusar|e }}</td> #}
-                    <td>{{ cas.productName|e }}</td>
-                    <td>{{ cas.substanceName|e }}</td>
-                    <td>{{ cas.indication|e }}</td>
-                    {% if cas.intervenantANSM != null %}
-                        <td>{{ cas.intervenantANSM.getDMMPole() }}</td>
-                    {% else %}
-                        <td>Non-attribué</td>
-                    {% endif %}                    
-
-                    
-                    
-                </tr>
-            {% endfor %}
-        </tbody>
-        </table>
-    {% endif %}
-
-</div>
-{% endblock %}
+	{% endblock %}

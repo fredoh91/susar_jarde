@@ -12,16 +12,16 @@
 
 	<div class="row">
 		<div class="col-2">
-			{{ form_label(form.master_id, 'Master_id (numero cas BNPV) :') }}
-			{{ form_widget(form.master_id) }}
+			{{ form_label(form.specificcaseid, 'Num. BNPV :') }}
+			{{ form_widget(form.specificcaseid) }}
 		</div>
-		<div class="col-2">
+		<div class="col-1">
 			{{ form_label(form.DLPVersion, 'F.U. BNPV :') }}
 			{{ form_widget(form.DLPVersion) }}
 		</div>
-		<div
-			class="col-2">{# {{ form_label(form.caseid, 'Case_id :') }}
-							{{ form_widget(form.caseid) }} #}
+		<div class="col-2">
+			{{ form_label(form.worldWide_id, 'world wide id :') }}
+			{{ form_widget(form.worldWide_id) }}
 		</div>
 		<div class="col-2">
 			{{ form_label(form.num_eudract, 'N° EudraCT :') }}
@@ -145,14 +145,15 @@
 				<table class="table table-sm table-bordered table-hover text-center">
 					<thead class="table-secondary">
 						<tr>
-							<th scope="col">master_id (numero cas BNPV)</th>
+							{# <th scope="col">master_id (numero cas BNPV)</th> #}
 							{# <th scope="col">caseid</th> #}
 							{# <th scope="col">specificcaseid</th> #}
+							<th scope="col">numero cas BNPV</th>
 							<th scope="col">F.U. BNPV</th>
 							<th scope="col">creationdate</th>
 							{# <th scope="col">statusdate</th> #}
 							<th scope="col-2">studytitle</th>
-							<th scope="col">sponsorstudynumb</th>
+							<th scope="col">world wide id</th>
 							<th scope="col">num_eudract</th>
 							<th scope="col">sponsor study number</th>
 							{# <th scope="col">pays_survenue</th> #}
@@ -170,15 +171,24 @@
 					<tbody>
 						{% for Susar in Susars %}
 							<tr>
+								
 								{# <th scope="row">{{ Susar.MasterId|e }}</th> #}
 								<th scope="row">
 
-								{% if typeIntervenantANSM == 'DMFR' %}
+								{# {% if typeIntervenantANSM == 'DMFR' %}
 								<a href="{{ path('app_affiche_dmfr_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.MasterId|e }}</a>
 								{% elseif typeIntervenantANSM == 'DMM' %}
 								<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.MasterId|e }}</a>
 								{% else %}
 								<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.MasterId|e }}</a>
+								{% endif %} #}
+
+								{% if typeIntervenantANSM == 'DMFR' %}
+								<a href="{{ path('app_affiche_dmfr_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.specificcaseid|e }}</a>
+								{% elseif typeIntervenantANSM == 'DMM' %}
+								<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.specificcaseid|e }}</a>
+								{% else %}
+								<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.specificcaseid|e }}</a>
 								{% endif %}
 								
 								</th>
@@ -188,7 +198,7 @@
 								<td>{{ Susar.creationdate|format_datetime('short', 'none', locale='fr') }}</td>
 								{# <td>{{ Susar.statusdate|format_datetime('short', 'none', locale='fr') }}</td> #}
 								<td>{{ Susar.studytitle|e }}</td>
-								<td>{{ Susar.sponsorstudynumb|e }}</td>
+								<td>{{ Susar.WorldWideId|e }}</td>
 								<td>{{ Susar.NumEudract|e }}</td>
 								<td>{{ Susar.sponsorstudynumb|e }}</td>
 								{# <td>{{ Susar.PaysSurvenue|e }}</td> #}

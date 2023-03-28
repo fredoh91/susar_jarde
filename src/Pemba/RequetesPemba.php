@@ -27,8 +27,8 @@ class RequetesPemba
         $sql = "SELECT DISTINCT "
 
             . "mv.id, mv.caseid, mv.specificcaseid, mv.DLPVersion, mv.creationdate, mv.statusdate, "
-            . "st.studytitle, st.sponsorstudynumb, "
-            . "sr.studyname num_eudract, sr.studyregistrationcountry pays_etude, "
+            // . "st.studytitle, st.sponsorstudynumb, "
+            // . "sr.studyname num_eudract, sr.studyregistrationcountry pays_etude, "
             . "id.worldwideuniquecaseidentificationnumber, "
             . "ci.iscaseserious, ci.seriousnesscriteria, ci.receivedate, "
             . "mo.receiptdate, "
@@ -44,8 +44,8 @@ class RequetesPemba
             . "INNER JOIN bi_primarysource ps ON mv.id = ps.master_id "
             . "LEFT JOIN bi_narrative na ON mv.id = na.master_id "
             . "LEFT JOIN bi_case_summary cs ON mv.id = cs.master_id "
-            . "LEFT JOIN bi_study st ON mv.id = st.master_id "
-            . "LEFT JOIN bi_study_registration sr ON mv.id = sr.master_id "
+            // . "LEFT JOIN bi_study st ON mv.id = st.master_id "
+            // . "LEFT JOIN bi_study_registration sr ON mv.id = sr.master_id "
             . "WHERE 1 = 1 "
             . "AND specificcaseid LIKE 'EC%' "
             . "AND mv.CreationDate = '" . $dateCreation . "' "
@@ -76,8 +76,8 @@ class RequetesPemba
 
         $sql = "SELECT DISTINCT "
             . "mv.id, mv.caseid, mv.specificcaseid, mv.DLPVersion, mv.creationdate, mv.statusdate, "
-            . "st.studytitle, st.sponsorstudynumb, "
-            . "sr.studyname num_eudract, sr.studyregistrationcountry pays_etude, "
+            // . "st.studytitle, st.sponsorstudynumb, "
+            // . "sr.studyname num_eudract, sr.studyregistrationcountry pays_etude, "
             . "id.worldwideuniquecaseidentificationnumber, "
             . "ci.iscaseserious, ci.seriousnesscriteria, ci.receivedate, "
             . "mo.receiptdate, "
@@ -138,6 +138,69 @@ class RequetesPemba
     }
 
     /**
+     * Retourne un tableau avec les données de l'étude (studytitle, sponsorstudynumb, num_eudract, pays_etude) pour la création d'une ligne dans la table Susar
+     *
+     * @param integer $master_id
+     * @return array 
+     */
+    public function donneDonneesEtude(int $master_id): array
+    {
+        $sql = "SELECT DISTINCT "
+            . "mv.id, mv.caseid, mv.specificcaseid, mv.DLPVersion,  "
+            . "st.studytitle, st.sponsorstudynumb,  "
+            . "sr.studyname num_eudract, sr.studyregistrationcountry pays_etude  "
+            . "FROM master_versions mv  "
+            . "LEFT JOIN bi_study st ON mv.id = st.master_id  "
+            . "LEFT JOIN bi_study_registration sr ON mv.id = sr.master_id   "
+            . "WHERE 1 = 1  "
+            . "AND specificcaseid LIKE 'EC%'  "
+            . "AND mv.id = " . $master_id . " "
+            . "AND sr.studyregistrationcountry = 'EU'  "
+            . "AND mv.Deleted = 0;  ";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+        $stmt_2 = $stmt->execute()->fetchAll();
+
+        if (count($stmt_2) > 0) {
+            foreach ($stmt_2 as $ter) {
+
+                if (isset($studytitle)) {
+                    $studytitle .= "," . $ter['studytitle'];
+                } else {
+                    $studytitle = $ter['studytitle'];
+                }
+
+                if (isset($sponsorstudynumb)) {
+                    $sponsorstudynumb .= "," . $ter['sponsorstudynumb'];
+                } else {
+                    $sponsorstudynumb = $ter['sponsorstudynumb'];
+                }
+
+                if (isset($num_eudract)) {
+                    $num_eudract .= "," . $ter['num_eudract'];
+                } else {
+                    $num_eudract = $ter['num_eudract'];
+                }
+
+                if (isset($pays_etude)) {
+                    $pays_etude .= "," . $ter['pays_etude'];
+                } else {
+                    $pays_etude = $ter['pays_etude'];
+                }
+
+                $ret['studytitle'] = $studytitle;
+                $ret['sponsorstudynumb'] = $sponsorstudynumb;
+                $ret['num_eudract'] = $num_eudract;
+                $ret['pays_etude'] = $pays_etude;
+
+                return $ret;
+            }
+        } else {
+            return [];
+        }
+
+    }
+    /**
      * Ancienne methode utilisée pour remplir l'indication fr dans la table Susar, lors de l'import depuis la BNPV
      *
      * @param integer $master_id
@@ -174,6 +237,9 @@ class RequetesPemba
             return $lst;
         };
     }
+
+
+
     /**
      * Ancienne méthode utilisée pour récupérer les codes indications pour ensuite retrouver les indications en anglais et les stocker dans la table Susar, lors de l'import depuis la BNPV
      *

@@ -6,8 +6,10 @@ class SearchListeEvalSusar
 {
     private ?int $master_id = null;
     private ?int $caseid = null;
+    private ?string $specificcaseid = null;
     private ?int $DLPVersion = null;
     private ?string $num_eudract = null;
+    private ?string $worldWide_id = null;
     private ?string $sponsorstudynumb = null;
     private ?string $studytitle = null;
     private ?string $productName = null;
@@ -36,6 +38,18 @@ class SearchListeEvalSusar
         return $this;
     }
 
+    public function getSpecificcaseid(): ?string
+    {
+        return $this->specificcaseid;
+    }
+
+    public function setSpecificcaseid(string $specificcaseid): self
+    {
+        $this->specificcaseid = $specificcaseid;
+
+        return $this;
+    }
+
     public function getDLPVersion(): ?int
     {
         return $this->DLPVersion;
@@ -56,6 +70,18 @@ class SearchListeEvalSusar
     public function setNumEudract(?string $num_eudract): self
     {
         $this->num_eudract = $num_eudract;
+
+        return $this;
+    }
+
+    public function getWorldWideId(): ?string
+    {
+        return $this->worldWide_id;
+    }
+
+    public function setWorldWideId(?string $worldWide_id): self
+    {
+        $this->worldWide_id = $worldWide_id;
 
         return $this;
     }

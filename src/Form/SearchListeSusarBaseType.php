@@ -23,7 +23,15 @@ class SearchListeSusarBaseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('master_id', IntegerType::class, [
+            // ->add('master_id', IntegerType::class, [
+            //     'required' => false,
+            //     'attr' => ['class' => 'chpRq'],
+            // ])
+            ->add('specificcaseid', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+            ])
+            ->add('worldWide_id', TextType::class, [
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
             ])
@@ -43,7 +51,10 @@ class SearchListeSusarBaseType extends AbstractType
                 'attr' => ['class' => 'chpRq'],
             ])
             ->add('sponsorstudynumb')
-            ->add('num_eudract')
+            ->add('num_eudract', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+            ])
             // ->add('pays_etude')
             // ->add('TypeSusar')
             ->add('indication', TextType::class, [
@@ -86,62 +97,6 @@ class SearchListeSusarBaseType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
             ])
-            // ->add('debutDateAiguillage', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'début de date d\'aiguillage : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            // ])
-            // ->add('finDateAiguillage', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'fin de date d\'aiguillage : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            // ])
-            // ->add('debutCreationDate', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'début de date de création EUDRA : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            //     ])
-            // ->add('finCreationDate', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'fin de date de création EUDRA : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            //     ])
-            // ->add('debutDateEvaluation', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'début de date d\'évaluation : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            // ])
-            // ->add('finDateEvaluation', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'fin de date d\'évaluation : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            // ])
-            // ->add('evalue', ChoiceType::class, [
-            //     'choices'  => [
-            //         '' => null,
-            //         'Oui' => 'Oui',
-            //         'Non' => 'Non',
-            //     ],
-            //     'attr' => ['class' => 'chpRq'],
-            // ])
             ->add(
                 'recherche',
                 SubmitType::class,

@@ -3,15 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Susar;
-use App\Entity\MesureAction;
-use App\Entity\IntervenantsANSM;
-use Doctrine\ORM\EntityRepository;
+// use App\Entity\MesureAction;
+// use App\Entity\IntervenantsANSM;
+// use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+// use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+// use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class EditSusarBaseType extends AbstractType
@@ -20,6 +20,9 @@ class EditSusarBaseType extends AbstractType
     {
         $builder
             ->add('master_id', TextType::class, [
+                'attr' => ['readonly' => true],
+            ])
+            ->add('specificcaseid', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
             ->add('DLPVersion', TextType::class, [
@@ -32,6 +35,9 @@ class EditSusarBaseType extends AbstractType
                 'attr' => ['readonly' => true],
             ])
             ->add('num_eudract', TextType::class, [
+                'attr' => ['readonly' => true],
+            ])
+            ->add('worldWide_id', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
             ->add('indication', TextType::class, [

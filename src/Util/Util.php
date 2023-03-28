@@ -50,6 +50,7 @@ class Util
                 $lstEI = $RqPembaEI->donneEffetsIndesirables($susar_a_creer['id']);
                 $lstMedHist = $RqPembaMedHist->donneMedicalHistories($susar_a_creer['id']);
                 $medicament = $RqPemba->donneListeMedicament($susar_a_creer['id'], 'Suspect');
+                $donneesEtude = $RqPemba->donneDonneesEtude($susar_a_creer['id']);
                 $productName = $medicament['productname'];
                 $substanceName = $medicament['substancename'];
 
@@ -59,12 +60,17 @@ class Util
                 $Susar->setCaseid((int) $susar_a_creer['caseid']);
                 $Susar->setSpecificcaseid($susar_a_creer['specificcaseid']);
                 $Susar->setDLPVersion($susar_a_creer['DLPVersion']);
+                $Susar->setWorldWideId($susar_a_creer['worldwideuniquecaseidentificationnumber']);
                 $Susar->setCreationdate(new DateTime($susar_a_creer['creationdate']));
                 $Susar->setStatusdate(new DateTime($susar_a_creer['statusdate']));
-                $Susar->setStudytitle($susar_a_creer['studytitle']);
-                $Susar->setSponsorstudynumb($susar_a_creer['sponsorstudynumb']);
-                $Susar->setNumEudract($susar_a_creer['num_eudract']);
-                $Susar->setPaysEtude($susar_a_creer['pays_etude']);
+                // $Susar->setStudytitle($susar_a_creer['studytitle']);
+                // $Susar->setSponsorstudynumb($susar_a_creer['sponsorstudynumb']);
+                // $Susar->setNumEudract($susar_a_creer['num_eudract']);
+                // $Susar->setPaysEtude($susar_a_creer['pays_etude']);
+                $Susar->setStudytitle($donneesEtude['studytitle']);
+                $Susar->setSponsorstudynumb($donneesEtude['sponsorstudynumb']);
+                $Susar->setNumEudract($donneesEtude['num_eudract']);
+                $Susar->setPaysEtude($donneesEtude['pays_etude']);
                 $Susar->setPaysSurvenue($susar_a_creer['pays_survenue']);
                 $Susar->setTypeSusar($TypeSusar);
                 $Susar->setProductName($productName);

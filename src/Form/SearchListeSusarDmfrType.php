@@ -58,51 +58,7 @@ class SearchListeSusarDmfrType extends SearchListeSusarBaseType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
                 ])
-            // ->add('debutDateEvaluation', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'début de date d\'évaluation : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            // ])
-            // ->add('finDateEvaluation', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'fin de date d\'évaluation : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            // ])
-            // ->add('evalue', ChoiceType::class, [
-            //     'choices'  => [
-            //         '' => null,
-            //         'Oui' => 'Oui',
-            //         'Non' => 'Non',
-            //     ],
-            //     'attr' => ['class' => 'chpRq'],
-            // ])
-            // ->add(
-            //     'recherche',
-            //     SubmitType::class,
-            //     [
-            //         'attr' => ['class' => 'btn btn-primary m-2'],
-            //         'label' => 'Rechercher',
-            //         'row_attr' => ['id' => 'recherche'],
-            //     ]
-            // )
-            // ->add(
-            //     'reset',
-            //     SubmitType::class,
-            //     [
-            //         'attr' => ['class' => 'btn btn-primary m-2'],
-            //         'label' => 'Reset',
-            //         'row_attr' => ['id' => 'reset'],
-            //     ]
-            // )
             ;
-            // ->add('MesureAction')
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
