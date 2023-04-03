@@ -42,6 +42,12 @@
 					</li>
 				{% endif %}
 
+				{% if is_granted('ROLE_ADMIN') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path ('app_liste_eval_susar_type_eu') }}">Liste des SUSARs à évaluer (pour DMM) type SUSAR_EU</a>
+					</li>
+				{% endif %}
+
 			</ul>
 
 			{# Liens pour la connexion/deconnexion #}

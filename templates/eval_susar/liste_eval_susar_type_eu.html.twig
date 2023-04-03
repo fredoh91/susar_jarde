@@ -1,0 +1,280 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ encore_entry_link_tags('type_eu_css') }}
+
+{% block javascripts %}
+	{{ encore_entry_script_tags('listeEvalSusar') }}
+{% endblock %}
+
+<div class="container-fluid p-5">
+	{{form_start(form)}}
+
+	<div class="row">
+		<div class="col-2">
+			{{ form_label(form.specificcaseid, 'Num. BNPV :') }}
+			{{ form_widget(form.specificcaseid) }}
+		</div>
+		<div class="col-1">
+			{{ form_label(form.DLPVersion, 'F.U. BNPV :') }}
+			{{ form_widget(form.DLPVersion) }}
+		</div>
+		<div class="col-2">
+			{{ form_label(form.worldWide_id, 'world wide id :') }}
+			{{ form_widget(form.worldWide_id) }}
+		</div>
+		<div class="col-2">
+			{{ form_label(form.num_eudract, 'N° EudraCT :') }}
+			{{ form_widget(form.num_eudract) }}
+		</div>
+		<div class="col-2">
+			{{ form_label(form.sponsorstudynumb, 'Sponsor study number :') }}
+			{{ form_widget(form.sponsorstudynumb) }}
+		</div>
+		<div class="col-2">
+			{{ form_label(form.studytitle, 'Titre de l\'étude :') }}
+				{{ form_widget(form.studytitle) }}
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-3">
+				{{ form_label(form.productName, 'Produit(s) :') }}
+				{{ form_widget(form.productName) }}
+			</div>
+			<div class="col-3">
+				{{ form_label(form.substanceName, 'substance(s) active(s) :') }}
+				{{ form_widget(form.substanceName) }}
+			</div>
+			<div class="col-3">
+				{{ form_label(form.indication, 'Indication :') }}
+				{{ form_widget(form.indication) }}
+			</div>
+			<div class="col-3">
+				{{ form_label(form.indication_eng, 'Indication (anglais) :') }}
+				{{ form_widget(form.indication_eng) }}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-3">
+				{{ form_label(form.intervenantANSM, 'Intervenant ANSM :') }}
+				{{ form_widget(form.intervenantANSM) }}
+			</div>
+			<div class="col-3">
+				{{ form_label(form.mesureAction, 'Mesure / Action :') }}
+				{{ form_widget(form.mesureAction) }}
+			</div>
+
+
+
+			{% if typeIntervenantANSM == 'DMFR' %}
+				<div class="col-1">
+					{{ form_label(form.debutCreationDate, 'Début date création BNPV :') }}
+					{{ form_widget(form.debutCreationDate) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.finCreationDate, 'Fin date création BNPV :') }}
+					{{ form_widget(form.finCreationDate) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.debutDateAiguillage, 'Début date aiguillage (DMFR) :') }}
+					{{ form_widget(form.debutDateAiguillage) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.finDateAiguillage, 'Fin date aiguillage (DMFR) :') }}
+					{{ form_widget(form.finDateAiguillage) }}
+				</div>
+
+			
+			{% elseif typeIntervenantANSM == 'DMM' %}
+				<div class="col-1">
+					{{ form_label(form.debutDateAiguillage, 'Début date aiguillage (DMFR) :') }}
+					{{ form_widget(form.debutDateAiguillage) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.finDateAiguillage, 'Fin date aiguillage (DMFR) :') }}
+					{{ form_widget(form.finDateAiguillage) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.debutDateEvaluation, 'Début date évaluation :') }}
+					{{ form_widget(form.debutDateEvaluation) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.finDateEvaluation, 'Fin date évaluation :') }}
+					{{ form_widget(form.finDateEvaluation) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.evalue, 'Susar évalué :') }}
+					{{ form_widget(form.evalue) }}
+				</div>
+
+			{% else %}
+			
+			{% endif %}
+
+		</div>
+		<div class="row">
+			<div class="col-10">
+
+			</div>
+			<div class="col-1">
+				{{ form_label(form.recherche, 'Recherche') }}
+				{{ form_widget(form.recherche) }}
+			</div>
+			<div class="col-1">
+				{{ form_label(form.reset, 'Reset') }}
+				{{ form_widget(form.reset) }}
+			</div>
+
+		</div>
+
+	{{form_end(form)}}
+			{# {{ form(form) }} #}
+	</div>
+
+		<div class="container-fluid">
+			{% if Susars %}
+			
+				Nombre de lignes : {{ NbSusar }}
+				<h3>Liste des SUSARs</h3>
+				{# {{dump(Susars)}} #}
+
+				<table class="table table-sm table-bordered table-hover text-center">
+				<thead class="table-secondary">
+					<tr></tr>
+				</thead>
+					<tbody>
+					{% for Susar in Susars %}
+				{# {{dump(Susar)}} #}
+						<tr>
+							<div class="ligne_susar">
+								{# <div class="cell_tab"> #}
+								{# flex de gauche #}
+									<div class="container_flex_left">
+										<div class="suspectDrug_lib">Médicament(s) suspect(s) :</div>
+										<div class="suspectDrug">
+											{% for med in Susar.Medicament %}
+												{% if med.productcharacterization == 'Suspect' %}
+													{{med.substancename}}
+													<br>
+												{% endif %}
+											{% endfor %}
+										</div>
+										<div class="PT_outcome_lib">PT outcome :</div>
+										<div class="PT_outcome">
+											{% for EI in Susar.EffetsIndesirables %}
+												{{EI.reactionmeddrapt}}
+												<br>
+											{% endfor %}
+										</div>
+										<div class="seriousness_lib">Gravité :</div>
+										<div class="seriousness">{{Susar.seriousnessCriteria|raw}}</div>
+										<div class="indication_lib">Indication(s) :</div>
+										<div class="indication">
+											{% for indic in Susar.IndicationsTable %}
+												{{indic.productIndications}}
+												<br>
+											{% endfor %}
+										</div>
+										<div class="medicalHistory_lib">medical history :</div>
+										<div class="medicalHistory">
+											{% for med_his in Susar.medicalHistories %}
+												{{med_his.DiseaseLibPT}}
+												<br>
+											{% endfor %}
+										</div>
+										<div class="population_lib">Population :</div>
+										<div class="population">{{Susar.patientagegroup}}</div>
+										<div class="age_lib">age :</div>
+										<div class="age">{{Susar.patientAge}} 
+											{% if Susar.patientAgeUnitLabel == 'Year' %}
+												ans
+											{% elseif Susar.patientAgeUnitLabel == 'Month' %}
+												mois
+											{% elseif Susar.patientAgeUnitLabel == 'Day' %}
+												jours
+											{% elseif Susar.patientAgeUnitLabel == 'Week' %}
+												semaines
+											{% elseif Susar.patientAgeUnitLabel == 'Hour' %}
+												heures
+											{% elseif Susar.patientAgeUnitLabel == 'Decade' %}
+												décennies
+											{% else %}
+												{{Susar.patientAgeUnitLabel}}
+											{% endif %}
+										</div>
+										<div class="sex_lib">sexe :</div>
+										<div class="sex">
+											{% if Susar.patientSex == 'F' %}
+												Femme
+											{% elseif Susar.patientSex == 'H' %}
+												Homme
+											{% else %}
+												{{Susar.patientSex}}
+											{% endif %}
+										</div>
+									</div>
+								{# </div> #}
+								
+								{# flex de droite #}
+								{# <div class="cell_tab"> #}
+									<div class="container_flex_right">
+										<div class="numBNPV_lib">Num. BNPV :</div>
+										<div class="numBNPV">
+											{% if typeIntervenantANSM == 'DMFR' %}
+												<a href="{{ path('app_affiche_dmfr_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.specificcaseid|e }}</a>
+											{% elseif typeIntervenantANSM == 'DMM' %}
+												<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.specificcaseid|e }}</a>
+											{% else %}
+												<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.specificcaseid|e }}</a>
+											{% endif %}
+										</div>
+										<div class="FU_BNPV_lib">F.U. BNPV :</div>
+										<div class="FU_BNPV">{{ Susar.DLPVersion|e }}</div>
+										<div class="DMM_Pole_lib">DMM/Pôle :</div>
+										<div class="DMM_Pole">
+											{% if Susar.intervenantANSM != null %}
+												{{ Susar.intervenantANSM.getDMMPole() }}
+											{% else %}
+												Non-attribué
+											{% endif %}	
+										</div>
+										<div class="DtAiguil_lib">Date d'aiguillage (DMFR) :</div>
+										<div class="DtAiguil">
+											{% if Susar.dateAiguillage != null %}
+												{{ Susar.dateAiguillage|format_datetime(locale='fr') }}
+		{% else %}
+			---
+		{% endif %}
+	</div>
+	<div class="StudyTittle_lib">Study tittle :
+	</div>
+	<div class="StudyTittle">{{ Susar.studytitle|e }}</div>
+	<div class="SponsStudyNum_lib">Sponsor study number :</div>
+	<div class="SponsStudyNum">{{ Susar.sponsorstudynumb|e }}</div>
+	<div class="NumEUDRA_CT_lib">N° EudraCT :</div>
+	<div class="NumEUDRA_CT">{{ Susar.NumEudract|e }}</div>
+	<div class="WW_id_lib">world wide id :
+	</div>
+	<div class="WW_id">{{ Susar.WorldWideId|e }}</div>
+	<div class="MesureAction_lib">Mesure/Action :</div>
+	<div class="MesureAction">
+		{% if Susar.MesureAction != null %}
+			{{ Susar.MesureAction.getLibelle() }}
+		{% else %}
+			Non-évalué
+		{% endif %}
+	</div>
+	<div class="DtMesureAction_lib">Date d'évaluation :</div>
+	<div class="DtMesureAction">
+		{% if Susar.dateEvaluation != null %}
+			{{ Susar.dateEvaluation|format_datetime(locale='fr') }}
+		{% else %}
+			---
+		{% endif %}
+	</div>
+</div>
+{# </div> #}</div></tr>{% endfor %}</tbody></table>{{ knp_pagination_render(Susars) }}{% endif %}</div>{% endblock %}

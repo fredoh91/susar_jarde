@@ -121,6 +121,9 @@ class Susar
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $worldWide_id = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $seriousnessCriteria_brut = null;
+
     public function __construct()
     {
         $this->Medicament = new ArrayCollection();
@@ -626,6 +629,18 @@ class Susar
     public function setWorldWideId(?string $worldWide_id): self
     {
         $this->worldWide_id = $worldWide_id;
+
+        return $this;
+    }
+
+    public function getSeriousnessCriteriaBrut(): ?string
+    {
+        return $this->seriousnessCriteria_brut;
+    }
+
+    public function setSeriousnessCriteriaBrut(?string $seriousnessCriteria_brut): self
+    {
+        $this->seriousnessCriteria_brut = $seriousnessCriteria_brut;
 
         return $this;
     }

@@ -102,7 +102,13 @@ class RequetesPemba
             . "AND ci.casenullification <> 'Nullification' "
             . "AND ps.primarysourceforregulatorypurposes LIKE 'Yes' "
             . "AND ( sr.studyname IN (" . $lst_NumEUDRA_CT . ") "
-            . "   OR mv.id IN (SELECT DISTINCT mv.id as id_prod FROM master_versions mv INNER JOIN bi_product pr ON mv.id = pr.master_id LEFT JOIN bi_product_substance su ON pr.master_id = su.master_id AND pr.NBBlock = su.NBBlock WHERE 1 = 1 AND specificcaseid LIKE 'EC%' AND su.substancename IN  (" . $lst_Produit . ") AND mv.Deleted = 0) "
+            . "   OR mv.id IN (SELECT DISTINCT mv.id as id_prod "
+            .                           " FROM master_versions mv "
+            .                           " INNER JOIN bi_product pr ON mv.id = pr.master_id "
+            .                           " LEFT JOIN bi_product_substance su ON pr.master_id = su.master_id AND pr.NBBlock = su.NBBlock "
+            .                           " WHERE 1 = 1 "
+            .                           " AND specificcaseid LIKE 'EC%' AND su.substancename IN  (" . $lst_Produit . ") "
+            .                           " AND mv.Deleted = 0) "
             . "    ) "
             . "ORDER BY mv.id;";
 
@@ -141,7 +147,7 @@ class RequetesPemba
      * Retourne un tableau avec les données de l'étude (studytitle, sponsorstudynumb, num_eudract, pays_etude) pour la création d'une ligne dans la table Susar
      *
      * @param integer $master_id
-     * @return array 
+     * @return array
      */
     public function donneDonneesEtude(int $master_id): array
     {
@@ -200,6 +206,7 @@ class RequetesPemba
         }
 
     }
+
     /**
      * Ancienne methode utilisée pour remplir l'indication fr dans la table Susar, lors de l'import depuis la BNPV
      *
@@ -238,6 +245,28 @@ class RequetesPemba
         };
     }
 
+
+
+    /**
+     * Dans la BNPV les critères de gravité sont stockés avec des doublons et séparé par deux tildes ~~
+     * cette methode enlève les doublons et met un saut de ligne HTMH comme séparateur entre deux critères
+     *
+     * @param string $critGrav_entree : chaine contenant les criteres de gravité séparés par deux tildes ~~
+     * @return string chaine contenant les critères de gravité sans doublon et séparé par un <BR>
+     */
+    public function donneCriteresGraviteSansDoublon(string $critGrav_entree): string
+    {
+        $critGrav="";
+        // dump($critGrav_entree);
+        $tabCritGrav= explode("~~", $critGrav_entree);
+        foreach ($tabCritGrav as $critere) {
+            if(strpos($critGrav, $critere) === false) {
+                $critGrav .= $critere . "<BR>";
+            }
+        }
+        // dump($critGrav);
+        return $critGrav;
+    }
 
 
     /**

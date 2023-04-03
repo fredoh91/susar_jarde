@@ -53,7 +53,7 @@ class Util
                 $donneesEtude = $RqPemba->donneDonneesEtude($susar_a_creer['id']);
                 $productName = $medicament['productname'];
                 $substanceName = $medicament['substancename'];
-
+                $CritGrav = $RqPemba->donneCriteresGraviteSansDoublon($susar_a_creer['seriousnesscriteria']);
                 // le MasterId n'existe pas dans la table SUSAR, on peut le creer
                 $Susar = new Susar();
                 $Susar->setMasterId((int) $susar_a_creer['id']);
@@ -81,7 +81,11 @@ class Util
                 $Susar->setPatientAgeUnitLabel($susar_a_creer['patientonsetageunitlabel']);
                 $Susar->setPatientAgeGroup($susar_a_creer['patientagegroup']);
                 $Susar->setIsCaseSerious($susar_a_creer['iscaseserious']);
-                $Susar->setSeriousnessCriteria($susar_a_creer['seriousnesscriteria']);
+
+                // dd(explode("~~", $susar_a_creer['seriousnesscriteria']));
+
+                $Susar->setSeriousnessCriteria($CritGrav);
+                $Susar->setSeriousnessCriteriaBrut($susar_a_creer['seriousnesscriteria']);
                 $Susar->setDateImport(new \DateTime());
 
                 if ($TypeSusar === 'TherapGen') {

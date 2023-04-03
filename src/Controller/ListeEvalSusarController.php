@@ -69,4 +69,51 @@ class ListeEvalSusarController extends AbstractController
             'NbSusar' => $NbSusar,
         ]);
     }
+    #[Route('/liste_eval_susar_type_eu', name: 'app_liste_eval_susar_type_eu')]
+    public function liste_eval_susar_type_eu(ManagerRegistry $doctrine, Request $request, PaginatorInterface $paginator): Response
+    {
+
+        $search = new SearchListeEvalSusar;
+        $form = $this->createForm(SearchListeSusarDmmType::class, $search);
+        $form->handleRequest($request);
+
+        $entityManager = $doctrine->getManager();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($form->get('recherche')->isClicked()) {
+                // si on a cliqué sur le bouton de recherche 
+                $TousSusars = $entityManager->getRepository(Susar::class)->findBySearchListeEvalSusar($search);
+                
+                // dd($TousSusars);
+            } else if ($form->get('reset')->isClicked()) {
+                // si on a cliqué sur le bouton reset 
+                $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
+                // $search = new SearchListeEvalSusar;
+                // $form = $this->createForm(SearchListeEvalSusarType::class, $search);
+                // $form->handleRequest($request);
+            } else {
+                dd('je sais pas quoi faire');
+            }
+        } else {
+            // Affichage de tous les susars par defaut :
+            $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
+        }
+        $NbSusar = count($TousSusars);
+        // dump(count($TousSusars));
+        $Susars = $paginator->paginate(
+            $TousSusars, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            15 // Nombre de résultats par page
+        );
+
+
+
+        return $this->render('eval_susar/liste_eval_susar_type_eu.html.twig', [
+            'Susars' => $Susars,
+            'form' => $form->createView(),
+            'typeIntervenantANSM' => 'DMM',
+            'NbSusar' => $NbSusar,
+        ]);
+    }
 }

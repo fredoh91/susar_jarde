@@ -26,6 +26,7 @@ Encore
     .addEntry('listeEvalSusar', './assets/js/listeEvalSusar.js')
 
     .addStyleEntry('glossaire_css', './assets/styles/glossaire.scss')
+    .addStyleEntry('type_eu_css', './assets/styles/type_eu.scss')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 
