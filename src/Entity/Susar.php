@@ -124,6 +124,12 @@ class Susar
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $seriousnessCriteria_brut = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $utilisateurEvaluation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $utilisateurAiguillage = null;
+
     public function __construct()
     {
         $this->Medicament = new ArrayCollection();
@@ -641,6 +647,30 @@ class Susar
     public function setSeriousnessCriteriaBrut(?string $seriousnessCriteria_brut): self
     {
         $this->seriousnessCriteria_brut = $seriousnessCriteria_brut;
+
+        return $this;
+    }
+
+    public function getUtilisateurEvaluation(): ?string
+    {
+        return $this->utilisateurEvaluation;
+    }
+
+    public function setUtilisateurEvaluation(?string $utilisateurEvaluation): self
+    {
+        $this->utilisateurEvaluation = $utilisateurEvaluation;
+
+        return $this;
+    }
+
+    public function getUtilisateurAiguillage(): ?string
+    {
+        return $this->utilisateurAiguillage;
+    }
+
+    public function setUtilisateurAiguillage(?string $utilisateurAiguillage): self
+    {
+        $this->utilisateurAiguillage = $utilisateurAiguillage;
 
         return $this;
     }

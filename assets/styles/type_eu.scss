@@ -1,14 +1,17 @@
 
 
-.container_flex_left > div {
-  border-color: #aeb6bf;
-  min-height: 25px;
-}
-
+.container_flex_left > div,
 .container_flex_right > div {
   border-color: #aeb6bf;
   min-height: 25px;
+  min-height: max-content;
+  // min-height: min-content;
 }
+
+// .container_flex_right > div {
+//   border-color: #aeb6bf;
+//   min-height: 25px;
+// }
 // flex de gauche
 
 .container_flex_left {
@@ -20,7 +23,13 @@
   // border: 2px solid blue;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 0.2fr 1fr 0.2fr 1fr 0.2fr 0.5fr 0.3fr 0.3fr 0.3fr;
+  // grid-template-columns: minmax(2ch, 10ch) 1fr 1fr;
+  // grid-template-rows: 0.2fr 1fr 0.2fr 1fr 0.2fr 0.5fr 0.3fr 0.3fr 0.3fr;
+  // grid-template-rows: 1rem 4rem 1rem 4rem 1rem 3rem 2rem 2rem 2rem;
+  // grid-template-rows: 0.2fr minmax(1fr, 4rem) 0.2fr 4rem 0.2fr 3rem 2rem 2rem 2rem;
+  // grid-template-rows: 0.2fr minmax(1fr, 4rem) 0.2fr 1fr 0.2fr 0.5fr 0.3fr 0.3fr 0.3fr;
+  grid-template-rows: minmax(1fr, 4rem);
+
   grid-auto-columns: 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
@@ -46,25 +55,46 @@
   padding: 2px;
   // border: 2px solid green;
   display: grid;
-  grid-template-columns: 0.5fr 1fr 0.5fr 1fr;
-  grid-template-rows: 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr;
+  grid-template-columns: 0.5fr 1fr 0.7fr 1fr;
+  // grid-template-rows: 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr;
+  // grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  // grid-template-rows: minmax(1fr, 4rem) 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: minmax(1fr, 4rem);
+
+
+  // grid-template-rows: minmax(1fr, 4rem) 5px 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr;
+  // grid-template-rows: minmax(1fr, 4rem) 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr;
+  // grid-template-rows: minmax(1fr, 4rem) 0.2fr minmax(1fr, 4rem) 0.2fr minmax(1fr, 4rem) 0.2fr minmax(1fr, 4rem) 0.2fr minmax(1fr, 4rem);
+  
+  // grid-template-rows: 0.2fr minmax(1fr, 4rem) 0.2fr 1fr 0.2fr 0.5fr 0.3fr 0.3fr 0.3fr;
+
+
+  
   grid-auto-columns: 1fr;
-  gap: 0px 0px;
+  // gap: 0px 0px;
+  gap: 10px 0px;
   grid-auto-flow: row;
   justify-items: stretch;
   align-items: stretch;
   grid-template-areas:
     "numBNPV_lib numBNPV FU_BNPV_lib FU_BNPV"
-    ". . . ."
     "StudyTittle_lib StudyTittle StudyTittle StudyTittle"
-    ". . . ."
     "WW_id_lib WW_id WW_id WW_id"
-    ". . . ."
     "NumEUDRA_CT_lib NumEUDRA_CT SponsStudyNum_lib SponsStudyNum"
-    ". . . ."
     "DMM_Pole_lib DMM_Pole DtAiguil_lib DtAiguil"
-    ". . . ."
     "MesureAction_lib MesureAction DtMesureAction_lib DtMesureAction";
+  // grid-template-areas:
+  //   "numBNPV_lib numBNPV FU_BNPV_lib FU_BNPV"
+  //   ". . . ."
+  //   "StudyTittle_lib StudyTittle StudyTittle StudyTittle"
+  //   ". . . ."
+  //   "WW_id_lib WW_id WW_id WW_id"
+  //   ". . . ."
+  //   "NumEUDRA_CT_lib NumEUDRA_CT SponsStudyNum_lib SponsStudyNum"
+  //   ". . . ."
+  //   "DMM_Pole_lib DMM_Pole DtAiguil_lib DtAiguil"
+  //   ". . . ."
+  //   "MesureAction_lib MesureAction DtMesureAction_lib DtMesureAction";
 }
 
 .suspectDrug_lib {

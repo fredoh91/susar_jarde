@@ -2,24 +2,41 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+// use App\Entity\User;
+// use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
     #[Route(path: '/connexion', name: 'app_login')]
+    // public function login(AuthenticationUtils $authenticationUtils, ManagerRegistry $doctrine): Response
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
+        // if ($lastUsername !== '') {
+        //     dump($authenticationUtils);
+    
+        //     $entityManager = $doctrine->getManager();
+    
+        //     $user = $entityManager->getRepository(User::class)->findByMail($lastUsername);
+        //     dump($user);
+        //     $user->setDateDerniereConnexion(new \DateTime());
+        //     $entityManager->persist($user);
+        //     $entityManager->flush();
+
+
+        // }
+
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername, 

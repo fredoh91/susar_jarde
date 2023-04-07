@@ -2,20 +2,31 @@
 
 {% block body %}
 
-<div class="container-fluid">
+	<div class="container-fluid">
 
-	{{ form_start(form) }}
+		{{ form_start(form) }}
 
-	{% include "_partials/_affiche_eval_susar.html.twig" %}
+		{% include "_partials/_affiche_eval_susar.html.twig" %}
 
-	{{ form_end(form) }}
-</div>
-<div class="p-3">
-	{% for message in app.flashes('success') %}
-		<div class="alert alert-success">
-			{{ message }}
+		<div class="row">
+			<div class="col-2">
+				{{ form_label(form.utilisateurEvaluation, 'Évaluateur du cas :') }}
+				{{ form_widget(form.utilisateurEvaluation) }}
+			</div>
+			<div class="col-2">
+				{{ form_label(form.dateEvaluation, 'Date d\'évaluation :') }}
+				{{ form_widget(form.dateEvaluation) }}
+			</div>
 		</div>
-	{% endfor %}
-</div>
+
+		{{ form_end(form) }}
+	</div>
+	<div class="p-3">
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+	</div>
 
 {% endblock %}

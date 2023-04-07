@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 // #[Security("is_granted('ROLE_DMM_EVAL') or is_granted('ROLE_SURV_PILOTEVEC')")]
 // #[IsGranted('ROLE_DMM_EVAL')]
@@ -24,16 +25,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AfficheEvalSusarController extends AbstractController
 {
     #[Route('/affiche_eval_susar/{master_id}', name: 'app_affiche_eval_susar')]
-    public function index(int $master_id, ManagerRegistry $doctrine, Request $request, EntityManagerInterface $em): Response
+    public function index(int $master_id, ManagerRegistry $doctrine, Request $request, EntityManagerInterface $em, AuthenticationUtils $authenticationUtils): Response
     {
         $entityManager = $doctrine->getManager();
         $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($master_id);
+        $lastUsername = $authenticationUtils->getLastUsername();
         // $form = $this->createForm(EvalSusarType::class, $Susar);
         $form = $this->createForm(EditSusarEvalType::class, $Susar);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $Susar->setDateEvaluation(new \DateTime());
+// dump($lastUsername);
+
+            $Susar->setUtilisateurEvaluation($lastUsername);
 // dd( $Susar);
             $em->persist($Susar);
             $em->flush();

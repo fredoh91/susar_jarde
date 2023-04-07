@@ -3,17 +3,17 @@
 namespace App\Form;
 
 use App\Entity\Susar;
-use App\Entity\MesureAction;
+// use App\Entity\MesureAction;
 use App\Form\EditSusarBaseType;
 use App\Entity\IntervenantsANSM;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\AbstractType;
+// use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+// use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+// use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class EditSusarDmfrType extends EditSusarBaseType
 {
@@ -22,14 +22,14 @@ class EditSusarDmfrType extends EditSusarBaseType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('commentaire', TextareaType ::class, [
-                'attr' => ['readonly' => true],
-            ])
-            ->add('mesureAction', TextType::class, [
-                'attr' => ['readonly' => true],
-                // 'data' => $options['data']->getMesureAction()->getLibelle()
-                'data' => ($options['data']->getMesureAction()) ? $options['data']->getMesureAction()->getLibelle() : ''
-            ])
+            // ->add('commentaire', TextareaType ::class, [
+            //     'attr' => ['readonly' => true],
+            // ])
+            // ->add('mesureAction', TextType::class, [
+            //     'attr' => ['readonly' => true],
+            //     // 'data' => $options['data']->getMesureAction()->getLibelle()
+            //     'data' => ($options['data']->getMesureAction()) ? $options['data']->getMesureAction()->getLibelle() : ''
+            // ])
             ->add('intervenantANSM', EntityType::class, [
                 'class' => IntervenantsANSM::class,
                 'query_builder' => function (EntityRepository $er) {

@@ -28,7 +28,7 @@ class UserAdminController extends AbstractController
         $Users = $paginator->paginate(
             $TousUsers, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            15 // Nombre de résultats par page
+            100 // Nombre de résultats par page
         );
         
         return $this->render('user/liste_user.html.twig', [

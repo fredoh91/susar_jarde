@@ -9,13 +9,17 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-2">
-		{{ form_label(form.master_id, 'Master_id :') }}
-		{{ form_widget(form.master_id) }}
+	<div class="col-1">
+		{{ form_label(form.specificcaseid, 'N° cas BNPV :') }}
+		{{ form_widget(form.specificcaseid) }}
 	</div>
 	<div class="col-1">
 		{{ form_label(form.DLPVersion, 'DLP version :') }}
 		{{ form_widget(form.DLPVersion) }}
+	</div>
+	<div class="col-1">
+		{{ form_label(form.master_id, 'Master_id :') }}
+		{{ form_widget(form.master_id) }}
 	</div>
 	<div class="col-2">
 		{{ form_label(form.pays_survenue, 'Pays de survenue :') }}
@@ -31,7 +35,11 @@
 		{{ form_label(form.num_eudract, 'N° EudraCT :') }}
 		{{ form_widget(form.num_eudract) }}
 	</div>
-	<div class="col-10">
+	<div class="col-2">
+		{{ form_label(form.worldWide_id, 'World wide id :') }}
+		{{ form_widget(form.worldWide_id) }}
+	</div>
+	<div class="col-8">
 		{{ form_label(form.studytitle, 'Nom de l\'étude :') }}
 			{{ form_widget(form.studytitle) }}
 	</div>

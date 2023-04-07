@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 // #[Security("is_granted('ROLE_DMFR_REF') or is_granted('ROLE_SURV_PILOTEVEC')")]
 // #[IsGranted('ROLE_DMFR_REF')]
@@ -25,18 +26,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AfficheDmfrSusarController extends AbstractController
 {
     #[Route('/affiche_dmfr_susar/{master_id}', name: 'app_affiche_dmfr_susar')]
-    public function index(int $master_id, ManagerRegistry $doctrine, Request $request, EntityManagerInterface $em): Response
+    public function index(int $master_id, ManagerRegistry $doctrine, Request $request, EntityManagerInterface $em, AuthenticationUtils $authenticationUtils): Response
     {
         $entityManager = $doctrine->getManager();
         $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($master_id);
+        $lastUsername = $authenticationUtils->getLastUsername();
         // $form = $this->createForm(DmfrSusarType::class, $Susar);
         $form = $this->createForm(EditSusarDmfrType::class, $Susar);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $Susar->setDateAiguillage(new \DateTime());
+            $Susar->setUtilisateurAiguillage($lastUsername);
+
             $em->persist($Susar);
             $em->flush();
-            $this->addFlash('success', 'Votre évaluation a bien été prise en compte, vous pouvez fermer cet onglet.');
+            $this->addFlash('success', 'Votre aiguillage a bien été pris en compte, vous pouvez fermer cet onglet.');
             return $this->redirectToRoute('app_affiche_dmfr_susar_post_saisie', [
                 'master_id' => $master_id,
             ]); 
