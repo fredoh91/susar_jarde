@@ -1,5 +1,12 @@
 
 
+// pour avoir une ligne colorée sur deux dans lae talbleau
+
+// .container-tab > div:nth-child(even) {background: #f0f0f0}
+// .container-tab > div:nth-child(odd) {background: #ead6fa}
+.container-tab > div:nth-child(even) {background: #D9C7FD}
+.container-tab > div:nth-child(odd) {background: #EEE6FE}
+
 .container_flex_left > div,
 .container_flex_right > div {
   border-color: #aeb6bf;
