@@ -21,7 +21,7 @@ class LoginSubscriber implements EventSubscriberInterface
         $lastUserEmail = $event->getPassport()->getUser()->getEmail();
         if ($lastUserEmail !== '') {
             $user = $this->em->getRepository(User::class)->findByMail($lastUserEmail);
-            dump($user);
+            // dump($user);
             $user->setDateDerniereConnexion(new \DateTime());
             $this->em->persist($user);
             $this->em->flush();

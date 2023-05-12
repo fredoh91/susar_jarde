@@ -25,6 +25,7 @@ class SearchListeEvalSusar
     private ?\DateTimeInterface $debutCreationDate = null;
     private ?\DateTimeInterface $finCreationDate = null;
     private ?string $evalue = null;
+    private ?string $aiguille = null;
  
     public function getMasterId(): ?int
     {
@@ -282,6 +283,18 @@ class SearchListeEvalSusar
     public function setEvalue(?string $evalue): self
     {
         $this->evalue = $evalue;
+
+        return $this;
+    }
+    
+    public function getAiguille(): ?string
+    {
+        return $this->aiguille;
+    }
+
+    public function setAiguille(?string $aiguille): self
+    {
+        $this->aiguille = $aiguille;
 
         return $this;
     }

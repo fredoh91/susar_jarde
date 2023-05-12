@@ -154,7 +154,7 @@
 								{# <div class="cell_tab"> #}
 								{# flex de gauche #}
 									<div class="container_flex_left">
-										<div class="suspectDrug_lib">Médicament(s) suspect(s) :</div>
+										<div class="suspectDrug_lib fw-bold">Médicament(s) suspect(s) :</div>
 										<div class="suspectDrug">
 											{% for med in Susar.Medicament %}
 												{% if med.productcharacterization == 'Suspect' %}
@@ -163,30 +163,30 @@
 												{% endif %}
 											{% endfor %}
 										</div>
-										<div class="PT_outcome_lib">PT outcome :</div>
+										<div class="PT_outcome_lib fw-bold">PT outcome :</div>
 										<div class="PT_outcome">
 											{% for EI in Susar.EffetsIndesirables %}
 												{{EI.reactionmeddrapt}}
 												<br>
 											{% endfor %}
 										</div>
-										<div class="seriousness_lib">Gravité :</div>
+										<div class="seriousness_lib fw-bold">Gravité :</div>
 										<div class="seriousness">{{Susar.seriousnessCriteria|raw}}</div>
-										<div class="indication_lib">Indication(s) :</div>
+										<div class="indication_lib fw-bold">Indication(s) :</div>
 										<div class="indication">
 											{% for indic in Susar.IndicationsTable %}
 												{{indic.productIndications}}
 												<br>
 											{% endfor %}
 										</div>
-										<div class="medicalHistory_lib">medical history :</div>
+										<div class="medicalHistory_lib fw-bold">medical history :</div>
 										<div class="medicalHistory">
 											{% for med_his in Susar.medicalHistories %}
 												{{med_his.DiseaseLibPT}}
 												<br>
 											{% endfor %}
 										</div>
-										<div class="population_lib">Population :</div>
+										<div class="population_lib fw-bold">Population :</div>
 										<div class="population">{{Susar.patientagegroup}}</div>
 										<div class="age_lib">age :</div>
 										<div class="age">{{Susar.patientAge}} 
@@ -222,7 +222,7 @@
 								{# flex de droite #}
 								{# <div class="cell_tab"> #}
 									<div class="container_flex_right">
-										<div class="numBNPV_lib">Num. BNPV :</div>
+										<div class="numBNPV_lib fw-bold">Num. BNPV :</div>
 										<div class="numBNPV">
 											{% if typeIntervenantANSM == 'DMFR' %}
 												<a href="{{ path('app_affiche_dmfr_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.specificcaseid|e }}</a>
@@ -232,9 +232,9 @@
 												<a href="{{ path('app_affiche_eval_susar',{'master_id':Susar.MasterId}) }}" target="_blank">{{ Susar.specificcaseid|e }}</a>
 											{% endif %}
 										</div>
-										<div class="FU_BNPV_lib">F.U. BNPV :</div>
+										<div class="FU_BNPV_lib fw-bold">F.U. BNPV :</div>
 										<div class="FU_BNPV">{{ Susar.DLPVersion|e }}</div>
-										<div class="DMM_Pole_lib">DMM/Pôle :</div>
+										<div class="DMM_Pole_lib fw-bold">DMM/Pôle :</div>
 										<div class="DMM_Pole">
 											{% if Susar.intervenantANSM != null %}
 												{{ Susar.intervenantANSM.getDMMPole() }}
@@ -242,7 +242,7 @@
 												Non-attribué
 											{% endif %}	
 										</div>
-										<div class="DtAiguil_lib">Date d'aiguillage (DMFR) :</div>
+										<div class="DtAiguil_lib fw-bold">Date d'aiguillage (DMFR) :</div>
 										<div class="DtAiguil">
 											{% if Susar.dateAiguillage != null %}
 												{{ Susar.dateAiguillage|format_datetime(locale='fr') }}
@@ -250,17 +250,17 @@
 			---
 		{% endif %}
 	</div>
-	<div class="StudyTittle_lib">Study tittle :
+	<div class="StudyTittle_lib fw-bold">Study tittle :
 	</div>
 	<div class="StudyTittle">{{ Susar.studytitle|e }}</div>
-	<div class="SponsStudyNum_lib">Sponsor study number :</div>
+	<div class="SponsStudyNum_lib fw-bold">Sponsor study number :</div>
 	<div class="SponsStudyNum">{{ Susar.sponsorstudynumb|e }}</div>
-	<div class="NumEUDRA_CT_lib">N° EudraCT :</div>
+	<div class="NumEUDRA_CT_lib fw-bold">N° EudraCT :</div>
 	<div class="NumEUDRA_CT">{{ Susar.NumEudract|e }}</div>
-	<div class="WW_id_lib">world wide id :
+	<div class="WW_id_lib fw-bold">world wide id :
 	</div>
 	<div class="WW_id">{{ Susar.WorldWideId|e }}</div>
-	<div class="MesureAction_lib">Mesure/Action :</div>
+	<div class="MesureAction_lib fw-bold">Mesure/Action :</div>
 	<div class="MesureAction">
 		{% if Susar.MesureAction != null %}
 			{{ Susar.MesureAction.getLibelle() }}
@@ -268,7 +268,7 @@
 			Non-évalué
 		{% endif %}
 	</div>
-	<div class="DtMesureAction_lib">Date d'évaluation :</div>
+	<div class="DtMesureAction_lib fw-bold">Date d'évaluation :</div>
 	<div class="DtMesureAction">
 		{% if Susar.dateEvaluation != null %}
 			{{ Susar.dateEvaluation|format_datetime(locale='fr') }}

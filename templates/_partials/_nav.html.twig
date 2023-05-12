@@ -36,15 +36,16 @@
 					</li>
 				{% endif %}
 
-				{% if is_granted('ROLE_DMFR_ADMIN') or is_granted('ROLE_SURV_ADMIN') %}
+				{# {% if is_granted('ROLE_ADMIN') %} #}
+				{% if is_granted('ROLE_DMM_EVAL')  or is_granted('ROLE_SURV_PILOTEVEC') %}
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path ('app_admin_tbref') }}">Administration</a>
+						<a class="nav-link" href="{{ path ('app_liste_eval_susar_type_eu') }}">Liste des SUSARs à évaluer (pour DMM) type SUSAR_EU</a>
 					</li>
 				{% endif %}
 
-				{% if is_granted('ROLE_ADMIN') %}
+				{% if is_granted('ROLE_DMFR_ADMIN') or is_granted('ROLE_SURV_ADMIN') %}
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path ('app_liste_eval_susar_type_eu') }}">Liste des SUSARs à évaluer (pour DMM) type SUSAR_EU</a>
+						<a class="nav-link" href="{{ path ('app_admin_tbref') }}">Administration</a>
 					</li>
 				{% endif %}
 

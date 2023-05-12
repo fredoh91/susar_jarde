@@ -286,6 +286,16 @@ class SusarRepository extends ServiceEntityRepository
             } else {}
         }
 
+        if ($search->getAiguille()) {
+            if ($search->getAiguille() === 'Non') {
+                $query = $query
+                    ->andWhere('s.intervenantANSM IS NULL');
+            } elseif ($search->getAiguille() === 'Oui') {
+                $query = $query
+                    ->andWhere('s.intervenantANSM IS NOT NULL');
+            } else {}
+        }
+
         return $query
             ->getQuery()
             ->getResult();

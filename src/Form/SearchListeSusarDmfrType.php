@@ -58,6 +58,14 @@ class SearchListeSusarDmfrType extends SearchListeSusarBaseType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
                 ])
+            ->add('aiguille', ChoiceType::class, [
+                'choices'  => [
+                    '' => null,
+                    'Oui' => 'Oui',
+                    'Non' => 'Non',
+                ],
+                'attr' => ['class' => 'chpRq'],
+            ])
             ;
     }
 
