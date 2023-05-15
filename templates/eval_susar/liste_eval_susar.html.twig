@@ -169,7 +169,7 @@
 							<th scope="col">DMM/Pôle</th>
 							<th scope="col">Date d'aiguillage (DMFR)</th>
 							<th scope="col">Mesure/Action</th>
-							<th scope="col">Date d'évaluation</th>
+							<th scope="col">Utilisateur/date d'évaluation</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -226,8 +226,22 @@
 								{% else %}
 									<td>Non-évalué</td>
 								{% endif %}
-								{% if Susar.dateEvaluation != null %}
-									<td>{{ Susar.dateEvaluation|format_datetime(locale='fr') }}</td>
+								{% if Susar.dateEvaluation != null and Susar.utilisateurEvaluation != null  %}
+									<td>
+										{% if Susar.utilisateurEvaluation != null  %}
+											{{ Susar.utilisateurEvaluation }}
+										{% else %}	
+											--
+										{% endif %}
+										<BR>
+										{% if Susar.dateEvaluation != null %}
+											{{ Susar.dateEvaluation|format_datetime(locale='fr') }}
+										{% else %}	
+											--
+										{% endif %}
+									</td>
+									{# <td>{{ Susar.dateEvaluation|format_datetime(locale='fr') }}</td> #}
+									{# <td>{{ Susar.dateEvaluation|format_datetime(locale='fr') }}<BR>{{ Susar.utilisateurEvaluation }}</td> #}
 								{% else %}
 									<td>---</td>
 								{% endif %}
