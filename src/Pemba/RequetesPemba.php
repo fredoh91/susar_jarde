@@ -202,7 +202,62 @@ class RequetesPemba
                 return $ret;
             }
         } else {
-            return [];
+            // la requete n'a rien retourné, on retente sans la clause : AND sr.studyregistrationcountry = 'EU'
+            $sql = "SELECT DISTINCT "
+                        . "mv.id, mv.caseid, mv.specificcaseid, mv.DLPVersion,  "
+                        . "st.studytitle, st.sponsorstudynumb,  "
+                        . "sr.studyname num_eudract, sr.studyregistrationcountry pays_etude  "
+                        . "FROM master_versions mv  "
+                        . "LEFT JOIN bi_study st ON mv.id = st.master_id  "
+                        . "LEFT JOIN bi_study_registration sr ON mv.id = sr.master_id   "
+                        . "WHERE 1 = 1  "
+                        . "AND specificcaseid LIKE 'EC%'  "
+                        . "AND mv.id = " . $master_id . " "
+                        . "AND mv.Deleted = 0;  ";
+
+            $stmt = $this->em->getConnection()->prepare($sql);
+            $stmt_2 = $stmt->execute()->fetchAll();
+
+            if (count($stmt_2) > 0) {
+                foreach ($stmt_2 as $ter) {
+
+                    if (isset($studytitle)) {
+                        $studytitle .= "," . $ter['studytitle'];
+                    } else {
+                        $studytitle = $ter['studytitle'];
+                    }
+
+                    if (isset($sponsorstudynumb)) {
+                        $sponsorstudynumb .= "," . $ter['sponsorstudynumb'];
+                    } else {
+                        $sponsorstudynumb = $ter['sponsorstudynumb'];
+                    }
+
+                    if (isset($num_eudract)) {
+                        $num_eudract .= "," . $ter['num_eudract'];
+                    } else {
+                        $num_eudract = $ter['num_eudract'];
+                    }
+
+                    if (isset($pays_etude)) {
+                        $pays_etude .= "," . $ter['pays_etude'];
+                    } else {
+                        $pays_etude = $ter['pays_etude'];
+                    }
+
+                    $ret['studytitle'] = $studytitle;
+                    $ret['sponsorstudynumb'] = $sponsorstudynumb;
+                    $ret['num_eudract'] = $num_eudract;
+                    $ret['pays_etude'] = $pays_etude;
+
+                    return $ret;
+                }
+            } else {
+                // la requete n'a rien retourné
+                return [];
+            }
+
+            // return [];
         }
 
     }
