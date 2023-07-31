@@ -56,6 +56,7 @@ class SusarRepository extends ServiceEntityRepository
      */
     public function EstCe_SUSAR_unique($value): bool
     {
+dump($value);
         $query = $this->createQueryBuilder('s')
             ->select('count(s.id)')
             ->andWhere('s.master_id = :val')
@@ -157,6 +158,12 @@ class SusarRepository extends ServiceEntityRepository
     {
 
         $query = $this->createQueryBuilder('s');
+
+        if ($search->getSpecificcaseid()) {
+            $query = $query
+                ->andWhere('s.specificcaseid = :sci')
+                ->setParameter('sci', $search->getSpecificcaseid());
+        }
 
         if ($search->getMasterId()) {
             $query = $query
