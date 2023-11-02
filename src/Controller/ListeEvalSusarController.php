@@ -37,7 +37,7 @@ class ListeEvalSusarController extends AbstractController
             if ($form->get('recherche')->isClicked()) {
                 // si on a cliqué sur le bouton de recherche 
                 $TousSusars = $entityManager->getRepository(Susar::class)->findBySearchListeEvalSusar($search);
-                
+                dump("Coucou 1 - findby ...");
                 // dd($TousSusars);
             } else if ($form->get('reset')->isClicked()) {
                 // si on a cliqué sur le bouton reset 
@@ -45,12 +45,17 @@ class ListeEvalSusarController extends AbstractController
                 // $search = new SearchListeEvalSusar;
                 // $form = $this->createForm(SearchListeEvalSusarType::class, $search);
                 // $form->handleRequest($request);
+                dump("Coucou 2 - findall");
             } else {
                 dd('je sais pas quoi faire');
             }
         } else {
             // Affichage de tous les susars par defaut :
             $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
+            
+            dump("isSubmitted : " . $form->isSubmitted());
+            dump("isValid : " . $form->isValid());
+            dump("Coucou 3 - findall");
         }
         $NbSusar = count($TousSusars);
         // dump(count($TousSusars));
