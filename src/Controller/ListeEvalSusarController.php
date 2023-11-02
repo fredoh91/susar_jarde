@@ -37,7 +37,6 @@ class ListeEvalSusarController extends AbstractController
             if ($form->get('recherche')->isClicked()) {
                 // si on a cliqué sur le bouton de recherche 
                 $TousSusars = $entityManager->getRepository(Susar::class)->findBySearchListeEvalSusar($search);
-                dump("Coucou 1 - findby ...");
                 // dd($TousSusars);
             } else if ($form->get('reset')->isClicked()) {
                 // si on a cliqué sur le bouton reset 
@@ -45,17 +44,15 @@ class ListeEvalSusarController extends AbstractController
                 // $search = new SearchListeEvalSusar;
                 // $form = $this->createForm(SearchListeEvalSusarType::class, $search);
                 // $form->handleRequest($request);
-                dump("Coucou 2 - findall");
             } else {
                 dd('je sais pas quoi faire');
             }
+        } elseif ($form->isSubmitted() && $form->isValid() == false) {
+            // Si on a cliqué sur un des boutons du paginator (le formulaire est alors "isSubmitted()" mais pas "isValid()")
+            $TousSusars = $entityManager->getRepository(Susar::class)->findBySearchListeEvalSusar($search);
         } else {
             // Affichage de tous les susars par defaut :
             $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
-            
-            dump("isSubmitted : " . $form->isSubmitted());
-            dump("isValid : " . $form->isValid());
-            dump("Coucou 3 - findall");
         }
         $NbSusar = count($TousSusars);
         // dump(count($TousSusars));
@@ -64,9 +61,6 @@ class ListeEvalSusarController extends AbstractController
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
             15 // Nombre de résultats par page
         );
-
-
-
         return $this->render('eval_susar/liste_eval_susar.html.twig', [
             'Susars' => $Susars,
             'form' => $form->createView(),
