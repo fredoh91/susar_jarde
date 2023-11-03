@@ -50,6 +50,9 @@ class ListeDmfrSusarController extends AbstractController
                 dd('je sais pas quoi faire');
             }
 
+        } elseif ($form->isSubmitted() && $form->isValid() == false) {
+            // Si on a cliqué sur un des boutons du paginator (le formulaire est alors "isSubmitted()" mais pas "isValid()")
+            $TousSusars = $entityManager->getRepository(Susar::class)->findBySearchListeEvalSusar($search);
         } else {
             // Affichage de tous les susars par defaut :
             $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
