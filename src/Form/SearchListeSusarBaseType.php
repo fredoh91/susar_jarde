@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-// use App\Entity\Susar;
 use App\Entity\MesureAction;
 use App\Entity\IntervenantsANSM;
 use Doctrine\ORM\EntityRepository;
@@ -11,10 +10,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+// use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ResetType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+// use Symfony\Component\Form\Extension\Core\Type\ResetType;
+// use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
@@ -23,10 +22,6 @@ class SearchListeSusarBaseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // ->add('master_id', IntegerType::class, [
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            // ])
             ->add('specificcaseid', TextType::class, [
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
@@ -35,17 +30,10 @@ class SearchListeSusarBaseType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
             ])
-            // ->add('caseid', IntegerType::class,[
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            //     ])
-            // ->add('specificcaseid')
             ->add('DLPVersion', IntegerType::class, [
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
             ])
-            // ->add('creationdate')
-            // ->add('statusdate')
             ->add('studytitle', TextType::class, [
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
@@ -55,8 +43,6 @@ class SearchListeSusarBaseType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
             ])
-            // ->add('pays_etude')
-            // ->add('TypeSusar')
             ->add('indication', TextType::class, [
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
@@ -73,8 +59,6 @@ class SearchListeSusarBaseType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
             ])
-            // ->add('Commentaire')
-            // ->add('intervenantANSM')
             ->add('intervenantANSM', EntityType::class, [
                 'class' => IntervenantsANSM::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -116,7 +100,6 @@ class SearchListeSusarBaseType extends AbstractType
                     'row_attr' => ['id' => 'reset'],
                 ]
             );
-            // ->add('MesureAction')
         ;
     }
 

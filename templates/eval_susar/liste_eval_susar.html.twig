@@ -71,12 +71,12 @@
 
 			{% if typeIntervenantANSM == 'DMFR' %}
 				<div class="col-1">
-					{{ form_label(form.debutCreationDate, 'Début date création BNPV :') }}
-					{{ form_widget(form.debutCreationDate) }}
+					{{ form_label(form.debutStatusDate, 'Début date création BNPV :') }}
+					{{ form_widget(form.debutStatusDate) }}
 				</div>
 				<div class="col-1">
-					{{ form_label(form.finCreationDate, 'Fin date création BNPV :') }}
-					{{ form_widget(form.finCreationDate) }}
+					{{ form_label(form.finStatusDate, 'Fin date création BNPV :') }}
+					{{ form_widget(form.finStatusDate) }}
 				</div>
 				<div class="col-1">
 					{{ form_label(form.debutDateAiguillage, 'Début date aiguillage (DMFR) :') }}
@@ -120,9 +120,32 @@
 
 		</div>
 		<div class="row">
-			<div class="col-10">
 
-			</div>
+			{% if typeIntervenantANSM == 'DMFR' %}
+				<div class="col-8">
+
+				</div>
+
+				<div class="col-1">
+					{{ form_label(form.debutDateImport, 'Début date import :') }}
+					{{ form_widget(form.debutDateImport) }}
+				</div>
+				<div class="col-1">
+					{{ form_label(form.finDateImport, 'Fin date import :') }}
+					{{ form_widget(form.finDateImport) }}
+				</div>
+
+
+			{% elseif typeIntervenantANSM == 'DMM' %}
+
+				<div class="col-10">
+
+				</div>
+
+			{% else %}
+			
+			{% endif %}
+
 			<div class="col-1">
 				{{ form_label(form.recherche, 'Recherche') }}
 				{{ form_widget(form.recherche) }}
@@ -167,6 +190,13 @@
 							<th scope="col">indication</th>
 							{# <th scope="col">indication (angl.)</th> #}
 							<th scope="col">DMM/Pôle</th>
+							{% if typeIntervenantANSM == 'DMFR' %}
+								<th scope="col">Date d'import (DMFR)</th>
+							{% elseif typeIntervenantANSM == 'DMM' %}
+
+							{% else %}
+
+							{% endif %}							
 							<th scope="col">Date d'aiguillage (DMFR)</th>
 							<th scope="col">Mesure/Action</th>
 							<th scope="col">Utilisateur/date d'évaluation</th>
@@ -216,6 +246,19 @@
 								{% else %}
 									<td>Non-attribué</td>
 								{% endif %}
+
+								{% if typeIntervenantANSM == 'DMFR' %}
+									{% if Susar.dateImport != null %}
+										<td>{{ Susar.dateImport|format_datetime(locale='fr') }}</td>
+									{% else %}
+										<td>---</td>
+									{% endif %}
+								{% elseif typeIntervenantANSM == 'DMM' %}
+
+								{% else %}
+
+								{% endif %}	
+
 								{% if Susar.dateAiguillage != null %}
 									<td>{{ Susar.dateAiguillage|format_datetime(locale='fr') }}</td>
 								{% else %}

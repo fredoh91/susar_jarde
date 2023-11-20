@@ -14,35 +14,36 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-// use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-// use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+// use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+// use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 // #[Security("is_granted('ROLE_DMFR_GEST')")]
 #[IsGranted('ROLE_DMFR_GEST')]
 class RqSusarController extends AbstractController
 {
-    #[Route('/RqSusarDate/{creationdate}', name: 'RqSusarDateAffDate')]
-    public function RqSusarDateAffDate(string $creationdate, ManagerRegistry $doctrine, Request $request): Response
+    #[Route('/RqSusarDate/{statusdate}', name: 'RqSusarDateAffDate')]
+    public function RqSusarDateAffDate(string $statusdate, ManagerRegistry $doctrine, Request $request): Response
     {
         $defaultData = ['message' => 'Saisissez une date d\'import'];
 
         $form = $this->createFormBuilder($defaultData)
-        ->add('DateCreation', DateType::class, [
+        ->add('DateStatus', DateType::class, [
             'widget' => 'single_text',
             'label' => 'date d\'import : ',
             'format' => 'yyyy-MM-dd',
             'input' => 'string',
-            'data' => $creationdate,
+            'data' => $statusdate,
             ])
         ->getForm();
             $entityManager = $doctrine->getManager();
-            $creationdate_dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $creationdate . " 00:00:00" );
+            $statusdate_dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $statusdate . " 00:00:00" );
 
-            // recherche des susar en fonction de la $creationDate renseignée   \DateTime::createFromFormat('Y-m-d', $creationdate)
-            $Susar = $entityManager->getRepository(Susar::class)->findByCreationdate($creationdate_dateTime);
+            // recherche des susar en fonction de la $statusDate renseignée   \DateTime::createFromFormat('Y-m-d', $statusdate)
+            $Susar = $entityManager->getRepository(Susar::class)->findByStatusdate($statusdate_dateTime);
             $NbSusar = count($Susar);
             // dd($Susar);
             return $this->render('import_susar/RqSusarDate.html.twig', [
@@ -59,7 +60,7 @@ class RqSusarController extends AbstractController
 
 
     #[Route('/RqSusarDate', name: 'RqSusarDate')]
-    public function RqSusarDate(ManagerRegistry $doctrine, Request $request): Response
+    public function RqSusarDate(ManagerRegistry $doctrine, Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         $defaultData = ['message' => 'Saisissez une date d\'import'];
         $data = new DateTime("now");
@@ -67,7 +68,7 @@ class RqSusarController extends AbstractController
         $data2 = $data->format('Y-m-d');
         // dd($data2);
         $form = $this->createFormBuilder($defaultData)
-        ->add('DateCreation', DateType::class, [
+        ->add('DateStatus', DateType::class, [
             'widget' => 'single_text',
             'label' => 'date d\'import : ',
             'format' => 'yyyy-MM-dd',
@@ -83,7 +84,11 @@ class RqSusarController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $creationdate = $form->getData()['DateCreation'];
+            // $creationdate = $form->getData()['DateCreation'];
+            $statusdate = $form->getData()['DateStatus'];  
+            
+            $lastUsername = $authenticationUtils->getLastUsername();          
+
             $importTypeSusarEu = $this->getParameter('IMPORT_TYPE_SUSAR_EU');
             $entityManager = $doctrine->getManager();
 
@@ -94,16 +99,18 @@ class RqSusarController extends AbstractController
             $lst_Produit = $this->FormatSQL_IN($Lst_therapieGen);
 
             $RqPemba = new RequetesPemba($doctrine);
-            
-            $cas_FrDC_FrPronVit = $RqPemba->donneListeEC_FrDC_FrPronVit($creationdate);
-            $cas_TherapieGenique = $RqPemba->donneListeEC_TherapieGenique($creationdate, $lst_NumEUDRA_CT, $lst_Produit);
+
+            $cas_FrDC_FrPronVit = $RqPemba->donneListeEC_FrDC_FrPronVit($statusdate);
+            $cas_TherapieGenique = $RqPemba->donneListeEC_TherapieGenique($statusdate, $lst_NumEUDRA_CT, $lst_Produit);
 
             // creation des entités SUSAR a partir du résultat des requêtes 
-            Util::CreeSUSAR($doctrine, $cas_FrDC_FrPronVit,"FR_DC_ProVit", $importTypeSusarEu);
-            Util::CreeSUSAR($doctrine, $cas_TherapieGenique,"TherapGen", $importTypeSusarEu);
-            $creationdate_dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $creationdate . " 00:00:00" );
-            // recherche des susar en fonction de la $creationDate renseignée   \DateTime::createFromFormat('Y-m-d', $creationdate)
-            $Susar = $entityManager->getRepository(Susar::class)->findByCreationdate($creationdate_dateTime);
+            Util::CreeSUSAR($doctrine, $cas_FrDC_FrPronVit,"FR_DC_ProVit", $importTypeSusarEu, $lastUsername);
+            Util::CreeSUSAR($doctrine, $cas_TherapieGenique,"TherapGen", $importTypeSusarEu, $lastUsername );
+            // $creationdate_dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $creationdate . " 00:00:00" );
+            $statusdate_dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $statusdate . " 00:00:00" );
+            // recherche des susar en fonction de la $statusDate renseignée   \DateTime::createFromFormat('Y-m-d', $statusdate)
+            // $Susar = $entityManager->getRepository(Susar::class)->findByCreationdate($creationdate_dateTime);
+            $Susar = $entityManager->getRepository(Susar::class)->findByStatusdate($statusdate_dateTime);
             $NbSusar = count($Susar);
             return $this->render('import_susar/RqSusarDate.html.twig', [
                 'form' => $form->createView(),

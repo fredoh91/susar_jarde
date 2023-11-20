@@ -22,8 +22,10 @@ class SearchListeEvalSusar
     private ?\DateTimeInterface $finDateAiguillage = null;
     private ?\DateTimeInterface $debutDateEvaluation = null;
     private ?\DateTimeInterface $finDateEvaluation = null;
-    private ?\DateTimeInterface $debutCreationDate = null;
-    private ?\DateTimeInterface $finCreationDate = null;
+    private ?\DateTimeInterface $debutStatusDate = null;
+    private ?\DateTimeInterface $finStatusDate = null;
+    private ?\DateTimeInterface $debutDateImport = null;
+    private ?\DateTimeInterface $finDateImport = null;
     private ?string $evalue = null;
     private ?string $aiguille = null;
  
@@ -251,26 +253,51 @@ class SearchListeEvalSusar
         return $this;
     } 
 
-    public function getDebutCreationDate(): ?\DateTimeInterface
+    public function getDebutStatusDate(): ?\DateTimeInterface
     {
-        return $this->debutCreationDate;
+        return $this->debutStatusDate;
     }
 
-    public function setDebutCreationDate(?\DateTimeInterface $debutCreationDate): self
+    public function setDebutStatusDate(?\DateTimeInterface $debutStatusDate): self
     {
-        $this->debutCreationDate = $debutCreationDate;
+        $this->debutStatusDate = $debutStatusDate;
 
         return $this;
     }
     
-    public function getFinCreationDate(): ?\DateTimeInterface
+    public function getFinStatusDate(): ?\DateTimeInterface
     {
-        return $this->finCreationDate;
+        return $this->finStatusDate;
     }
 
-    public function setFinCreationDate(?\DateTimeInterface $finCreationDate): self
+    public function setFinStatusDate(?\DateTimeInterface $finStatusDate): self
     {
-        $this->finCreationDate = $finCreationDate;
+        $this->finStatusDate = $finStatusDate;
+
+        return $this;
+    }
+    
+
+    public function getDebutDateImport(): ?\DateTimeInterface
+    {
+        return $this->debutDateImport;
+    }
+
+    public function setDebutDateImport(?\DateTimeInterface $debutDateImport): self
+    {
+        $this->debutDateImport = $debutDateImport;
+
+        return $this;
+    }
+    
+    public function getFinDateImport(): ?\DateTimeInterface
+    {
+        return $this->finDateImport;
+    }
+
+    public function setFinDateImport(?\DateTimeInterface $finDateImport): self
+    {
+        $this->finDateImport = $finDateImport;
 
         return $this;
     }

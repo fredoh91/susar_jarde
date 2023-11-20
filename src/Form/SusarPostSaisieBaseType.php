@@ -3,16 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Susar;
-// use App\Entity\MesureAction;
-// use App\Entity\IntervenantsANSM;
-// use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-// use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-// use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-// use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class SusarPostSaisieBaseType extends AbstractType
@@ -23,8 +17,6 @@ class SusarPostSaisieBaseType extends AbstractType
             ->add('master_id', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
-            // ->add('caseid')
-            // ->add('specificcaseid')
             ->add('specificcaseid', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
@@ -34,8 +26,6 @@ class SusarPostSaisieBaseType extends AbstractType
             ->add('pays_survenue', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
-            // ->add('creationdate')
-            // ->add('statusdate')
             ->add('studytitle', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
@@ -45,10 +35,6 @@ class SusarPostSaisieBaseType extends AbstractType
             ->add('worldWide_id', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
-            // ->add('sponsorstudynumb')
-            // ->add('num_eudract')
-            // ->add('pays_etude')
-            // ->add('TypeSusar')
             ->add('indication', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
@@ -57,7 +43,6 @@ class SusarPostSaisieBaseType extends AbstractType
             ])
             ->add('intervenantANSM', TextType::class, [
                 'attr' => ['readonly' => true],
-                // 'data' => $options['data']->getIntervenantANSM()->getDMMPoleCourt()
                 'data' => ($options['data']->getIntervenantANSM()) ? $options['data']->getIntervenantANSM()->getDMMPoleCourt() : ''
             ])
             ->add('productname', TextType::class, [
@@ -74,10 +59,7 @@ class SusarPostSaisieBaseType extends AbstractType
                     'readonly' => true,
                     'rows' => 12,
                 ],
-                
             ])
-
-            
             ;
     }
 

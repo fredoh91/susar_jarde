@@ -19,7 +19,13 @@ class RqSusarType extends AbstractType
     {
 
         $builder
-        ->add('DateCreation', DateType::class, [
+        // ->add('DateCreation', DateType::class, [
+        //     'widget' => 'single_text',
+        //     'label' => 'date d\'import : ',
+        //     'format' => 'yyyy-MM-dd',
+        //     'input' => 'string',
+        //     ])
+        ->add('DateStatus', DateType::class, [
             'widget' => 'single_text',
             'label' => 'date d\'import : ',
             'format' => 'yyyy-MM-dd',

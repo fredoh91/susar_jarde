@@ -3,20 +3,20 @@
 namespace App\Form;
 
 // use App\Entity\Susar;
-use App\Entity\MesureAction;
-use App\Entity\IntervenantsANSM;
-use Doctrine\ORM\EntityRepository;
+// use App\Entity\MesureAction;
+// use App\Entity\IntervenantsANSM;
+// use Doctrine\ORM\EntityRepository;
 use App\Entity\SearchListeEvalSusar;
-use Symfony\Component\Form\AbstractType;
+// use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+// use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ResetType;
+// use Symfony\Component\Form\Extension\Core\Type\TextType;
+// use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+// use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+// use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class SearchListeSusarDmfrType extends SearchListeSusarBaseType
 {
@@ -42,7 +42,23 @@ class SearchListeSusarDmfrType extends SearchListeSusarBaseType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
             ])
-            ->add('debutCreationDate', DateType::class, [
+            ->add('debutDateImport', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'début de date d\'import dans SUSAR_Jardé : ',
+                'format' => 'yyyy-MM-dd',
+                // 'input' => 'string',
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+                ])
+            ->add('finDateImport', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'fin de date d\'import dans SUSAR_Jardé : ',
+                'format' => 'yyyy-MM-dd',
+                // 'input' => 'string',
+                'required' => false,
+                'attr' => ['class' => 'chpRq'],
+                ])
+            ->add('debutStatusDate', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'début de date de création EUDRA : ',
                 'format' => 'yyyy-MM-dd',
@@ -50,7 +66,7 @@ class SearchListeSusarDmfrType extends SearchListeSusarBaseType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
                 ])
-            ->add('finCreationDate', DateType::class, [
+            ->add('finStatusDate', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'fin de date de création EUDRA : ',
                 'format' => 'yyyy-MM-dd',

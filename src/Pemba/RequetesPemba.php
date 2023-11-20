@@ -21,7 +21,7 @@ class RequetesPemba
      * @param string $dateCreation
      * @return array
      */
-    public function donneListeEC_FrDC_FrPronVit(string $dateCreation): array
+    public function donneListeEC_FrDC_FrPronVit(string $dateStatus): array
     {
 
         $sql = "SELECT DISTINCT "
@@ -48,14 +48,15 @@ class RequetesPemba
             // . "LEFT JOIN bi_study_registration sr ON mv.id = sr.master_id "
             . "WHERE 1 = 1 "
             . "AND specificcaseid LIKE 'EC%' "
-            . "AND mv.CreationDate = '" . $dateCreation . "' "
+            // . "AND mv.StatusDate = '" . $dateStatus . "' "
+            // . "AND mv.StatusDate = '" . $dateStatus . "' "
+            . "AND mv.StatusDate >= '" . $dateStatus . "' AND mv.StatusDate < '". date('Y-m-d', strtotime($dateStatus. ' + 1 day')) . "' "
             // . "AND mv.Deleted = 0 "
             . "AND ci.casenullification <> 'Nullification' "
             . "AND ps.primarysourceforregulatorypurposes LIKE 'Yes' "
             . "AND (ci.seriousnesscriteria LIKE '%Death%' OR ci.seriousnesscriteria LIKE '%Life Threatening%') "
             . "AND ps.reportercountry = 'FR' "
             . "ORDER BY mv.id;";
-
         $stmt = $this->em->getConnection()->prepare($sql);
         $stmt_2 = $stmt->execute()->fetchAll();
 
@@ -71,7 +72,7 @@ class RequetesPemba
      * @param string $lst_Produit
      * @return array
      */
-    public function donneListeEC_TherapieGenique(string $dateCreation, string $lst_NumEUDRA_CT, string $lst_Produit): array
+    public function donneListeEC_TherapieGenique(string $dateStatus, string $lst_NumEUDRA_CT, string $lst_Produit): array
     {
 
         $sql = "SELECT DISTINCT "
@@ -97,7 +98,7 @@ class RequetesPemba
             . "LEFT JOIN bi_case_summary cs ON mv.id = cs.master_id "
             . "WHERE 1 = 1 "
             . "AND specificcaseid LIKE 'EC%' "
-            . "AND mv.CreationDate = '" . $dateCreation . "' "
+            . "AND mv.StatusDate = '" . $dateStatus . "' "
             // . "AND mv.Deleted = 0 "
             . "AND ci.casenullification <> 'Nullification' "
             . "AND ps.primarysourceforregulatorypurposes LIKE 'Yes' "

@@ -12,8 +12,9 @@
 		<table class="table table-sm table-bordered table-hover text-center">
 			<thead class="table-secondary">
 				<tr>
-					<th scope="col">Date de création</th>
-					<th scope="col">Date d'import</th>
+					{# <th scope="col">Date de création</th> #}
+					<th scope="col">Status date</th>
+					<th scope="col">Date(s) d'import</th>
 					<th scope="col">Nombre de SUSARs importés</th>
 					<th scope="col">Nombre de SUSARs non-aiguillés</th>
 					<th scope="col">Nombre de SUSARs aiguillés</th>
@@ -25,8 +26,10 @@
 			<tbody>
 				{% for BilanSusar in BilanSusars %}
 					<tr>
-						<td>{{ BilanSusar.creationdate|format_datetime('short', 'none', locale='fr') }}</td>
-						<td>{{ BilanSusar.dateImport|format_datetime('short', 'none', locale='fr') }}</td>
+						{# <td>{{ BilanSusar.creationdate|format_datetime('short', 'none', locale='fr') }}</td> #}
+						<td>{{ BilanSusar.statusdate|format_datetime('short', 'none', locale='fr') }}</td>
+						{# <td>{{ BilanSusar.dateImport|format_datetime('short', 'none', locale='fr') }}</td> #}
+						<td>{{ BilanSusar.listeDateImport }}</td>
 						<td>{{ BilanSusar.NbTotal|e }}</td>
 						<td>{{ BilanSusar.NbNonAiguille|e }}</td>
 						<td>{{ BilanSusar.NbAiguille|e }}</td>

@@ -4,14 +4,14 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Form\UserBaseType;
-use Symfony\Component\Form\AbstractType;
+// use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+// use Symfony\Component\Form\Extension\Core\Type\TextType;
+// use Symfony\Component\Form\Extension\Core\Type\EmailType;
+// use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
@@ -48,7 +48,8 @@ class UserRegistrationType extends UserBaseType
                     'attr' => ['class' => 'btn btn-primary btn-lg my-3'],
                     'label' => 'Inscription'
                 ]
-            );
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

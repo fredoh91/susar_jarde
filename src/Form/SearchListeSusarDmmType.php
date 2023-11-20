@@ -3,20 +3,20 @@
 namespace App\Form;
 
 // use App\Entity\Susar;
-use App\Entity\MesureAction;
-use App\Entity\IntervenantsANSM;
-use Doctrine\ORM\EntityRepository;
+// use App\Entity\MesureAction;
+// use App\Entity\IntervenantsANSM;
+// use Doctrine\ORM\EntityRepository;
 use App\Entity\SearchListeEvalSusar;
-use Symfony\Component\Form\AbstractType;
+// use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+// use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ResetType;
+// use Symfony\Component\Form\Extension\Core\Type\TextType;
+// use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+// use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+// use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class SearchListeSusarDmmType extends SearchListeSusarBaseType
 {
@@ -42,22 +42,6 @@ class SearchListeSusarDmmType extends SearchListeSusarBaseType
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
             ])
-            // ->add('debutCreationDate', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'début de date de création EUDRA : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            //     ])
-            // ->add('finCreationDate', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'fin de date de création EUDRA : ',
-            //     'format' => 'yyyy-MM-dd',
-            //     // 'input' => 'string',
-            //     'required' => false,
-            //     'attr' => ['class' => 'chpRq'],
-            //     ])
             ->add('debutDateEvaluation', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'début de date d\'évaluation : ',
@@ -82,26 +66,7 @@ class SearchListeSusarDmmType extends SearchListeSusarBaseType
                 ],
                 'attr' => ['class' => 'chpRq'],
             ])
-            // ->add(
-            //     'recherche',
-            //     SubmitType::class,
-            //     [
-            //         'attr' => ['class' => 'btn btn-primary m-2'],
-            //         'label' => 'Rechercher',
-            //         'row_attr' => ['id' => 'recherche'],
-            //     ]
-            // )
-            // ->add(
-            //     'reset',
-            //     SubmitType::class,
-            //     [
-            //         'attr' => ['class' => 'btn btn-primary m-2'],
-            //         'label' => 'Reset',
-            //         'row_attr' => ['id' => 'reset'],
-            //     ]
-            // )
             ;
-            // ->add('MesureAction')
         ;
     }
 

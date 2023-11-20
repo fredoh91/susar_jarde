@@ -27,7 +27,7 @@
 					<table class="table table-sm table-bordered table-hover text-center ms-3 me-3"> <thead class="table-secondary">
 						<th scope="col">numero cas BNPV</th>
 						<th scope="col">F.U. BNPV</th>
-						<th scope="col">creationdate</th>
+						<th scope="col">statusdate</th>
 						<th scope="col-2">studytitle</th>
 						<th scope="col">world wide id</th>
 						<th scope="col">num_eudract</th>
@@ -37,6 +37,7 @@
 						<th scope="col">indication</th>
 						<th scope="col">DMM/Pôle</th>
 						<th scope="col">Date d'aiguillage (DMFR)</th>
+						<th scope="col">Date d'import (DMFR)</th>
 					</thead>
 					<tbody>
 						{% for cas in Susar %}
@@ -45,7 +46,7 @@
 									<a href="{{ path('app_affiche_susar',{'master_id':cas.MasterId}) }}">{{ cas.specificcaseid|e }}</a>
 								</th>
 								<td>{{ cas.DLPVersion|e }}</td>
-								<td>{{ cas.creationdate|format_datetime('short', 'none', locale='fr') }}</td>
+								<td>{{ cas.statusdate|format_datetime('short', 'none', locale='fr') }}</td>
 								<td>{{ cas.studytitle|e }}</td>
 								<td>{{ cas.WorldWideId|e }}</td>
 								<td>{{ cas.NumEudract|e }}</td>
@@ -60,6 +61,11 @@
 								{% endif %}
 								{% if cas.dateAiguillage != null %}
 									<td>{{ cas.dateAiguillage|format_datetime(locale='fr') }}</td>
+								{% else %}
+									<td>---</td>
+								{% endif %}
+								{% if cas.dateImport != null %}
+									<td>{{ cas.dateImport|format_datetime(locale='fr') }}</td>
 								{% else %}
 									<td>---</td>
 								{% endif %}

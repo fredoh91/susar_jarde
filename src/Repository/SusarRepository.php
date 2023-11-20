@@ -56,7 +56,7 @@ class SusarRepository extends ServiceEntityRepository
      */
     public function EstCe_SUSAR_unique($value): bool
     {
-dump($value);
+        // dump($value);
         $query = $this->createQueryBuilder('s')
             ->select('count(s.id)')
             ->andWhere('s.master_id = :val')
@@ -64,6 +64,45 @@ dump($value);
             ->getQuery();
 
         // dump($value . " : " . $query->getSQL());
+
+        $test = $query->getSingleScalarResult();
+
+        if ($test > 0) {
+            // if ($test > 1 )  {
+            //     dump($test . " : false");
+            //     return false;
+            // } else {
+            //     dump($test . " : false");
+            //     return false;
+            // }
+            return false;
+        } else {
+            // dump($test . " : true");
+            return true;
+        }
+    }
+
+
+
+    /**
+     * permet de savoir si le couple specificcaseid / DLPVersion en entrée est déjà existant dans la table SUSAR, pour éviter de créer des doublons
+     *
+     * @param [string] $specificcaseid : specificcaseid recherché dans la table SUSAR
+     * @param [int] $DLPVersion : DLPVersion recherché dans la table SUSAR
+     * @return boolean : false si le couple specificcaseid / DLPVersion existe déjà, true si il n'existe pas
+     */
+    public function EstCe_SUSAR_unique_specificcaseid_DLPVersion(string $specificcaseid,int $DLPVersion): bool
+    {
+        // dump($value);
+        $query = $this->createQueryBuilder('s')
+            ->select('count(s.id)')
+            ->andWhere('s.specificcaseid = :sci')
+            ->andWhere('s.DLPVersion = :FU')
+            ->setParameter('sci', $specificcaseid)
+            ->setParameter('FU', $DLPVersion)
+            ->getQuery();
+
+        // dump($specificcaseid . " / " . $DLPVersion . " : " . $query->getSQL());
 
         $test = $query->getSingleScalarResult();
 
@@ -102,6 +141,24 @@ dump($value);
 
 
     /**
+     * Permet de retourner un tableau de susar selon la statusdate
+     *
+     * @param DateTimeInterface $statusdate
+     * @return array Susar[] Returns an array of Susar objects
+     */
+    public function findByStatusdate(DateTimeInterface $statusdate): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.statusdate = :val')
+            ->setParameter('val', $statusdate)
+            ->orderBy('s.master_id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+    /**
      * Permet de retourner le master_id suivant par rapport au master_id en entrée
      *
      * @param DateTimeInterface $creationdate
@@ -111,6 +168,44 @@ dump($value);
     public function findNextMasterIdByCreationdate(DateTimeInterface $creationdate, int $master_id): int
     {
         $SerieSusar = $this->findByCreationdate($creationdate);
+        $iCpt = 0;
+        $iCpt_master_id = -1;
+
+        foreach ($SerieSusar as $Susar) {
+            $iCpt++;
+
+            // dump("--".$Susar->getMasterId() . " icpt : " . $iCpt . " icpt + 1 " .($iCpt_master_id + 1));
+
+            if (($iCpt_master_id + 1) === $iCpt) {
+                $next_master_id = $Susar->getMasterId();
+                // dump("NMI : ".$next_master_id);
+                // dd($iCpt);
+            }
+            if ($Susar->getMasterId() === $master_id) {
+                $iCpt_master_id = $iCpt;
+                // dump("cpt_master_id : " . $iCpt_master_id);
+            }
+        }
+        if ($iCpt_master_id === $iCpt) {
+            return 0;
+        }
+
+        if (isset($next_master_id)) {
+            return $next_master_id;
+        }
+        return 0;
+    }
+
+    /**
+     * Permet de retourner le master_id suivant par rapport au master_id en entrée
+     *
+     * @param DateTimeInterface $statusdate
+     * @param integer $master_id : entrée
+     * @return integer $master_id : qui suit celui en entrée. ou 0 si celui en entrée est le dernier de la série
+     */
+    public function findNextMasterIdByStatusdate(DateTimeInterface $statusdate, int $master_id): int
+    {
+        $SerieSusar = $this->findByStatusdate($statusdate);
         $iCpt = 0;
         $iCpt_master_id = -1;
 
@@ -247,16 +342,40 @@ dump($value);
                 ->setParameter('ia', '%' . $search->getMesureAction()->getLibelle() . '%');
         }
 
-        if ($search->getDebutCreationDate()) {
+        // if ($search->getDebutCreationDate()) {
+        //     $query = $query
+        //         ->andWhere('s.creationdate >= :dcd')
+        //         ->setParameter('dcd', $search->getDebutCreationDate());
+        // }
+
+        // if ($search->getFinCreationDate()) {
+        //     $query = $query
+        //         ->andWhere('s.creationdate <= :fcd')
+        //         ->setParameter('fcd', $search->getFinCreationDate());
+        // }
+
+        if ($search->getDebutStatusDate()) {
             $query = $query
-                ->andWhere('s.creationdate >= :dcd')
-                ->setParameter('dcd', $search->getDebutCreationDate());
+                ->andWhere('s.statusdate >= :dsd')
+                ->setParameter('dsd', $search->getDebutStatusDate());
         }
 
-        if ($search->getFinCreationDate()) {
+        if ($search->getFinStatusDate()) {
             $query = $query
-                ->andWhere('s.creationdate <= :fcd')
-                ->setParameter('fcd', $search->getFinCreationDate());
+                ->andWhere('s.statusdate <= :fsd')
+                ->setParameter('fsd', $search->getFinStatusDate());
+        }
+
+        if ($search->getDebutDateImport()) {
+            $query = $query
+                ->andWhere('s.dateImport >= :ddi')
+                ->setParameter('ddi', $search->getDebutDateImport());
+        }
+
+        if ($search->getFinDateImport()) {
+            $query = $query
+                ->andWhere('s.dateImport <= :fdi')
+                ->setParameter('fdi', $search->getFinDateImport()->modify('+1 day'));
         }
 
         if ($search->getDebutDateAiguillage()) {
@@ -323,18 +442,34 @@ dump($value);
     }
 
     /**
-     * retourne le nombre de susar import pour la creationdate envoyé en parametre
+     * retourne le nombre de susar import pour la creationdate envoyée en parametre
      *
      * @return array
      */
     public function LstSusarImporte(): array
     {
         return $this->createQueryBuilder('s')
-            ->select('count(s.id), s.creationdate, s.dateImport')
-            ->groupBy('s.creationdate')
-            ->orderBy('s.creationdate', 'ASC')
-            ->getQuery()
-            ->getResult();
+                    ->select('count(s.id), s.creationdate, s.dateImport')
+                    ->groupBy('s.creationdate')
+                    ->orderBy('s.creationdate', 'ASC')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+
+    /**
+     * retourne le nombre de susar import pour la statusdate envoyée en parametre
+     *
+     * @return array
+     */
+    public function LstSusarImporte_statusdate(): array
+    {
+        return $this->createQueryBuilder('s')
+                    ->select('count(s.id), s.statusdate')
+                    ->groupBy('s.statusdate')
+                    ->orderBy('s.statusdate', 'ASC')
+                    ->getQuery()
+                    ->getResult();
     }
 
                         /*************************************/
@@ -349,9 +484,9 @@ dump($value);
     public function NbSusarImporte(): Int
     {
         return $this->createQueryBuilder('s')
-            ->select('count(s.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
+                    ->select('count(s.id)')
+                    ->getQuery()
+                    ->getSingleScalarResult();
     }
 
     /**
@@ -382,6 +517,95 @@ dump($value);
 
         $this->registry->getConnection()->query($sql);
 
+    }
+
+    //. "AND mv.StatusDate >= '" . $dateStatus . "' AND mv.StatusDate < '". date('Y-m-d', strtotime($dateStatus. ' + 1 day')) . "' "
+
+    /**
+     * Retourne un array avec les differentes date d'import et les effectifs par date d'import pour une statusdate 
+     *
+     * @param DateTime $statusdate
+     * @return Array
+     */
+    public function LstSusarStatusDate(DateTime $statusdate): Array
+    {
+//         // en utilisant le querybuilder
+//         $result =  $this->createQueryBuilder('s')
+//             ->select('count(s.id) AS effectif')
+//             ->addSelect('s.dateImport')
+//             ->addSelect('DATE_FORMAT(s.dateImport, "%Y-%m-%d") as formatted_date')
+//             // ->addSelect('count(s.id) AS effectif')
+//             ->andWhere('s.statusdate >= :date_start')
+//             ->andWhere('s.statusdate <= :date_end')
+//             ->setParameter('date_start', $statusdate->format('Y-m-d 00:00:00'))
+//             ->setParameter('date_end',   $statusdate->format('Y-m-d 23:59:59'))
+//             // ->groupBy('s.dateImport')
+//             ->getQuery()
+//             // ->getResult()
+//             ;
+// dd($result->getSQL());
+// $result =  $result->getResult();
+
+
+
+// // en utilisant DQL 
+// $em = $this->getEntityManager();
+// $query = $em->createQuery('SELECT count(s0_.id) AS sclr_0, 
+//                                   s0_.dateImport AS dateImport_1 
+//                              FROM App\Entity\Susar s0_ 
+//                             WHERE s0_.statusdate >= :date_start 
+//                               AND s0_.statusdate <= :date_end 
+//                             GROUP BY s0_.dateImport');
+
+// $query->setParameters([
+//     'date_start' => $statusdate->format('Y-m-d 00:00:00'),
+//     'date_end' =>   $statusdate->format('Y-m-d 23:59:59')
+// ]);
+
+
+// $result = $query->getResult();      
+
+// dd($query->getSQL());
+
+        // foreach ($result as $Susar) {
+        //     $return["effectif"] = isset($return["effectif"])
+        //                             ? $return["effectif"] + $Susar["effectif"]
+        //                             : $Susar["effectif"];
+        //     $return["dateImport"] = isset($return["dateImport"])
+        //                             ? $return["dateImport"] . ", " . $Susar["dateImport"]->format('d/m/Y')
+        //                             : $Susar["dateImport"]->format('d/m/Y');
+        //     $return["dateImport_eff"] = isset($return["dateImport_eff"])
+        //                             ? $return["dateImport_eff"] . ", " . $Susar["dateImport"]->format('d/m/Y') . " (" . $Susar["effectif"] . ")"
+        //                             : $Susar["dateImport"]->format('d/m/Y') . " (" . $Susar["effectif"] . ")";
+        // }
+
+
+    // en utilisant SQL
+
+        $em = $this->getEntityManager();
+
+        $sql = "SELECT COUNT(s.id) AS effectif, " .
+                "DATE_FORMAT(s.dateImport, '%d/%m/%Y') AS dateImport " .
+                "FROM Susar s " .
+                "WHERE DATE_FORMAT(s.statusdate, '%d/%m/%Y')= '" . $statusdate->format('d/m/Y') . "' " .
+                "GROUP BY DATE_FORMAT(s.dateImport, '%d/%m/%Y');" ;
+
+        $stmt = $em->getConnection()->prepare($sql);
+
+        $result = $stmt->executeQuery()->fetchAllAssociative();
+
+            foreach ($result as $Susar) {
+                $return["effectif"] = isset($return["effectif"])
+                                            ? $return["effectif"] + $Susar["effectif"]
+                                            : $Susar["effectif"];
+
+                $return["dateImport_eff"] = isset($return["dateImport_eff"])
+                                            ? $return["dateImport_eff"] . ", " . $Susar["dateImport"] . " (" . $Susar["effectif"] . ")"
+                                            : $Susar["dateImport"] . " (" . $Susar["effectif"] . ")";
+            }
+
+
+        return $return;
     }
 
 

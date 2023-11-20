@@ -35,6 +35,12 @@ class BilanSusar
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateImport = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $statusdate = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ListeDateImport = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +126,30 @@ class BilanSusar
     public function setDateImport(?\DateTimeInterface $DateImport): self
     {
         $this->dateImport = $DateImport;
+
+        return $this;
+    }
+
+    public function getStatusdate(): ?\DateTimeInterface
+    {
+        return $this->statusdate;
+    }
+
+    public function setStatusdate(?\DateTimeInterface $statusdate): static
+    {
+        $this->statusdate = $statusdate;
+
+        return $this;
+    }
+
+    public function getListeDateImport(): ?string
+    {
+        return $this->ListeDateImport;
+    }
+
+    public function setListeDateImport(?string $ListeDateImport): static
+    {
+        $this->ListeDateImport = $ListeDateImport;
 
         return $this;
     }

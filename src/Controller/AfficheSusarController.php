@@ -12,20 +12,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-// use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+// use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 // #[Security("is_granted('ROLE_DMFR_GEST')")]
 #[IsGranted('ROLE_DMFR_GEST')]
 class AfficheSusarController extends AbstractController
 {
     #[Route('/affiche_susar/{master_id}', name: 'app_affiche_susar')]
-    public function index(int $master_id, ManagerRegistry $doctrine, Request $request, EntityManagerInterface $em): Response
+    public function index(int $master_id, ManagerRegistry $doctrine, Request $request, EntityManagerInterface $em, AuthenticationUtils $authenticationUtils): Response
     {
         $entityManager = $doctrine->getManager();
         $Susar = $entityManager->getRepository(Susar::class)->findSusarByMasterId($master_id);
+        $lastUsername = $authenticationUtils->getLastUsername();
         $form = $this->createForm(EditSusarImportDmfrType::class, $Susar);
         $form->handleRequest($request);
         
@@ -38,13 +40,17 @@ class AfficheSusarController extends AbstractController
                  *      - affiche la liste des cas pour le jour en cours
                  */
                 $Susar->setDateAiguillage(new \DateTime());
+                $Susar->setUtilisateurAiguillage($lastUsername);
+
                 $em->persist($Susar);
                 $em->flush();
 
-                $Susar = $entityManager->getRepository(Susar::class)->findByCreationdate($Susar->getCreationdate());
+                // $Susar = $entityManager->getRepository(Susar::class)->findByCreationdate($Susar->getCreationdate());
+                $Susar = $entityManager->getRepository(Susar::class)->findByStatusdate($Susar->getStatusdate());
 
                 if ($Susar[0] != null) {
-                    $data = $Susar[0]->getCreationdate()->format('Y-m-d');
+                    // $data = $Susar[0]->getCreationdate()->format('Y-m-d');
+                    $data = $Susar[0]->getStatusdate()->format('Y-m-d');
                 } else {
                     $DateDuJour = new DateTime("now");
                     $data = $DateDuJour->format('Y-m-d');
@@ -53,7 +59,14 @@ class AfficheSusarController extends AbstractController
                 $defaultData = ['message' => 'Saisissez une date d\'import'];
 
                 $form = $this->createFormBuilder($defaultData)
-                ->add('DateCreation', DateType::class, [
+                // ->add('DateCreation', DateType::class, [
+                //     'widget' => 'single_text',
+                //     'label' => 'date d\'import : ',
+                //     'format' => 'yyyy-MM-dd',
+                //     'input' => 'string',
+                //     'data' => $data,
+                //     ])
+                ->add('DateStatus', DateType::class, [
                     'widget' => 'single_text',
                     'label' => 'date d\'import : ',
                     'format' => 'yyyy-MM-dd',
@@ -78,18 +91,23 @@ class AfficheSusarController extends AbstractController
                  */
                 
                 $Susar->setDateAiguillage(new \DateTime());
-                $creationdate = $Susar->getCreationdate();
+                // $creationdate = $Susar->getCreationdate();
+                $statusdate = $Susar->getStatusdate();
                 $master_id = $Susar->getMasterId();
                 $em->persist($Susar);
                 $em->flush();
-                $next_master_id=$entityManager->getRepository(Susar::class)->findNextMasterIdByCreationdate( $creationdate,  $master_id);
+                // $next_master_id=$entityManager->getRepository(Susar::class)->findNextMasterIdByCreationdate( $creationdate,  $master_id);
+                $next_master_id=$entityManager->getRepository(Susar::class)->findNextMasterIdByStatusdate( $statusdate,  $master_id);
                 if($next_master_id === 0) {
                     //////////////////////////////////////////////////////////////////////////////////
                     // C'est le dernier SUSAR de la liste, on retourne a la liste des SUSAR du jour //
                     //////////////////////////////////////////////////////////////////////////////////
 
+                    // return $this->redirectToRoute('RqSusarDateAffDate', [
+                    //     'creationdate' => $Susar->getCreationdate()->format('Y-m-d'),
+                    // ]); 
                     return $this->redirectToRoute('RqSusarDateAffDate', [
-                        'creationdate' => $Susar->getCreationdate()->format('Y-m-d'),
+                        'statusdate' => $Susar->getStatusdate()->format('Y-m-d'),
                     ]); 
                     
                 } else {

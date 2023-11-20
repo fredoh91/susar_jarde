@@ -130,6 +130,9 @@ class Susar
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $utilisateurAiguillage = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $utilisateurImport = null;
+
     public function __construct()
     {
         $this->Medicament = new ArrayCollection();
@@ -671,6 +674,18 @@ class Susar
     public function setUtilisateurAiguillage(?string $utilisateurAiguillage): self
     {
         $this->utilisateurAiguillage = $utilisateurAiguillage;
+
+        return $this;
+    }
+
+    public function getUtilisateurImport(): ?string
+    {
+        return $this->utilisateurImport;
+    }
+
+    public function setUtilisateurImport(?string $utilisateurImport): static
+    {
+        $this->utilisateurImport = $utilisateurImport;
 
         return $this;
     }

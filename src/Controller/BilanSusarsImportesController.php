@@ -30,22 +30,35 @@ class BilanSusarsImportesController extends AbstractController
         // $TousSusars = $entityManager->getRepository(Susar::class)->findAll();
         // $NbSusarImporte = $entityManager->getRepository(Susar::class)->NbSusarImporte();
 
-        $LstSusarImporte = $entityManager->getRepository(Susar::class)->LstSusarImporte();
+        // $LstSusarImporte = $entityManager->getRepository(Susar::class)->LstSusarImporte();
+        $LstSusarImporte = $entityManager->getRepository(Susar::class)->LstSusarImporte_statusdate();
         $repo = $entityManager->getRepository(Susar::class);
         $repo->effaceBilanSusar();
+
+        // dd($LstSusarImporte);
+        $iCpt=0;
         foreach ($LstSusarImporte as $SusarImporte) {
+            // dd($LstSusarImporte);
+
+            // $iCpt ++;
+            // if($iCpt> 12) {break;}
 
             $bilanSusar = new BilanSusar;
 
-            $creationDate= $SusarImporte['creationdate'];
+            // $creationDate= $SusarImporte['creationdate'];
+            $statusDate= $SusarImporte['statusdate'];
+            $bilanSusar->setStatusdate($statusDate);
+            $Lst=$repo->LstSusarStatusDate($statusDate);
+            // dump($Lst);
+/////////////////// j'en suis la 
 
-            $bilanSusar->setCreationdate($creationDate);
-            $bilanSusar->setDateImport($SusarImporte['dateImport']);
-            $bilanSusar->setNbTotal($SusarImporte[1]);
-            $bilanSusar->setNbNonAiguille($repo->NbSusarAiguilleEvalue($creationDate,'dateAiguillage',''));
-            $bilanSusar->setNbAiguille($repo->NbSusarAiguilleEvalue($creationDate,'dateAiguillage','NOT'));
-            $bilanSusar->setNbNonEvalue($repo->NbSusarAiguilleEvalue($creationDate,'dateEvaluation',''));
-            $bilanSusar->setNbEvalue($repo->NbSusarAiguilleEvalue($creationDate,'dateEvaluation','NOT'));
+            // $bilanSusar->setDateImport($SusarImporte['dateImport']);
+            $bilanSusar->setListeDateImport($Lst["dateImport_eff"]);
+            $bilanSusar->setNbTotal($Lst["effectif"]);
+            $bilanSusar->setNbNonAiguille($repo->NbSusarAiguilleEvalue($statusDate,'dateAiguillage',''));
+            $bilanSusar->setNbAiguille($repo->NbSusarAiguilleEvalue($statusDate,'dateAiguillage','NOT'));
+            $bilanSusar->setNbNonEvalue($repo->NbSusarAiguilleEvalue($statusDate,'dateEvaluation',''));
+            $bilanSusar->setNbEvalue($repo->NbSusarAiguilleEvalue($statusDate,'dateEvaluation','NOT'));
             // $bilanSusar->setNbNonAiguille($repo->NbSusarNonAiguille($creationDate));
             // $bilanSusar->setNbAiguille($repo->NbSusarAiguille($creationDate));
             // $bilanSusar->setNbNonEvalue($repo->NbSusarNonEvalue($creationDate));
