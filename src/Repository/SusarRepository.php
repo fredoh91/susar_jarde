@@ -462,10 +462,33 @@ class SusarRepository extends ServiceEntityRepository
      *
      * @return array
      */
-    public function LstSusarImporte_statusdate(): array
+    public function LstSusarImporte_statusdate_v1(): array
     {
         return $this->createQueryBuilder('s')
                     ->select('count(s.id), s.statusdate')
+                    ->groupBy('s.statusdate')
+                    ->orderBy('s.statusdate', 'ASC')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+
+    /**
+     * retourne le nombre de susar import pour la statusdate envoyée en parametre
+     *
+     * @param DateTime $debutStatusDate
+     * @param DateTime $finStatusDate
+     * @return array
+     */
+
+    public function LstSusarImporte_statusdate(DateTime $debutStatusDate , DateTime $finStatusDate ): array
+    {
+        return $this->createQueryBuilder('s')
+                    ->select('count(s.id), s.statusdate')
+                    ->andWhere('s.statusdate >= :date_start')
+                    ->andWhere('s.statusdate <= :date_end')
+                    ->setParameter('date_start', $debutStatusDate)
+                    ->setParameter('date_end',   $finStatusDate)
                     ->groupBy('s.statusdate')
                     ->orderBy('s.statusdate', 'ASC')
                     ->getQuery()
@@ -508,7 +531,7 @@ class SusarRepository extends ServiceEntityRepository
 
     public function effaceBilanSusar(): void
     {
-        // dd($this->connexion);
+
         $sql = "START TRANSACTION;";
         $sql .= "SET FOREIGN_KEY_CHECKS=0;";
         $sql .= "TRUNCATE bilansusar;";
@@ -519,8 +542,6 @@ class SusarRepository extends ServiceEntityRepository
 
     }
 
-    //. "AND mv.StatusDate >= '" . $dateStatus . "' AND mv.StatusDate < '". date('Y-m-d', strtotime($dateStatus. ' + 1 day')) . "' "
-
     /**
      * Retourne un array avec les differentes date d'import et les effectifs par date d'import pour une statusdate 
      *
@@ -529,59 +550,6 @@ class SusarRepository extends ServiceEntityRepository
      */
     public function LstSusarStatusDate(DateTime $statusdate): Array
     {
-//         // en utilisant le querybuilder
-//         $result =  $this->createQueryBuilder('s')
-//             ->select('count(s.id) AS effectif')
-//             ->addSelect('s.dateImport')
-//             ->addSelect('DATE_FORMAT(s.dateImport, "%Y-%m-%d") as formatted_date')
-//             // ->addSelect('count(s.id) AS effectif')
-//             ->andWhere('s.statusdate >= :date_start')
-//             ->andWhere('s.statusdate <= :date_end')
-//             ->setParameter('date_start', $statusdate->format('Y-m-d 00:00:00'))
-//             ->setParameter('date_end',   $statusdate->format('Y-m-d 23:59:59'))
-//             // ->groupBy('s.dateImport')
-//             ->getQuery()
-//             // ->getResult()
-//             ;
-// dd($result->getSQL());
-// $result =  $result->getResult();
-
-
-
-// // en utilisant DQL 
-// $em = $this->getEntityManager();
-// $query = $em->createQuery('SELECT count(s0_.id) AS sclr_0, 
-//                                   s0_.dateImport AS dateImport_1 
-//                              FROM App\Entity\Susar s0_ 
-//                             WHERE s0_.statusdate >= :date_start 
-//                               AND s0_.statusdate <= :date_end 
-//                             GROUP BY s0_.dateImport');
-
-// $query->setParameters([
-//     'date_start' => $statusdate->format('Y-m-d 00:00:00'),
-//     'date_end' =>   $statusdate->format('Y-m-d 23:59:59')
-// ]);
-
-
-// $result = $query->getResult();      
-
-// dd($query->getSQL());
-
-        // foreach ($result as $Susar) {
-        //     $return["effectif"] = isset($return["effectif"])
-        //                             ? $return["effectif"] + $Susar["effectif"]
-        //                             : $Susar["effectif"];
-        //     $return["dateImport"] = isset($return["dateImport"])
-        //                             ? $return["dateImport"] . ", " . $Susar["dateImport"]->format('d/m/Y')
-        //                             : $Susar["dateImport"]->format('d/m/Y');
-        //     $return["dateImport_eff"] = isset($return["dateImport_eff"])
-        //                             ? $return["dateImport_eff"] . ", " . $Susar["dateImport"]->format('d/m/Y') . " (" . $Susar["effectif"] . ")"
-        //                             : $Susar["dateImport"]->format('d/m/Y') . " (" . $Susar["effectif"] . ")";
-        // }
-
-
-    // en utilisant SQL
-
         $em = $this->getEntityManager();
 
         $sql = "SELECT COUNT(s.id) AS effectif, " .
@@ -604,33 +572,6 @@ class SusarRepository extends ServiceEntityRepository
                                             : $Susar["dateImport"] . " (" . $Susar["effectif"] . ")";
             }
 
-
         return $return;
     }
-
-
-    //    /**
-    //     * @return Susar[] Returns an array of Susar objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Susar
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

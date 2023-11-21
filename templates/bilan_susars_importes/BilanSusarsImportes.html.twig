@@ -3,6 +3,36 @@
 {% block body %}
 
 <div class="container-fluid p-5">
+
+
+	{{ form_start(form) }}
+	<div class="row">
+		<div class="col-2">
+			{{ form_label(form.debutStatusDate, 'début de date de création EUDRA : ') }}
+			{{ form_widget(form.debutStatusDate) }}
+		</div>
+		<div class="col-2">
+			{{ form_label(form.finStatusDate, 'fin de date de création EUDRA : ') }}
+			{{ form_widget(form.finStatusDate) }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-10">
+
+		</div>
+
+		<div class="col-1">
+			{# {{ form_label(form.Recherche, '  ') }} #}
+			{{ form_widget(form.Recherche) }}
+		</div>
+		<div class="col-1">
+			{# {{ form_label(form.Recherche, '  ') }} #}
+			{{ form_widget(form.Reset) }}
+		</div>
+	</div>
+
+	{{ form_end(form) }}
+
 	{% if BilanSusars %}
 
 		Nombre de lignes :
