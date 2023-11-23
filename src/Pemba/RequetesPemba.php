@@ -57,6 +57,7 @@ class RequetesPemba
             . "AND (ci.seriousnesscriteria LIKE '%Death%' OR ci.seriousnesscriteria LIKE '%Life Threatening%') "
             . "AND ps.reportercountry = 'FR' "
             . "ORDER BY mv.id;";
+
         $stmt = $this->em->getConnection()->prepare($sql);
         $stmt_2 = $stmt->execute()->fetchAll();
 

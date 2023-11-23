@@ -177,8 +177,8 @@
 							{# <th scope="col">specificcaseid</th> #}
 							<th scope="col">numero cas BNPV</th>
 							<th scope="col">F.U. BNPV</th>
-							<th scope="col">creationdate</th>
-							{# <th scope="col">statusdate</th> #}
+							{# <th scope="col">creationdate</th> #}
+							<th scope="col">statusdate</th>
 							<th scope="col-2">studytitle</th>
 							<th scope="col">world wide id</th>
 							<th scope="col">num_eudract</th>
@@ -229,8 +229,8 @@
 								{# <td>{{ Susar.caseid|e }}</td> #}
 								{# <td>{{ Susar.specificcaseid|e }}</td> #}
 								<td>{{ Susar.DLPVersion|e }}</td>
-								<td>{{ Susar.creationdate|format_datetime('short', 'none', locale='fr') }}</td>
-								{# <td>{{ Susar.statusdate|format_datetime('short', 'none', locale='fr') }}</td> #}
+								{# <td>{{ Susar.creationdate|format_datetime('short', 'none', locale='fr') }}</td> #}
+								<td>{{ Susar.statusdate|format_datetime('short', 'none', locale='fr') }}</td>
 								<td>{{ Susar.studytitle|e }}</td>
 								<td>{{ Susar.WorldWideId|e }}</td>
 								<td>{{ Susar.NumEudract|e }}</td>
