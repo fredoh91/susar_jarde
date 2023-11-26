@@ -574,4 +574,56 @@ class SusarRepository extends ServiceEntityRepository
 
         return $return;
     }
+
+    /**
+     * Retourne un array avec tous les susar pour l'export de pilotage
+     *
+     * @return Array
+     */
+    public function TousSusarPilotage(): Array
+    {
+        $em = $this->getEntityManager();
+
+        // $sql = "SELECT susar.id AS idSUSAR, " .
+        //             "susar.dateImport AS 'Date d\'import', " .
+        //             "susar.DLPVersion AS 'Case Version',  " .
+        //             "susar.num_eudract AS 'Num_EUDRACT', " .
+        //             "susar.productName AS 'Produit', " .
+        //             "susar.substanceName AS 'DCI', " .
+        //             "intervenantsansm.DMM_pole_court, " .
+        //             "mesureaction.Libelle AS 'Mesure/Action', " .
+        //             "susar.Commentaire, " .
+        //             "susar.utilisateurEvaluation AS 'Util. eval.', " .
+        //             "susar.dateEvaluation AS 'Date eval.', " .
+        //             "IF(ISNULL(susar.dateEvaluation),'Non','Oui') AS 'Susar évalué', " .
+        //             "susar.pays_survenue AS 'Pays survenue', " .
+        //             "IF(susar.pays_survenue = 'FR', 'Oui', 'Non') AS 'survenue en France' " .
+        //         "FROM susar " .
+        //     "LEFT JOIN intervenantsansm ON intervenantsansm.id = susar.intervenantANSM_id " .
+        //     "LEFT JOIN mesureaction ON mesureaction.id = susar.MesureAction_id;" ;
+
+            $sql = "SELECT susar.id AS idSUSAR, " .
+                        "susar.dateImport, " .
+                        "susar.DLPVersion,  " .
+                        "susar.num_eudract, " .
+                        "susar.productName, " .
+                        "susar.substanceName, " .
+                        "intervenantsansm.DMM_pole_court, " .
+                        "mesureaction.Libelle, " .
+                        "susar.Commentaire, " .
+                        "susar.utilisateurEvaluation, " .
+                        "susar.dateEvaluation, " .
+                        "IF(ISNULL(susar.dateEvaluation),'Non','Oui') AS 'Susar_evalue', " .
+                        "susar.pays_survenue, " .
+                        "IF(susar.pays_survenue = 'FR', 'Oui', 'Non') AS 'survenue_france' " .
+                    "FROM susar " .
+                "LEFT JOIN intervenantsansm ON intervenantsansm.id = susar.intervenantANSM_id " .
+                "LEFT JOIN mesureaction ON mesureaction.id = susar.MesureAction_id;" ;
+
+        $stmt = $em->getConnection()->prepare($sql);
+
+        $result = $stmt->executeQuery()->fetchAllAssociative();
+
+        return $result;
+    }
 }
