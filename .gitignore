@@ -25,3 +25,7 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> fichiers excel temporaires pilotage ###
+/public/Temp/ExportExcelPilotage/*
+###< fichiers excel temporaires pilotage ###

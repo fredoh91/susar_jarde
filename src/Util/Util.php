@@ -95,6 +95,7 @@ class Util
                     if ($TypeSusar === 'TherapGen') {
                         $Susar->setIntervenantANSM($IntervTherapGen);
                         $Susar->setDateAiguillage(new \DateTime());
+                        $Susar->setUtilisateurAiguillage($lastUsername);
                     }
 
                     // Ajout des médicaments dans l'entité Medicaments et gestion de la liaison avec l'entité Susar

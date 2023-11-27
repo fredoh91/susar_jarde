@@ -70,7 +70,8 @@ class RqSusarController extends AbstractController
         $form = $this->createFormBuilder($defaultData)
         ->add('DateStatus', DateType::class, [
             'widget' => 'single_text',
-            'label' => 'date d\'import : ',
+            // 'label' => 'date d\'import : ',
+            'label' => 'Date de réception : ',
             'format' => 'yyyy-MM-dd',
             'input' => 'string',
             'data' => $data2,

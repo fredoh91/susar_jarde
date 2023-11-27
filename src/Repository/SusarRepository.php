@@ -513,17 +513,17 @@ class SusarRepository extends ServiceEntityRepository
     }
 
     /**
-     * retourne le nombre de susar importés AIGUILLÉS et ÉVALUÉS pour la creationdate envoyé en parametre
+     * retourne le nombre de susar importés AIGUILLÉS et ÉVALUÉS pour la statusdate envoyé en parametre
      *
      * @return Int
      */
-    public function NbSusarAiguilleEvalue(DateTime $creationdate, string $nomColonne, string $nullNotNull): Int
+    public function NbSusarAiguilleEvalue(DateTime $statusdate, string $nomColonne, string $nullNotNull): Int
     {
         return $this->createQueryBuilder('s')
             ->select('count(s.id)')
             ->andWhere('s.' . $nomColonne . ' IS ' . $nullNotNull . ' NULL')
-            ->andWhere('s.creationdate = :val')
-            ->setParameter('val', $creationdate)
+            ->andWhere('s.statusdate = :val')
+            ->setParameter('val', $statusdate)
             ->getQuery()
             ->getSingleScalarResult();
     }
