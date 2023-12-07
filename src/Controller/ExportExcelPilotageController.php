@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Susar;
 use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
@@ -9,9 +10,9 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted(new Expression('is_granted("ROLE_SURV_PILOTEVEC")'))]
 class ExportExcelPilotageController extends AbstractController
@@ -44,17 +45,17 @@ class ExportExcelPilotageController extends AbstractController
         $activeWorksheet->setCellValue('L1', 'Susar évalué');
         $activeWorksheet->setCellValue('M1', 'Pays survenue');
         $activeWorksheet->setCellValue('N1', 'survenue en France');
-        // $activeWorksheet->getStyle('A1')->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED);
-
         
         $iCpt = 1;
         foreach ($LstSusarsPilotage as $Susar) {
             $iCpt++;
             $activeWorksheet->setCellValue('A' . $iCpt, $Susar["idSUSAR"]);
-            $activeWorksheet->setCellValue('B' . $iCpt, $Susar["dateImport"]);
-            
-            // $activeWorksheet->setCellValue('B' . $iCpt, date('d/m/Y H:i:s', strtotime($Susar["dateImport"])));
-            // $activeWorksheet->getStyle('B' . $iCpt)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+
+            // $activeWorksheet->setCellValue('B' . $iCpt, $Susar["dateImport"]);
+            $dt = DateTime::createFromFormat('Y-m-d H:i:s',$Susar["dateImport"]);
+            $dt_modif = $dt->format('d/m/Y H:i:s');
+            $activeWorksheet->getStyle('B' . $iCpt)->getNumberFormat()->setFormatCode("dd/mm/yyyy hh:mm:ss");
+            $activeWorksheet->setCellValue('B' . $iCpt, $dt_modif);
 
             $activeWorksheet->setCellValue('C' . $iCpt, $Susar["DLPVersion"]);
             $activeWorksheet->setCellValue('D' . $iCpt, $Susar["num_eudract"]);
@@ -64,7 +65,15 @@ class ExportExcelPilotageController extends AbstractController
             $activeWorksheet->setCellValue('H' . $iCpt, $Susar["Libelle"]);
             $activeWorksheet->setCellValue('I' . $iCpt, $Susar["Commentaire"]);
             $activeWorksheet->setCellValue('J' . $iCpt, $Susar["utilisateurEvaluation"]);
-            $activeWorksheet->setCellValue('K' . $iCpt, $Susar["dateEvaluation"]);
+
+            // $activeWorksheet->setCellValue('K' . $iCpt, $Susar["dateEvaluation"]);
+            if ($Susar["dateEvaluation"]!=null) {
+                $dt = DateTime::createFromFormat('Y-m-d H:i:s',$Susar["dateEvaluation"]);
+                $dt_modif = $dt->format('d/m/Y H:i:s');
+                $activeWorksheet->getStyle('K' . $iCpt)->getNumberFormat()->setFormatCode("dd/mm/yyyy hh:mm:ss");
+                $activeWorksheet->setCellValue('K' . $iCpt, $dt_modif);
+            }
+
             $activeWorksheet->setCellValue('L' . $iCpt, $Susar["Susar_evalue"]);
             $activeWorksheet->setCellValue('M' . $iCpt, $Susar["pays_survenue"]);
             $activeWorksheet->setCellValue('N' . $iCpt, $Susar["survenue_france"]);
@@ -95,8 +104,8 @@ class ExportExcelPilotageController extends AbstractController
                 case "E":
                     $activeWorksheet->getColumnDimension('E')->setWidth(80, 'mm');
                     break;
-                    case "F":
-                        $activeWorksheet->getColumnDimension('F')->setWidth(80, 'mm');
+                case "F":
+                    $activeWorksheet->getColumnDimension('F')->setWidth(80, 'mm');
                     break;
                 case "I":
                     $activeWorksheet->getColumnDimension('I')->setWidth(80, 'mm');
