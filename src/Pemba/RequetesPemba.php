@@ -383,6 +383,8 @@ class RequetesPemba
         if ($prodCharact === "Tout") {
         } elseif ($prodCharact === "Suspect") {
             $sql .= "AND pr.productcharacterization = 'Suspect' ";
+        } elseif ($prodCharact === "Suspect_Interaction") {
+            $sql .= "AND (pr.productcharacterization = 'Suspect' OR pr.productcharacterization = 'Interacting') ";
         } elseif ($prodCharact === "Concomitant") {
             $sql .=  "AND pr.productcharacterization = 'Concomitant' ";
         } else {
@@ -391,8 +393,14 @@ class RequetesPemba
         $stmt = $this->em->getConnection()->prepare($sql);
         $stmt_2 = $stmt->execute()->fetchAll();
 
-        if (is_null($stmt_2[0])) {
-            return "";
+
+// dump((isset($stmt_2)));
+// dump((empty($stmt_2)));
+// dump((is_null($stmt_2)));
+
+// dd($stmt_2);
+        if ((empty($stmt_2)) or is_null($stmt_2[0])) {
+            return [];
         } else {
             foreach ($stmt_2 as $medicament) {
                 // dump($medicament);

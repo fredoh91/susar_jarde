@@ -52,10 +52,13 @@ class Util
                     $lstMed = $RqPembaMedicaments->donneMedicaments($susar_a_creer['id']);
                     $lstEI = $RqPembaEI->donneEffetsIndesirables($susar_a_creer['id']);
                     $lstMedHist = $RqPembaMedHist->donneMedicalHistories($susar_a_creer['id']);
-                    $medicament = $RqPemba->donneListeMedicament($susar_a_creer['id'], 'Suspect');
+                    // $medicament = $RqPemba->donneListeMedicament($susar_a_creer['id'], 'Suspect');
+                    $medicament = $RqPemba->donneListeMedicament($susar_a_creer['id'], 'Suspect_Interaction');
+                    if (!empty($medicament)) {
+                        $productName = $medicament['productname'];
+                        $substanceName = $medicament['substancename'];
+                    }
                     $donneesEtude = $RqPemba->donneDonneesEtude($susar_a_creer['id']);
-                    $productName = $medicament['productname'];
-                    $substanceName = $medicament['substancename'];
                     $CritGrav = $RqPemba->donneCriteresGraviteSansDoublon($susar_a_creer['seriousnesscriteria']);
                     // le MasterId n'existe pas dans la table SUSAR, on peut le creer
                     $Susar = new Susar();
@@ -76,8 +79,13 @@ class Util
                     $Susar->setPaysEtude($donneesEtude['pays_etude']);
                     $Susar->setPaysSurvenue($susar_a_creer['pays_survenue']);
                     $Susar->setTypeSusar($TypeSusar);
-                    $Susar->setProductName($productName);
-                    $Susar->setSubstanceName($substanceName);
+                    if (!empty($medicament)) {
+                        $Susar->setProductName($productName);
+                        $Susar->setSubstanceName($substanceName);
+                    } else {
+                        $Susar->setProductName("Pas de nom de produit");
+                        $Susar->setSubstanceName("Pas de nom de substance");
+                    }
                     $Susar->setNarratif($susar_a_creer['narrativeincludeclinical']);
                     $Susar->setPatientSex($susar_a_creer['patientsex']);
                     $Susar->setPatientAge($susar_a_creer['patientonsetage']);
