@@ -37,8 +37,20 @@ class AfficheDmfrSusarController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $Susar->setDateAiguillage(new \DateTime());
-            $Susar->setUtilisateurAiguillage($lastUsername);
+
+
+            if(is_null($Susar->getIntervenantANSM())) {
+                // L'utilisateur n'a pas sélectionné d'Intervenant ANSM dans le menu déroulant, on ne met pas a jour le SUSAR
+                // dump ("c est nul");
+            } else {
+                // L'utilisateur a sélectionné un Intervenant ANSM dans le menu déroulant, on met a jour le SUSAR
+                // dump ("ce n est pas nul");
+                
+                $Susar->setDateAiguillage(new \DateTime());
+                $Susar->setUtilisateurAiguillage($lastUsername);
+
+                
+            }
 
             $em->persist($Susar);
             $em->flush();
