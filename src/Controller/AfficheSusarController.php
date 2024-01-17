@@ -39,11 +39,24 @@ class AfficheSusarController extends AbstractController
                  *      - valide le cas en cours
                  *      - affiche la liste des cas pour le jour en cours
                  */
-                $Susar->setDateAiguillage(new \DateTime());
-                $Susar->setUtilisateurAiguillage($lastUsername);
+                if(is_null($Susar->getIntervenantANSM())) {
+                    // L'utilisateur n'a pas sélectionné d'Intervenant ANSM dans le menu déroulant, on ne met pas a jour le SUSAR
+                    // dump ("c est nul");
+                } else {
+                    // L'utilisateur a sélectionné un Intervenant ANSM dans le menu déroulant, on met a jour le SUSAR
+                    // dump ("ce n est pas nul");
+                    
+                    $Susar->setDateAiguillage(new \DateTime());
+                    $Susar->setUtilisateurAiguillage($lastUsername);
+    
+                    $em->persist($Susar);
+                    $em->flush();
+    
+                    
+                }
+                // dd($Susar->getIntervenantANSM());
 
-                $em->persist($Susar);
-                $em->flush();
+
 
                 // $Susar = $entityManager->getRepository(Susar::class)->findByCreationdate($Susar->getCreationdate());
                 $Susar = $entityManager->getRepository(Susar::class)->findByStatusdate($Susar->getStatusdate());
@@ -90,12 +103,27 @@ class AfficheSusarController extends AbstractController
                  *      - si il y a un cas suivant, l'affiche et met a jour l'URL avec l'ID de ce cas suivant
                  */
                 
-                $Susar->setDateAiguillage(new \DateTime());
-                // $creationdate = $Susar->getCreationdate();
                 $statusdate = $Susar->getStatusdate();
                 $master_id = $Susar->getMasterId();
-                $em->persist($Susar);
-                $em->flush();
+                 
+                 if(is_null($Susar->getIntervenantANSM())) {
+                    // L'utilisateur n'a pas sélectionné d'Intervenant ANSM dans le menu déroulant, on ne met pas a jour le SUSAR
+                    // dump ("c est nul");
+                } else {
+                    // L'utilisateur a sélectionné un Intervenant ANSM dans le menu déroulant, on met a jour le SUSAR
+                    // dump ("ce n est pas nul");
+                    
+                    $Susar->setDateAiguillage(new \DateTime());
+                    // $Susar->setDateAiguillage(new \DateTime());
+                    $Susar->setUtilisateurAiguillage($lastUsername);
+                    // $creationdate = $Susar->getCreationdate();
+    
+                    $em->persist($Susar);
+                    // $em->persist($Susar);
+                    $em->flush();
+                    // $em->flush();
+                }
+
                 // $next_master_id=$entityManager->getRepository(Susar::class)->findNextMasterIdByCreationdate( $creationdate,  $master_id);
                 $next_master_id=$entityManager->getRepository(Susar::class)->findNextMasterIdByStatusdate( $statusdate,  $master_id);
                 if($next_master_id === 0) {

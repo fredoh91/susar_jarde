@@ -29,6 +29,7 @@ class EditSusarImportDmfrType extends EditSusarBaseType
                         ->where('int.inactif = 0')
                         ->orderBy('int.OrdreTri', 'ASC');
                 },
+                'required' => false,
                 'choice_label' => 'DMM_pole_court',
             ])
             ->add('SaveAndStop', SubmitType::class, [
