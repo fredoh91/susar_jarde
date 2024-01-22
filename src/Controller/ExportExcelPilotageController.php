@@ -33,54 +33,70 @@ class ExportExcelPilotageController extends AbstractController
 
         $activeWorksheet->setCellValue('A1', 'idSUSAR');
         $activeWorksheet->setCellValue('B1', 'Date d\'import');
-        $activeWorksheet->setCellValue('C1', 'Case Version');
-        $activeWorksheet->setCellValue('D1', 'Num_EUDRACT');
-        $activeWorksheet->setCellValue('E1', 'Produit');
-        $activeWorksheet->setCellValue('F1', 'DCI');
-        $activeWorksheet->setCellValue('G1', 'DMM_pole_court');
-        $activeWorksheet->setCellValue('H1', 'Mesure/Action');
-        $activeWorksheet->setCellValue('I1', 'Commentaire');
-        $activeWorksheet->setCellValue('J1', 'Util. eval.');
-        $activeWorksheet->setCellValue('K1', 'Date eval.');
-        $activeWorksheet->setCellValue('L1', 'Susar évalué');
-        $activeWorksheet->setCellValue('M1', 'Pays survenue');
-        $activeWorksheet->setCellValue('N1', 'survenue en France');
+        $activeWorksheet->setCellValue('C1', 'Date prévisionnelle');
+        $activeWorksheet->setCellValue('D1', 'Case Version');
+        $activeWorksheet->setCellValue('E1', 'Num_EUDRACT');
+        $activeWorksheet->setCellValue('F1', 'Produit');
+        $activeWorksheet->setCellValue('G1', 'DCI');
+        $activeWorksheet->setCellValue('H1', 'DMM_pole_court');
+        $activeWorksheet->setCellValue('I1', 'Mesure/Action');
+        $activeWorksheet->setCellValue('J1', 'Commentaire');
+        $activeWorksheet->setCellValue('K1', 'Util. eval.');
+        $activeWorksheet->setCellValue('L1', 'Date eval.');
+        $activeWorksheet->setCellValue('M1', 'Susar évalué');
+        $activeWorksheet->setCellValue('N1', 'Pays survenue');
+        $activeWorksheet->setCellValue('O1', 'survenue en France');
         
         $iCpt = 1;
         foreach ($LstSusarsPilotage as $Susar) {
             $iCpt++;
             $activeWorksheet->setCellValue('A' . $iCpt, $Susar["idSUSAR"]);
 
-            // $activeWorksheet->setCellValue('B' . $iCpt, $Susar["dateImport"]);
-            $dt = DateTime::createFromFormat('Y-m-d H:i:s',$Susar["dateImport"]);
-            $dt_modif = $dt->format('d/m/Y H:i:s');
-            $activeWorksheet->getStyle('B' . $iCpt)->getNumberFormat()->setFormatCode("dd/mm/yyyy hh:mm:ss");
-            $activeWorksheet->setCellValue('B' . $iCpt, $dt_modif);
+            $Date_import_timestamp = gmmktime(  0,
+                                                0,
+                                                0,
+                                                substr($Susar["Date_import"], 3, 2),
+                                                substr($Susar["Date_import"], 0, 2),
+                                                substr($Susar["Date_import"], 6, 4));
+            $spreadsheet->getActiveSheet()->setCellValue('B' . $iCpt, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($Date_import_timestamp));
+            $spreadsheet->getActiveSheet()->getStyle('B' . $iCpt)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
 
-            $activeWorksheet->setCellValue('C' . $iCpt, $Susar["DLPVersion"]);
-            $activeWorksheet->setCellValue('D' . $iCpt, $Susar["num_eudract"]);
-            $activeWorksheet->setCellValue('E' . $iCpt, $Susar["productName"]);
-            $activeWorksheet->setCellValue('F' . $iCpt, $Susar["substanceName"]);
-            $activeWorksheet->setCellValue('G' . $iCpt, $Susar["DMM_pole_court"]);
-            $activeWorksheet->setCellValue('H' . $iCpt, $Susar["Libelle"]);
-            $activeWorksheet->setCellValue('I' . $iCpt, $Susar["Commentaire"]);
-            $activeWorksheet->setCellValue('J' . $iCpt, $Susar["utilisateurEvaluation"]);
+            $Date_prev_timestamp = gmmktime(0,
+                                            0,
+                                            0,
+                                            substr($Susar["Date_prev"], 3, 2),
+                                            substr($Susar["Date_prev"], 0, 2),
+                                            substr($Susar["Date_prev"], 6, 4));
+            $spreadsheet->getActiveSheet()->setCellValue('C' . $iCpt, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($Date_prev_timestamp));
+            $spreadsheet->getActiveSheet()->getStyle('C' . $iCpt)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
 
-            // $activeWorksheet->setCellValue('K' . $iCpt, $Susar["dateEvaluation"]);
-            if ($Susar["dateEvaluation"]!=null) {
-                $dt = DateTime::createFromFormat('Y-m-d H:i:s',$Susar["dateEvaluation"]);
-                $dt_modif = $dt->format('d/m/Y H:i:s');
-                $activeWorksheet->getStyle('K' . $iCpt)->getNumberFormat()->setFormatCode("dd/mm/yyyy hh:mm:ss");
-                $activeWorksheet->setCellValue('K' . $iCpt, $dt_modif);
+            $activeWorksheet->setCellValue('D' . $iCpt, $Susar["DLPVersion"]);
+            $activeWorksheet->setCellValue('E' . $iCpt, $Susar["num_eudract"]);
+            $activeWorksheet->setCellValue('F' . $iCpt, $Susar["productName"]);
+            $activeWorksheet->setCellValue('G' . $iCpt, $Susar["substanceName"]);
+            $activeWorksheet->setCellValue('H' . $iCpt, $Susar["DMM_pole_court"]);
+            $activeWorksheet->setCellValue('I' . $iCpt, $Susar["Libelle"]);
+            $activeWorksheet->setCellValue('J' . $iCpt, $Susar["Commentaire"]);
+            $activeWorksheet->setCellValue('K' . $iCpt, $Susar["utilisateurEvaluation"]);
+
+            if ($Susar["Date_eval"]!=null) {
+                $Date_eval_timestamp = gmmktime(0,
+                                                0,
+                                                0,
+                                                substr($Susar["Date_eval"], 3, 2),
+                                                substr($Susar["Date_eval"], 0, 2),
+                                                substr($Susar["Date_eval"], 6, 4));
+                $spreadsheet->getActiveSheet()->setCellValue('L' . $iCpt, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel($Date_eval_timestamp));
+                $spreadsheet->getActiveSheet()->getStyle('L' . $iCpt)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
             }
 
-            $activeWorksheet->setCellValue('L' . $iCpt, $Susar["Susar_evalue"]);
-            $activeWorksheet->setCellValue('M' . $iCpt, $Susar["pays_survenue"]);
-            $activeWorksheet->setCellValue('N' . $iCpt, $Susar["survenue_france"]);
+            $activeWorksheet->setCellValue('M' . $iCpt, $Susar["Susar_evalue"]);
+            $activeWorksheet->setCellValue('N' . $iCpt, $Susar["pays_survenue"]);
+            $activeWorksheet->setCellValue('O' . $iCpt, $Susar["survenue_france"]);
         }
         
         // On met la premier ligne en gris
-        for($col = 'A'; $col != 'O'; $col++) {
+        for($col = 'A'; $col != 'P'; $col++) {
             $activeWorksheet->getStyle($col . '1')->getFill()
                                             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                                             ->getStartColor()->setARGB('D6DCE1');
@@ -102,13 +118,13 @@ class ExportExcelPilotageController extends AbstractController
             switch($column->getColumnIndex())
             {
                 case "E":
-                    $activeWorksheet->getColumnDimension('E')->setWidth(80, 'mm');
-                    break;
-                case "F":
                     $activeWorksheet->getColumnDimension('F')->setWidth(80, 'mm');
                     break;
+                case "F":
+                    $activeWorksheet->getColumnDimension('G')->setWidth(80, 'mm');
+                    break;
                 case "I":
-                    $activeWorksheet->getColumnDimension('I')->setWidth(80, 'mm');
+                    $activeWorksheet->getColumnDimension('J')->setWidth(80, 'mm');
                     break;
                 default:
                     $activeWorksheet->getColumnDimension($column->getColumnIndex())->setAutoSize(true);
