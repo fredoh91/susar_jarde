@@ -5,15 +5,17 @@ namespace App\Form;
 // use App\Entity\MesureAction;
 // use App\Entity\IntervenantsANSM;
 // use Doctrine\ORM\EntityRepository;
+// use DateTime;
+// use DateInterval;
 use App\Entity\SearchListeBilanSusar;
+// use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-// use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 // use Symfony\Component\Form\Extension\Core\Type\TextType;
 // use Symfony\Component\Form\Extension\Core\Type\ResetType;
 // use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 // use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -22,6 +24,8 @@ class SearchListeBilanSusarBaseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // $currentDate = new DateTime();
+        // $debutStatusDate = $currentDate->sub(new DateInterval('P1M'));
         $builder
             ->add('debutStatusDate', DateType::class, [
                 'widget' => 'single_text',
@@ -30,6 +34,7 @@ class SearchListeBilanSusarBaseType extends AbstractType
                 // 'input' => 'string',
                 'required' => false,
                 'attr' => ['class' => 'chpRq'],
+                // 'empty_data' => $debutStatusDate
                 ])
             ->add('finStatusDate', DateType::class, [
                 'widget' => 'single_text',

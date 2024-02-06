@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use DateTime;
+use DateInterval;
 use App\Entity\Susar;
 use App\Entity\BilanSusar;
 use App\Entity\SearchListeBilanSusar;
-use App\Form\SearchListeBilanSusarBaseType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Form\SearchListeBilanSusarBaseType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,8 +62,9 @@ class BilanSusarsImportesController extends AbstractController
         } else {
             // A l'ouverture de la page, les champs de recherche ont les valeurs par defaut.
             //  => Affichage de tous les imports par defaut :
-
-            $debutStatusDate = DateTime::createFromFormat('m-d-Y', '01-01-2023');
+            $currentDate = new DateTime();
+            $debutStatusDate = $currentDate->sub(new DateInterval('P1M'));
+            // $debutStatusDate = DateTime::createFromFormat('m-d-Y', '01-01-2023');
             $finStatusDate = new DateTime("now");
 
             $LstSusarImporte = $entityManager->getRepository(Susar::class)->LstSusarImporte_statusdate($debutStatusDate,$finStatusDate);

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTime;
+use DateInterval;
 
 class SearchListeBilanSusar
 {
@@ -13,7 +14,9 @@ class SearchListeBilanSusar
 
     public function __construct( ?\DateTimeInterface $debutStatusDate = null ,  ?\DateTimeInterface $finStatusDate = null) {
         if (is_null($debutStatusDate)) {
-            $this->debutStatusDate = DateTime::createFromFormat('m-d-Y', '01-01-2023');
+            $currentDate = new DateTime();
+            $this->debutStatusDate = $currentDate->sub(new DateInterval('P1M'));
+            // $this->debutStatusDate = DateTime::createFromFormat('m-d-Y', '01-01-2023');
         } else {
             $this->debutStatusDate = $debutStatusDate;
         }
@@ -23,6 +26,8 @@ class SearchListeBilanSusar
         } else {
             $this->finStatusDate = $finStatusDate;
         }
+
+
     }
 
     public function getDebutStatusDate(): ?\DateTimeInterface
