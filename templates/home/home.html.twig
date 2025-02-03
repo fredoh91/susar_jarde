@@ -10,7 +10,8 @@
 			<h1 class="text-center">SUSAR_Jardé</h1>
 			<ul>
 
-				{% if is_granted('ROLE_DMFR_GEST') %}
+				{# {% if is_granted('ROLE_DMFR_GEST') %} #}
+				{% if is_granted('ROLE_DMFR_REF') or is_granted('ROLE_SURV_PILOTEVEC') %}
 					<li class="">
 						<a class="" href="{{ path ('RqSusarDate') }}">Import des SUSARs depuis la BNPV</a>
 					</li>

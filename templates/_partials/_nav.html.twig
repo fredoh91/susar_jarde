@@ -11,7 +11,8 @@
 				class="navbar-nav">
 
 				{# Menu import des SUSAR depuis la BNPV et aiguillage des SUSAR#}
-				{% if is_granted('ROLE_DMFR_GEST') %}
+				{# {% if is_granted('ROLE_DMFR_GEST') %} #}
+				{% if is_granted('ROLE_DMFR_REF') or is_granted('ROLE_SURV_PILOTEVEC') %}
 					<li class="nav-item me-auto mb-2 mb-lg-0">
 						<a class="nav-link" href="{{ path ('RqSusarDate') }}">Import des SUSARs depuis la BNPV et/ou aiguillage vers les DMM</a>
 					</li>

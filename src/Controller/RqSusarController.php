@@ -20,9 +20,12 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 // use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 // #[Security("is_granted('ROLE_DMFR_GEST')")]
-#[IsGranted('ROLE_DMFR_GEST')]
+// #[IsGranted('ROLE_DMFR_GEST')]
+#[IsGranted(new Expression('is_granted("ROLE_DMFR_REF") or is_granted("ROLE_SURV_PILOTEVEC")'))]
+
 class RqSusarController extends AbstractController
 {
     #[Route('/RqSusarDate/{statusdate}', name: 'RqSusarDateAffDate')]
